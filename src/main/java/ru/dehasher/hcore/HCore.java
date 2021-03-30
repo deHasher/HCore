@@ -119,36 +119,36 @@ public class HCore extends JavaPlugin {
 
 	// Тут даже разработчику ничего не понятно :D
     public boolean reloadFiles() {
-    	boolean error = false;
+    	boolean state = true;
     	if (main != null) {
-    		if (!file_manager.reloadConfig(main_name + ".yml")) error = true;
+    		if (!file_manager.reloadConfig(main_name + ".yml")) state = false;
     	}
 		main_name   = "main";
     	main        = file_manager.getConfig(main_name + ".yml").get();
 		checkFile(main_name + ".yml", "major", main.getDouble("version"));
 
 		if (spawn != null) {
-			if (!file_manager.reloadConfig(spawn_name + ".yml")) error = true;
+			if (!file_manager.reloadConfig(spawn_name + ".yml")) state = false;
 		}
 		spawn_name  = "spawn";
 		spawn       = file_manager.getConfig(spawn_name + ".yml").get();
 		checkFile(spawn_name + ".yml", "spawn", null);
 
 		if (config != null) {
-			if (!file_manager.reloadConfig("config" + slash + config_name + ".yml")) error = true;
+			if (!file_manager.reloadConfig("config" + slash + config_name + ".yml")) state = false;
 		}
 		config_name = main.getString("config-file");
 		config      = file_manager.getConfig("config" + slash + config_name + ".yml").get();
 		checkFile("config" + slash + config_name + ".yml", "minor", config.getDouble("version"));
 
 		if (lang != null) {
-			if (!file_manager.reloadConfig("lang" + slash + lang_name + ".yml")) error = true;
+			if (!file_manager.reloadConfig("lang" + slash + lang_name + ".yml")) state = false;
 		}
 		lang_name   = main.getString("lang-file");
 		lang        = file_manager.getConfig("lang" + slash + lang_name + ".yml").get();
 		checkFile("lang" + slash + lang_name + ".yml", "lang", lang.getDouble("version"));
 
-		return error;
+		return state;
     }
 
     private void checkFile(String name, String type, Double version) {
