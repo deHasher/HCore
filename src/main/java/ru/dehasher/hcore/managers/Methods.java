@@ -65,7 +65,7 @@ public class Methods {
 	// Проверка на админку.
 	public static boolean isAdmin(Player player) {
 		for (String user : HCore.main.getStringList("admins.nicknames")) {
-			if (user.equals(player.getName())) return true;
+			if (player.getName().equals(user)) return true;
 		}
 		return false;
 	}

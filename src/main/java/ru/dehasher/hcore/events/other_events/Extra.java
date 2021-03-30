@@ -1,14 +1,17 @@
 package ru.dehasher.hcore.events.other_events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.data.type.EndPortalFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import org.bukkit.inventory.ItemStack;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.managers.Methods;
 
