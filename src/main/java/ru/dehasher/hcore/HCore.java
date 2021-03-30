@@ -55,8 +55,10 @@ public class HCore extends JavaPlugin {
 
 	public void TODO() {
 //		Сделать registerCommands() что б он создавал собственные команды и они не брались из plugin.yml.
-//		Проверять команды на рекламу.
 //		Выяснить почему когда происходит создание файлов - не загружаются заполнители.
+//		Улучшить команду /spawn
+//		Исправить звук око эндера
+//		Сделать при входе и выходе в портал незера тп на спавны
 //
 //		Пофиксить: Это если в main.yml задать несуществующий файл.
 //		[HCore] File main.yml successful loaded.
@@ -110,7 +112,9 @@ public class HCore extends JavaPlugin {
 		// Не забывать менять эти значения ещё и в файлах конфигурации.
 		switch (config) {
 			case "major":
+				return 0.1;
 			case "minor":
+				return 0.1;
 			case "lang":
 				return 0.1;
 		}
