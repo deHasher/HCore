@@ -13,6 +13,6 @@ public class tEggs implements Runnable {
 
     @Override
     public void run() {
-        OnPlayerUseSpawnegg.eggs.remove((Object)this.player);
+        OnPlayerUseSpawnegg.eggs.remove(this.player);
     }
 }

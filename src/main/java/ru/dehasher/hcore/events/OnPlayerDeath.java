@@ -18,8 +18,8 @@ public class OnPlayerDeath implements Listener {
 
 	// Устанавливаем шанс дропа предметов после смерти.
     @EventHandler(priority = EventPriority.HIGHEST)
-    private void onPlayerDeathEvent(PlayerDeathEvent e) {
-    	if(e.getKeepLevel() && e.getKeepInventory()) return;
+    public void onPlayerDeathEvent(PlayerDeathEvent e) {
+    	if (e.getKeepLevel() && e.getKeepInventory()) return;
 
         Random random = new Random();
 	
@@ -37,7 +37,7 @@ public class OnPlayerDeath implements Listener {
         		// Пропускаем предметы у которых присутствует описание.
         		if (s.hasItemMeta()) {
         			ItemMeta m = s.getItemMeta();
-        			if (m.hasLore()) {
+					if (m != null && m.hasLore()) {
         				continue;
         			}
         		}

@@ -23,7 +23,7 @@ public class setspawn implements CommandExecutor {
         if (sender instanceof Player) {
         	Player player = (Player)sender;
             if (Methods.isPerm(player)) {
-            	HCore.spawn.set("location", (Object)player.getLocation());
+            	HCore.spawn.set("location", player.getLocation());
             	plugin.file_manager.getConfig(HCore.spawn_name + ".yml").save();
             	Informer.PLAYER(player, HCore.lang.getString("messages.commands.setspawn"));
     			return true;

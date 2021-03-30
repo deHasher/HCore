@@ -13,6 +13,6 @@ public class tChat implements Runnable {
 
     @Override
     public void run() {
-        OnPlayerSendMessage.chat.remove((Object)this.player);
+        OnPlayerSendMessage.chat.remove(this.player);
     }
 }

@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import ru.dehasher.hcore.HCore;
@@ -19,7 +20,7 @@ public class OnPlayerJoinServer implements Listener {
 
 	// Когда игрок заходит на сервер выставляем ему необходимые параметры.
 	@EventHandler(priority = EventPriority.HIGHEST)
-	private void onPlayerJoinEvent(PlayerJoinEvent e) {
+	public void onPlayerJoinEvent(PlayerJoinEvent e) {
     	Player player = e.getPlayer();
 
     	// Деопаем игрока который только что вошёл.
@@ -35,35 +36,34 @@ public class OnPlayerJoinServer implements Listener {
     	}
 
     	// Работа с кастомными хпшками.
-	    if (player.hasPlayedBefore() && !HCore.config.getBoolean("settings.join-server.always-set-max-hp")) {
-	    	Methods.editHealth(player, false);
-	    } else {
-	    	Methods.editHealth(player, true);
-	    }
+		Methods.editHealth(player, !player.hasPlayedBefore() || HCore.config.getBoolean("settings.join-server.always-set-max-hp"));
 
 	    // Работа с кастомными никами.
     	if (HCore.config.getBoolean("settings.join-server.custom-nickname.enabled")) {
-        	Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+			ScoreboardManager manager = Bukkit.getScoreboardManager();
+			if (manager != null) {
+				Scoreboard board = manager.getMainScoreboard();
 
-        	Team users = board.getTeam("users");
-        	if (users == null) users = board.registerNewTeam("users");
+				Team users = board.getTeam("users");
+				if (users == null) users = board.registerNewTeam("users");
 
-        	Team admins = board.getTeam("admins");
-        	if (admins == null) admins = board.registerNewTeam("admins");
+				Team admins = board.getTeam("admins");
+				if (admins == null) admins = board.registerNewTeam("admins");
 
-        	users.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.users")));
-        	admins.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.admins")));
+				users.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.users")));
+				admins.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.admins")));
 
-    		if (Methods.isAdmin(player) || Methods.isAuthor(player)) {
-    			admins.addEntry(player.getName());
-    		} else {
-    			users.addEntry(player.getName());
-    		}
+				if (Methods.isAdmin(player) || Methods.isAuthor(player)) {
+					admins.addEntry(player.getName());
+				} else {
+					users.addEntry(player.getName());
+				}
 
-	    	if (HCore.config.getBoolean("settings.join-server.custom-nickname.disable-collisions")) {
-	    		users.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-	    		admins.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-	    	}
+				if (HCore.config.getBoolean("settings.join-server.custom-nickname.disable-collisions")) {
+					users.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+					admins.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+				}
+			}
         }
 
     	// Телепортируем на локацию спавна.

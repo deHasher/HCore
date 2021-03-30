@@ -15,7 +15,7 @@ public class OnPlayerSendCommand implements Listener {
 
     // Отслеживаем какие команды вводит игрок.
 	@EventHandler(priority = EventPriority.HIGHEST)
-    private boolean onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
+    public boolean onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
 		Player player = e.getPlayer();
 
 		// Проверяем команду на рекламу.

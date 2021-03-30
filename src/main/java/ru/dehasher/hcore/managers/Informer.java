@@ -13,9 +13,7 @@ public class Informer {
 			message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
 		}
 
-		if (message == null) message = HCore.lang.getString("messages.errors.very-bad-error");
-
-		if (message == "") return;
+		if (message == null || message.equals("")) message = HCore.lang.getString("messages.errors.very-bad-error");
 
 		message = Methods.color(message);
 
@@ -27,9 +25,7 @@ public class Informer {
 			message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
 		}
 
-		if (message == null) message = HCore.lang.getString("messages.errors.very-bad-error");
-
-		if (message == "") return;
+		if (message == null || message.equals("")) message = HCore.lang.getString("messages.errors.very-bad-error");
 
 		message = Methods.color(message);
 

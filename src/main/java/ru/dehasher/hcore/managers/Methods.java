@@ -22,7 +22,7 @@ public class Methods {
 	// set необходим чтобы устанавливать челам сразу фул хп если они возродились или ток зашли на сервер.
 	public static void editHealth(Player player, boolean set) {
 		String  path   = "settings.join-server.custom-health.";
-		Boolean noperm = true;
+		boolean noperm = true;
 
 		if (!HCore.config.getBoolean(path + "enabled")) return;
 
@@ -59,9 +59,7 @@ public class Methods {
 	public static boolean isPerm(Player player) {
 		if (player.isOp()) return true; // Проверка на опку.
 		if (player.hasPermission("*")) return true; // Проверка на звёздочку.
-		if (isAdmin(player) || isAuthor(player)) return true; // Проверка на админку.
-
-		return false;
+		return isAdmin(player) || isAuthor(player); // Проверка на админку.
 	}
 
 	// Проверка на админку.
@@ -90,7 +88,9 @@ public class Methods {
 
 		ItemMeta meta = item.getItemMeta();
 
-		length = meta.toString().getBytes(StandardCharsets.UTF_8).length;
+		if (meta != null) {
+			length = meta.toString().getBytes(StandardCharsets.UTF_8).length;
+		}
 
 		return length;
 	}
@@ -106,8 +106,6 @@ public class Methods {
 
 	    Pattern pattern = Pattern.compile(HCore.config.getString("settings.fix-advertisement.regex"));
 	    Matcher matcher = pattern.matcher(string);
-	    while (matcher.find()) return true;
-
-		return false;
+		return matcher.find();
 	}
 }

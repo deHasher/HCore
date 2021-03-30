@@ -19,7 +19,7 @@ import ru.dehasher.hcore.timers.tEggs;
 public class OnPlayerUseSpawnegg implements Listener {
     private final HCore plugin;
 
-    public static List<Player> eggs = new ArrayList<Player>();
+    public static List<Player> eggs = new ArrayList<>();
 
     public OnPlayerUseSpawnegg(HCore plugin) {
     	this.plugin = plugin;
@@ -27,20 +27,20 @@ public class OnPlayerUseSpawnegg implements Listener {
 
 	// Если поц юзает яйки и у него нема прав.
     @EventHandler
-    private void onPlayerInteractEntityEvent(PlayerInteractEntityEvent e) {
+	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent e) {
     	Player player       = e.getPlayer();
     	PlayerInventory inv = player.getInventory();
 
     	if (player.hasPermission(HCore.config.getString("settings.cooldown-on-use-spawnegg.permission"))) return;
 
     	if (inv.getItemInMainHand().getType().name().endsWith("_EGG")) {
-    		if (eggs.contains((Object)player)) {
+    		if (eggs.contains(player)) {
     			e.setCancelled(true);
     			Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     			return;
     		}
     		eggs.add(player);
-    		Bukkit.getScheduler().runTaskLater(plugin, (Runnable)new tEggs(player), 20L * Long.valueOf(HCore.config.getInt("settings.cooldown-on-use-spawnegg.time")));
+    		Bukkit.getScheduler().runTaskLater(plugin, new tEggs(player), 20L * (long) HCore.config.getInt("settings.cooldown-on-use-spawnegg.time"));
     		return;
     	}
 
@@ -52,7 +52,7 @@ public class OnPlayerUseSpawnegg implements Listener {
 
     // Если поц юзает яйки как-то через жопу и у него нет прав на них.
     @EventHandler
-    private void onPlayerInteractEvent(PlayerInteractEvent e) {
+    public void onPlayerInteractEvent(PlayerInteractEvent e) {
     	Player player       = e.getPlayer();
     	PlayerInventory inv = player.getInventory();
 
@@ -68,20 +68,19 @@ public class OnPlayerUseSpawnegg implements Listener {
 
     	if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
     		if (inv.getItemInMainHand().getType().name().endsWith("_EGG")) {
-    			if (eggs.contains((Object)player)) {
+    			if (eggs.contains(player)) {
     				e.setCancelled(true);
     				Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     				return;
     			}
     			eggs.add(player);
-    			Bukkit.getScheduler().runTaskLater(plugin, (Runnable)new tEggs(player), 20L * Long.valueOf(HCore.config.getInt("settings.cooldown-on-use-spawnegg.time")));
+    			Bukkit.getScheduler().runTaskLater(plugin, new tEggs(player), 20L * (long) HCore.config.getInt("settings.cooldown-on-use-spawnegg.time"));
     			return;
     		}
     		if (inv.getItemInOffHand().getType().name().endsWith("_EGG")) {
     			e.setCancelled(true);
     			Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     		}
-    		return;
     	}
     }
 }

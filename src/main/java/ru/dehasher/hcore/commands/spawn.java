@@ -20,10 +20,9 @@ public class spawn implements CommandExecutor {
         	Location loc  = (Location)HCore.spawn.get("location");
         	Informer.PLAYER(player, HCore.lang.getString("messages.commands.spawn"));
         	if (loc != null) {
-        		player.getPlayer().teleport(loc);
+				player.teleport(loc);
         		return true;
         	}
-        	return false;
         } else if (sender instanceof ConsoleCommandSender) {
         	Informer.CONSOLE(HCore.lang.getString("messages.errors.only-player"));
             return false;

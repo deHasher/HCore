@@ -3,9 +3,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,8 +17,8 @@ import ru.dehasher.hcore.HCore;
 public class Files {
  
     private final JavaPlugin plugin;
-    private static String slash = File.separator;
-    private HashMap<String, Config> configs = new HashMap<String, Config>();
+    private static final String slash = File.separator;
+    private final HashMap<String, Config> configs = new HashMap<>();
  
     public Files(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -35,7 +37,7 @@ public class Files {
 	}
 
 	public boolean reloadConfig(String name) {
-		return getConfig(name).reload() ? true : false;
+		return getConfig(name).reload();
 	}
 
 	public void setOldFile(String name) {
@@ -60,7 +62,7 @@ public class Files {
  
 	public class Config {
 
-		private String name;
+		private final String name;
 		private File file;
 		private YamlConfiguration config;
      
@@ -73,7 +75,7 @@ public class Files {
 				return this;
 			}
 			try {
-				if (config.getConfigurationSection("").getKeys(true).size() != 0) {
+				if (Objects.requireNonNull(config.getConfigurationSection("")).getKeys(true).size() != 0) {
 					config.save(this.file);
 				}
 			} catch (IOException ex) {
@@ -117,15 +119,10 @@ public class Files {
 			this.config = YamlConfiguration.loadConfiguration(file);
 
 			Reader reader;
-			try {
-				reader = new InputStreamReader(plugin.getResource(this.name.replace("\\", "/")), "UTF8");
-				if (reader != null) {
-					YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
-					this.config.setDefaults(cfg);
-					return true;
-				}
-			} catch (Exception e) {}
-			return false;
+			reader = new InputStreamReader(plugin.getResource(this.name.replace("\\", "/")), StandardCharsets.UTF_8);
+			YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
+			this.config.setDefaults(cfg);
+			return true;
 		}
 
 		public Config copyDefaults(boolean force) {
