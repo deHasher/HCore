@@ -1,5 +1,6 @@
-package ru.dehasher.hcore.events.other_events;
+package ru.dehasher.hcore.events.other_params;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,21 +27,25 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 
 import ru.dehasher.hcore.HCore;
+import ru.dehasher.hcore.managers.Methods;
 
 @SuppressWarnings("deprecation")
-public class Default implements Listener {
+public class DisableEvents implements Listener {
 
-    public Default(HCore plugin) {}
+    public DisableEvents(HCore plugin) {}
+
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
 		if (!HCore.config.getBoolean("settings.other-params.disable-events.PlayerInteractEvent")) return;
-		e.setCancelled(true);
+		if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        e.setCancelled(true);
     }
 
     // Запретить ломать блоки в мире.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.BlockBreakEvent")) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
     	e.setCancelled(true);
     }
 
@@ -48,49 +53,60 @@ public class Default implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onWeather(WeatherChangeEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.WeatherChangeEvent")) return;
-    	e.setCancelled(true);
+        e.setCancelled(true);
     }
 
     // Запретить ставить блоки.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.BlockPlaceEvent")) return;
-    	e.setCancelled(true);
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        e.setCancelled(true);
     }
 
-    // Запретить ставить блоки.
+    // Запретить сущностям наносить урон.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageEvent(EntityDamageEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.EntityDamageEvent")) return;
-    	e.setCancelled(true);
+        if (e.getEntity() instanceof Player) {
+            Player player = (Player)e.getEntity();
+            if (Methods.isPerm(player, "hcore.bypass.events") && !HCore.disable_bypass) return;
+        }
+        e.setCancelled(true);
     }
 
     // Запретить взаимодействовать с сущностями.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.PlayerInteractEntityEvent")) return;
-    	e.setCancelled(true);
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        e.setCancelled(true);
     }
 
     // Запретить выкидывать предметы.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.PlayerDropItemEvent")) return;
-    	e.setCancelled(true);
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        e.setCancelled(true);
     }
 
     // Запретить подбирать предметы.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerPickupItemEvent(EntityPickupItemEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.EntityPickupItemEvent")) return;
-    	e.setCancelled(true);
+    	if (e.getEntity() instanceof Player) {
+            Player player = (Player)e.getEntity();
+            if (Methods.isPerm(player, "hcore.bypass.events") && !HCore.disable_bypass) return;
+        }
+        e.setCancelled(true);
     }
 
     // Запретить блокам исчезать.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockFadeEvent(BlockFadeEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.BlockFadeEvent")) return;
-    	e.setCancelled(true);
+        e.setCancelled(true);
     }
 
     // Запретить блокам иметь физику
@@ -100,11 +116,11 @@ public class Default implements Listener {
     	e.setCancelled(true);
     }
 
-    // Запретить игрокам взаимодействовать с блоками.
+    // Запретить блокам двигаться.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockFromToEvent(BlockFromToEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.BlockFromToEvent")) return;
-    	e.setCancelled(true);
+        e.setCancelled(true);
     }
 
     // Запретить распространение огня.
@@ -118,7 +134,8 @@ public class Default implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockIgniteEvent(BlockIgniteEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.BlockIgniteEvent")) return;
-    	e.setCancelled(true);
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        e.setCancelled(true);
     }
 
     // Запретить распространение травы.
@@ -146,13 +163,15 @@ public class Default implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onStructureGrowEvent(StructureGrowEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.StructureGrowEvent")) return;
-    	e.setCancelled(true);
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        e.setCancelled(true);
     }
 
     // Блокировка табуляции команд.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChatTabCompleteEvent(PlayerChatTabCompleteEvent e) {
     	if (!HCore.config.getBoolean("settings.other-params.disable-events.PlayerChatTabCompleteEvent")) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
     	e.getTabCompletions().clear();
     }
 

@@ -1,26 +1,25 @@
 package ru.dehasher.hcore;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
-import org.bukkit.command.PluginCommand;
+import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import ru.dehasher.hcore.commands.hreload;
-import ru.dehasher.hcore.commands.setspawn;
-import ru.dehasher.hcore.commands.spawn;
+import ru.dehasher.hcore.commands.Registrator;
 import ru.dehasher.hcore.events.OnPlayerDeath;
 import ru.dehasher.hcore.events.OnPlayerJoinServer;
 import ru.dehasher.hcore.events.OnPlayerMove;
 import ru.dehasher.hcore.events.OnPlayerSendCommand;
 import ru.dehasher.hcore.events.OnPlayerSendMessage;
 import ru.dehasher.hcore.events.OnPlayerUseSpawnegg;
-import ru.dehasher.hcore.events.other_events.Default;
-import ru.dehasher.hcore.events.other_events.Extra;
-import ru.dehasher.hcore.events.other_events.HideMessages;
+import ru.dehasher.hcore.events.other_params.DisableEvents;
+import ru.dehasher.hcore.events.other_params.Extra;
+import ru.dehasher.hcore.events.other_params.HideMessages;
 import ru.dehasher.hcore.exploits.Bed;
 import ru.dehasher.hcore.exploits.Dispenser;
 import ru.dehasher.hcore.exploits.Items;
@@ -43,9 +42,10 @@ public class HCore extends JavaPlugin {
 	public static String main_name;
 	public static String spawn_name;
 
-	public static String slash = File.separator;
+	public static String slash           = File.separator;
+    public static Boolean disable_bypass = false;
 
-	private static HCore plugin;
+    private static HCore plugin;
 
 	public Files file_manager = new Files(this);
 
@@ -54,9 +54,7 @@ public class HCore extends JavaPlugin {
 	}
 
 	public void TODO() {
-//		Сделать registerCommands() что б он создавал собственные команды и они не брались из plugin.yml.
 //		Выяснить почему когда происходит создание файлов - не загружаются заполнители.
-//		Улучшить команду /spawn
 //		Исправить звук око эндера
 //		Сделать при входе и выходе в портал незера тп на спавны
 //
@@ -90,8 +88,11 @@ public class HCore extends JavaPlugin {
     	*/
     	checkFolders();
 
-    	// Шабим.
-    	reloadFiles();
+		// Шабим.
+		reloadFiles();
+
+		// Грузим readme информацию.
+		readme();
 
         // Регистрируем все эвенты.
         registerEvents();
@@ -114,9 +115,9 @@ public class HCore extends JavaPlugin {
 			case "major":
 				return 0.1;
 			case "minor":
-				return 0.1;
+				return 0.2;
 			case "lang":
-				return 0.1;
+				return 0.2;
 		}
 		return 0.0;
 	}
@@ -138,6 +139,8 @@ public class HCore extends JavaPlugin {
 		spawn       = file_manager.getConfig(spawn_name + ".yml").get();
 		checkFile(spawn_name + ".yml", "spawn", null);
 
+
+
 		if (config != null) {
 			if (!file_manager.reloadConfig("config" + slash + config_name + ".yml")) state = false;
 		}
@@ -151,6 +154,10 @@ public class HCore extends JavaPlugin {
 		lang_name   = main.getString("lang-file");
 		lang        = file_manager.getConfig("lang" + slash + lang_name + ".yml").get();
 		checkFile("lang" + slash + lang_name + ".yml", "lang", lang.getDouble("version"));
+
+
+		// Проверка на bypass state.
+		if (config.getBoolean("settings.other-params.disable-bypass-permissions")) disable_bypass = true;
 
 		return state;
     }
@@ -169,23 +176,27 @@ public class HCore extends JavaPlugin {
 		}
     }
 
-    private void checkFolders() {
-    	File config  = new File(plugin.getDataFolder(), slash + "config");
-    	File lang    = new File(plugin.getDataFolder(), slash + "lang");
-    	if (!config.exists()) {
-    		if (config.mkdirs()) {
+	private void checkFolders() {
+		File config = new File(plugin.getDataFolder(), slash + "config");
+		File lang   = new File(plugin.getDataFolder(), slash + "lang");
+		if (!config.exists()) {
+			if (config.mkdirs()) {
 				file_manager.getConfig("config" + slash + "auth.yml").saveDefaultConfig(true);
 				file_manager.getConfig("config" + slash + "hub.yml").saveDefaultConfig(true);
 				file_manager.getConfig("config" + slash + "survival.yml").saveDefaultConfig(true);
 			}
-    	}
-    	if (!config.exists()) {
-    		if (lang.mkdirs()) {
+		}
+		if (!config.exists()) {
+			if (lang.mkdirs()) {
 				file_manager.getConfig("lang" + slash + "ru_RU.yml").saveDefaultConfig(true);
-				file_manager.getConfig("lang  " + slash + "en_US.yml").saveDefaultConfig(true);
+				file_manager.getConfig("lang" + slash + "en_US.yml").saveDefaultConfig(true);
 			}
-    	}
-    }
+		}
+	}
+
+	private void readme() {
+		saveResource("readme" + slash + "permissions.txt", true);
+	}
 
 	public void runTasks() {
 		if (HCore.config.getBoolean("settings.join-server.custom-health.enabled")) {
@@ -211,33 +222,25 @@ public class HCore extends JavaPlugin {
 		}
 	}
 
-    private void registerCommands() {
-		PluginCommand spawn = getCommand("spawn");
-		if (spawn != null) {
-			spawn.setExecutor(new spawn(this));
-			Informer.CONSOLE("Command /spawn successful registered.");
-		} else {
-			Informer.CONSOLE("Command /spawn successful not registered.");
-		}
-		PluginCommand setspawn = getCommand("setspawn");
-		if (setspawn != null) {
-			setspawn.setExecutor(new setspawn(this));
-			Informer.CONSOLE("Command /setspawn successful registered.");
-		} else {
-			Informer.CONSOLE("Command /setspawn successful not registered.");
-		}
-		PluginCommand hreload = getCommand("hreload");
-		if (hreload != null) {
-			hreload.setExecutor(new hreload(this));
-			Informer.CONSOLE("Command /hreload successful registered.");
-		} else {
-			Informer.CONSOLE("Command /hreload successful not registered.");
+    public void registerCommands() {
+		try {
+			final Field serverCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+			serverCommandMap.setAccessible(true);
+
+			CommandMap commandMap = (CommandMap) serverCommandMap.get(Bukkit.getServer());
+
+			for (String command : config.getStringList("settings.send-command.plugin-commands")) {
+				commandMap.register(command, new Registrator(command));
+				Informer.send("The command /" + command + " successful registered!");
+			}
+		} catch (NoSuchFieldException | IllegalAccessException e) {
+			Informer.send("An error occurred during initialization of the 'commandMap' class!");
 		}
     }
 
     private void registerEvents() {
     	// Ивенты.
-        Bukkit.getPluginManager().registerEvents(new Default(this), this);
+        Bukkit.getPluginManager().registerEvents(new DisableEvents(this), this);
         Bukkit.getPluginManager().registerEvents(new Extra(this), this);
         Bukkit.getPluginManager().registerEvents(new HideMessages(this), this);
 
@@ -272,6 +275,6 @@ public class HCore extends JavaPlugin {
     	getLogger().info("● ║╔╗║║╔╗║║╔═╗║╚ ╗║ ║══╣║╔╗║║╔╗║║╔╝ ●");
     	getLogger().info("● ║╚╝║║║═╣║║ ║║║╚╝╚╗╠══║║║║║║║═╣║║  ●");
     	getLogger().info("● ╚══╝╚══╝╚╝ ╚╝╚═══╝╚══╝╚╝╚╝╚══╝╚╝  ●");
-    	getLogger().info("9");
+    	getLogger().info("");
     }
 }

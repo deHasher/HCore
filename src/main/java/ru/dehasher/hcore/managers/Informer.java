@@ -2,13 +2,14 @@ package ru.dehasher.hcore.managers;
 
 import java.awt.List;
 
+import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 
 import ru.dehasher.hcore.HCore;
 
 public class Informer {
 
-	private static void send(Player player, String message) {
+	private static void request(Player player, String message) {
 		for (String placeholder : HCore.lang.getConfigurationSection("messages.placeholders").getKeys(true)) {
 			message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
 		}
@@ -17,81 +18,70 @@ public class Informer {
 
 		message = Methods.color(message);
 
-		player.sendMessage(message);
-	}
-
-	private static void send(String message) {
-		for (String placeholder : HCore.lang.getConfigurationSection("messages.placeholders").getKeys(true)) {
-			message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
+		if (player == null) {
+			HCore.getPlugin().getLogger().info(message);
+		} else {
+			player.sendMessage(message);
 		}
-
-		if (message == null || message.equals("")) message = HCore.lang.getString("messages.errors.very-bad-error");
-
-		message = Methods.color(message);
-
-		HCore.getPlugin().getLogger().info(message);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public static void CONSOLE(String message) {
-		send(message);
+	@Nullable
+	public static void send(Player player, String message) {
+		request(player, message);
 	}
 
-	public static void CONSOLE(int message) {
-		send("" + message);
+	@Nullable
+	public static void send(Player player, int message) {
+		request(player, message + "");
 	}
 
-	public static void CONSOLE(Double message) {
-		send("" + message);
+	@Nullable
+	public static void send(Player player, Double message) {
+		request(player, message + "");
 	}
 
-	public static void CONSOLE(Float message) {
-		send("" + message);
+	@Nullable
+	public static void send(Player player, Float message) {
+		request(player, message + "");
 	}
 
-	public static void CONSOLE(List message) {
-		send(message.toString());
+	@Nullable
+	public static void send(Player player, List message) {
+		request(player, message.toString());
 	}
 
-	public static void CONSOLE(Boolean message) {
-		send(message ? "true" : "false");
+	@Nullable
+	public static void send(Player player, Boolean message) {
+		request(player, message ? "true" : "false");
 	}
 
-	public static void PLAYER(Player player, String message) {
-		send(player, message);
+	@Nullable
+	public static void send(String message) {
+		request(null, message);
 	}
 
-	public static void PLAYER(Player player, int message) {
-		send(player, message + "");
+	@Nullable
+	public static void send(int message) {
+		request(null, message + "");
 	}
 
-	public static void PLAYER(Player player, Double message) {
-		send(player, message + "");
+	@Nullable
+	public static void send(Double message) {
+		request(null, message + "");
 	}
 
-	public static void PLAYER(Player player, Float message) {
-		send(player, message + "");
+	@Nullable
+	public static void send(Float message) {
+		request(null, message + "");
 	}
 
-	public static void PLAYER(Player player, List message) {
-		send(player, message.toString());
+	@Nullable
+	public static void send(List message) {
+		request(null, message.toString());
 	}
 
-	public static void PLAYER(Player player, Boolean message) {
-		send(player, message ? "true" : "false");
+	@Nullable
+	public static void send(Boolean message) {
+		request(null, message ? "true" : "false");
 	}
 }

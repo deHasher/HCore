@@ -1,4 +1,4 @@
-package ru.dehasher.hcore.events.other_events;
+package ru.dehasher.hcore.events.other_params;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

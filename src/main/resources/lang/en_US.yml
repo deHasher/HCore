@@ -1,6 +1,9 @@
 # Translation version, do not change.
-version: 0.1
+version: 0.2
 messages:
+    # Имя консоли
+    console-name: "CONSOLE"
+
     # Placeholders.
     # Example: "text {prefix3} text".
     # Personal text can be added there.
@@ -8,6 +11,8 @@ messages:
         main: "&8(&fL&6M&8) &f"
         plugin: "&9HCore &7> &f"
         prefix3: "&f[&cProtect&f] &a»"
+
+    # Сообщения об ошибках.
     errors:
         no-perm: "{main}&cYou do not have permission to do this!"
         only-player: "{main}This command can only be used by players!"
@@ -20,13 +25,23 @@ messages:
         chat-disabled: "{main}:P"
         commands-disabled: "{main}Command not found."
         very-bad-error: "{main}An error has occurred! Contact the server administrator."
+        player-not-found: "{main}Player not found."
+
+    # Сообщения от команд.
     commands:
         hreload:
             success: "{plugin}Plugin has been reloaded!"
             error: "{plugin}An error occurred during reload!"
         setspawn: "{plugin}Spawn successfully set!"
-        spawn: "{plugin}Teleporting..."
-        hidden-command: "{plugin}Server made by &adeHasher&f."
+        spawn:
+            self: "{plugin}Teleporting..."
+            other:
+                self: "{plugin}Player &a{player} &fhas been teleported to spawn."
+                target: "{plugin}You were teleported to spawn by a player &a{player}&f."
+                error: "{plugin}You can't teleport this player to spawn!"
+        hidden-console: "{plugin}Server made by &adeHasher&f."
+
+    # Название и описание запрещенных предметов.
     bad-item:
         name: "&aNope!"
         lore:

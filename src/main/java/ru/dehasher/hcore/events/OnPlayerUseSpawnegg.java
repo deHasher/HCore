@@ -14,6 +14,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.managers.Informer;
+import ru.dehasher.hcore.managers.Methods;
 import ru.dehasher.hcore.timers.tEggs;
 
 public class OnPlayerUseSpawnegg implements Listener {
@@ -31,12 +32,12 @@ public class OnPlayerUseSpawnegg implements Listener {
     	Player player       = e.getPlayer();
     	PlayerInventory inv = player.getInventory();
 
-    	if (player.hasPermission(HCore.config.getString("settings.cooldown-on-use-spawnegg.permission"))) return;
+    	if (Methods.isPerm(player, "hcore.bypass.cooldown.egg")) return;
 
     	if (inv.getItemInMainHand().getType().name().endsWith("_EGG")) {
     		if (eggs.contains(player)) {
     			e.setCancelled(true);
-    			Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
+    			Informer.send(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     			return;
     		}
     		eggs.add(player);
@@ -46,7 +47,7 @@ public class OnPlayerUseSpawnegg implements Listener {
 
     	if (inv.getItemInOffHand().getType().name().endsWith("_EGG")) {
     		e.setCancelled(true);
-    		Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
+    		Informer.send(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     	}
     }
 
@@ -56,12 +57,12 @@ public class OnPlayerUseSpawnegg implements Listener {
     	Player player       = e.getPlayer();
     	PlayerInventory inv = player.getInventory();
 
-    	if (player.hasPermission(HCore.config.getString("settings.cooldown-on-use-spawnegg.permission"))) return;
+		if (Methods.isPerm(player, "hcore.bypass.cooldown.egg")) return;
 
     	if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) {
     		if (inv.getItemInOffHand().getType().name().endsWith("_EGG")) {
     			e.setCancelled(true);
-    			Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
+    			Informer.send(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     		}
     		return;
     	}
@@ -70,7 +71,7 @@ public class OnPlayerUseSpawnegg implements Listener {
     		if (inv.getItemInMainHand().getType().name().endsWith("_EGG")) {
     			if (eggs.contains(player)) {
     				e.setCancelled(true);
-    				Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
+    				Informer.send(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     				return;
     			}
     			eggs.add(player);
@@ -79,7 +80,7 @@ public class OnPlayerUseSpawnegg implements Listener {
     		}
     		if (inv.getItemInOffHand().getType().name().endsWith("_EGG")) {
     			e.setCancelled(true);
-    			Informer.PLAYER(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
+    			Informer.send(player, HCore.lang.getString("messages.errors.egg-spawn-cooldown"));
     		}
     	}
     }

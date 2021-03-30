@@ -43,7 +43,7 @@ public class Files {
 	}
 
 	public void setOldFile(String name) {
-		Informer.CONSOLE("File " + name + " is deprecated...");
+		Informer.send("File " + name + " is deprecated...");
 
 		// Создаём дату.
 		Date date = new Date();
@@ -59,7 +59,7 @@ public class Files {
         // Переименовываем файл в папку.
         file.renameTo(new File(plugin.getDataFolder(), slash + "backups" + slash + formatter.format(date) + name));
 
-        Informer.CONSOLE("File moved to backups" + slash + formatter.format(date) + name);
+        Informer.send("File moved to backups" + slash + formatter.format(date) + name);
 	}
  
 	public class Config {
@@ -80,8 +80,8 @@ public class Files {
 				if (Objects.requireNonNull(config.getConfigurationSection("")).getKeys(true).size() != 0) {
 					config.save(this.file);
 				}
-			} catch (IOException ex) {
-				ex.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			return this;
 		}
@@ -100,7 +100,7 @@ public class Files {
 					plugin.saveResource(this.name, false);
 					return true;
 				} catch (Exception e) {
-					Informer.CONSOLE("File " + this.name + " not found in " + plugin.getName() + ".jar.");
+					Informer.send("File " + this.name + " not found in " + plugin.getName() + ".jar.");
 					setOldFile(HCore.main_name + ".yml");
 					reloadConfig(HCore.main_name + ".yml");
 					return false;

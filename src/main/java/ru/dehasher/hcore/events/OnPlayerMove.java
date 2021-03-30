@@ -13,8 +13,6 @@ import org.bukkit.util.Vector;
 
 import ru.dehasher.hcore.HCore;
 
-import java.util.Objects;
-
 public class OnPlayerMove implements Listener {
 
 	public OnPlayerMove(HCore hCore) {}

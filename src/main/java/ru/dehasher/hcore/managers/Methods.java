@@ -11,6 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import ru.dehasher.hcore.HCore;
 
+import javax.annotation.Nullable;
+
 @SuppressWarnings("deprecation")
 public class Methods {
 	// Красим сообщения.
@@ -29,7 +31,7 @@ public class Methods {
 		// Перебор по всем правам игрока.
 		for (String group : HCore.config.getConfigurationSection(path + "groups").getKeys(false)) {
 			// Если у игрока есть право на кастомные хпшки.
-			if (player.hasPermission(HCore.config.getString(path + "permission") + group.toLowerCase())) {
+			if (player.hasPermission("hcore.health.group." + group.toLowerCase())) {
 
 				// Устанавливаем ему хп сколько положено.
 				player.setMaxHealth(HCore.config.getInt(path + "groups." + group));
@@ -56,22 +58,24 @@ public class Methods {
 	}
 
 	// Неявная проверка игрока на наличие прав.
-	public static boolean isPerm(Player player) {
-		if (player.isOp()) return true; // Проверка на опку.
-		if (player.hasPermission("*")) return true; // Проверка на звёздочку.
-		return isAdmin(player) || isAuthor(player); // Проверка на админку.
+	public static boolean isPerm(@Nullable Player player, @Nullable String permission) {
+		if (player == null) return true;
+		if (permission != null) {
+			if (player.hasPermission(permission)) return true;
+		}
+		return isAdmin(player) || isAuthor(player);
 	}
 
 	// Проверка на админку.
-	public static boolean isAdmin(Player player) {
+	private static boolean isAdmin(Player player) {
 		for (String user : HCore.main.getStringList("admins.nicknames")) {
-			if (player.getName().equals(user)) return true;
+			if (user.equals(player.getName())) return true;
 		}
 		return false;
 	}
 
 	// Проверка на автора.
-	public static boolean isAuthor(Player player) {
+	private static boolean isAuthor(Player player) {
 		for (String user : HCore.getPlugin().getDescription().getAuthors()) {
 			if (user.equals(player.getName())) return true;
 		}

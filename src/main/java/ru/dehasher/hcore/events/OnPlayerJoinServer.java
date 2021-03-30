@@ -53,7 +53,7 @@ public class OnPlayerJoinServer implements Listener {
 				users.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.users")));
 				admins.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.admins")));
 
-				if (Methods.isAdmin(player) || Methods.isAuthor(player)) {
+				if (Methods.isPerm(player, null)) {
 					admins.addEntry(player.getName());
 				} else {
 					users.addEntry(player.getName());

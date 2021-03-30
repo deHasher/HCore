@@ -1,6 +1,9 @@
 # Версия перевода, не изменять.
-version: 0.1
+version: 0.2
 messages:
+    # Имя консоли
+    console-name: "CONSOLE"
+
     # Заполнители для сообщений.
     # Использование: "текст {prefix3} текст".
     # Можно добавить собственные заполнители.
@@ -8,6 +11,8 @@ messages:
         main: "&8(&fL&6M&8) &f"
         plugin: "&9HCore &7> &f"
         prefix3: "&f[&cЗащита&f] &a» &f"
+
+    # Сообщения об ошибках.
     errors:
         no-perm: "{main}&cУ Вас недостаточно прав!"
         only-player: "{main}Эта команда доступна только игрокам!"
@@ -20,13 +25,23 @@ messages:
         chat-disabled: "{main}:P"
         commands-disabled: "{main}Команда не найдена."
         very-bad-error: "{main}Произошла ошибка! Обратись к администратору сервера."
+        player-not-found: "{main}Игрок не найден."
+
+    # Сообщения от команд.
     commands:
         hreload:
             success: "{plugin}Плагин перезагружен!"
             error: "{plugin}Во время перезагрузки произошла ошибка!"
-        setspawn: "{plugin}Спавн успешно установлен!"
-        spawn: "{plugin}Телепортация..."
-        hidden-command: "{plugin}Server made by &adeHasher&f."
+        setspawn: "{main}Спавн успешно установлен!"
+        spawn:
+            self: "{main}Телепортация..."
+            other:
+                self: "{main}Игрок &a{player} &fбыл телепортирован на спавн."
+                target: "{main}Вы были телепортированы на спавн игроком &a{player}&f."
+                error: "{main}Вы не можете телепортировать этого игрока к спавну!"
+        hidden-console: "{plugin}Server made by &adeHasher&f."
+
+    # Название и описание запрещенных предметов.
     bad-item:
         name: "&aНизя!"
         lore:
