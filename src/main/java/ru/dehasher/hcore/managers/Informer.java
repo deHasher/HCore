@@ -15,7 +15,7 @@ public class Informer {
 
 		if (message == null) message = HCore.lang.getString("messages.errors.very-bad-error");
 
-		if (message.equals("")) return;
+		if (message == "") return;
 
 		message = Methods.color(message);
 
