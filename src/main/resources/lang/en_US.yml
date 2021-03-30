@@ -1,0 +1,33 @@
+# Translation version, do not change.
+version: 0.1
+messages:
+    # Placeholders.
+    # Example: "text {prefix3} text".
+    # Personal text can be added there.
+    placeholders:
+        main: "&8(&fL&6M&8) &f"
+        plugin: "&9HCore &7> &f"
+        prefix3: "&f[&cProtect&f] &a»"
+    errors:
+        no-perm: "{main}&cYou do not have permission to do this!"
+        only-player: "{main}This command can only be used by players!"
+        advertisement:
+            messages: "{main}You message contains advertisments!"
+            commands: "{main}You command contains advertisments!"
+        blocked-colon-commands: "{main}Command not found."
+        egg-spawn-cooldown: "{main}Mob spawning can be done once every &a30&f seconds!"
+        message-cooldown: "{main}Wait a little, before you send a message again!"
+        chat-disabled: "{main}:P"
+        commands-disabled: "{main}Command not found."
+        very-bad-error: "{main}An error has occurred! Contact the server administrator."
+    commands:
+        hreload:
+            success: "{plugin}Plugin has been reloaded!"
+            error: "{plugin}An error occurred during reload!"
+        setspawn: "{plugin}Spawn successfully set!"
+        spawn: "{plugin}Teleporting..."
+        hidden-command: "{plugin}Server made by &adeHasher&f."
+    bad-item:
+        name: "&aNope!"
+        lore:
+          - "&7Items like this are forbidden :C"

@@ -1,0 +1,33 @@
+# Версия перевода, не изменять.
+version: 0.1
+messages:
+    # Заполнители для сообщений.
+    # Использование: "текст {prefix3} текст".
+    # Можно добавить собственные заполнители.
+    placeholders:
+        main: "&8(&fL&6M&8) &f"
+        plugin: "&9HCore &7> &f"
+        prefix3: "&f[&cЗащита&f] &a» &f"
+    errors:
+        no-perm: "{main}&cУ Вас недостаточно прав!"
+        only-player: "{main}Эта команда доступна только игрокам!"
+        advertisement:
+            messages: "{main}В Вашем сообщении обнаружена реклама!"
+            commands: "{main}В Вашей команде обнаружена реклама!"
+        blocked-colon-commands: "{main}Команда не найдена."
+        egg-spawn-cooldown: "{main}Спавнить мобов можно раз в &a30&f секунд!"
+        message-cooldown: "{main}Подождите немного, прежде чем отправлять сообщение в чат снова!"
+        chat-disabled: "{main}:P"
+        commands-disabled: "{main}Команда не найдена."
+        very-bad-error: "{main}Произошла ошибка! Обратись к администратору сервера."
+    commands:
+        hreload:
+            success: "{plugin}Плагин перезагружен!"
+            error: "{plugin}Во время перезагрузки произошла ошибка!"
+        setspawn: "{plugin}Спавн успешно установлен!"
+        spawn: "{plugin}Телепортация..."
+        hidden-command: "{plugin}Server made by &adeHasher&f."
+    bad-item:
+        name: "&aНизя!"
+        lore:
+          - "&7Такие предметы запрещены :C"

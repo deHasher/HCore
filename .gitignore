@@ -1,0 +1,6 @@
+*.iml
+*.xml
+
+/.idea
+/src/test/
+/target/generated-sources/

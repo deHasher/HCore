@@ -1,0 +1,17 @@
+name: HCore
+version: 0.1
+main: ru.dehasher.hcore.HCore
+api-version: 1.16
+
+database: false
+author: deHasher
+website: https://dehasher.ru/
+
+commands:
+    spawn:
+        description: Телепортация на спавн.
+        aliases: [ызфцт, spavn, ызфмт]
+    setspawn:
+        description: Установка точки спавна.
+    hreload:
+        description: Перезагрузка плагина.
