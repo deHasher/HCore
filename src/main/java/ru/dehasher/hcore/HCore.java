@@ -2,14 +2,12 @@ package ru.dehasher.hcore;
 
 import java.io.File;
 
-import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 
 import ru.dehasher.hcore.commands.hreload;
 import ru.dehasher.hcore.commands.setspawn;
@@ -112,9 +110,7 @@ public class HCore extends JavaPlugin {
 		// Не забывать менять эти значения ещё и в файлах конфигурации.
 		switch (config) {
 			case "major":
-				return 0.1;
 			case "minor":
-				return 0.1;
 			case "lang":
 				return 0.1;
 		}
@@ -169,21 +165,22 @@ public class HCore extends JavaPlugin {
 		}
     }
 
-    private boolean checkFolders() {
+    private void checkFolders() {
     	File config  = new File(plugin.getDataFolder(), slash + "config");
     	File lang    = new File(plugin.getDataFolder(), slash + "lang");
     	if (!config.exists()) {
-    		config.mkdirs();
-    		file_manager.getConfig("config" + slash + "auth.yml"    ).saveDefaultConfig(true);
-    		file_manager.getConfig("config" + slash + "hub.yml"     ).saveDefaultConfig(true);
-    		file_manager.getConfig("config" + slash + "survival.yml").saveDefaultConfig(true);
+    		if (config.mkdirs()) {
+				file_manager.getConfig("config" + slash + "auth.yml").saveDefaultConfig(true);
+				file_manager.getConfig("config" + slash + "hub.yml").saveDefaultConfig(true);
+				file_manager.getConfig("config" + slash + "survival.yml").saveDefaultConfig(true);
+			}
     	}
     	if (!config.exists()) {
-    		lang.mkdirs();
-    		file_manager.getConfig("lang"   + slash + "ru_RU.yml"   ).saveDefaultConfig(true);
-    		file_manager.getConfig("lang  " + slash + "en_US.yml"   ).saveDefaultConfig(true);
+    		if (lang.mkdirs()) {
+				file_manager.getConfig("lang" + slash + "ru_RU.yml").saveDefaultConfig(true);
+				file_manager.getConfig("lang  " + slash + "en_US.yml").saveDefaultConfig(true);
+			}
     	}
-    	return false;
     }
 
 	public void runTasks() {
@@ -211,47 +208,56 @@ public class HCore extends JavaPlugin {
 	}
 
     private void registerCommands() {
-    	if (getCommand("spawn") != null) {
-    		getCommand("spawn").setExecutor((CommandExecutor)new spawn(this));
-    		Informer.CONSOLE("Command /spawn successful registered.");
-    	}
-    	if (getCommand("setspawn") != null) {
-    		getCommand("setspawn").setExecutor((CommandExecutor)new setspawn(this));
-    		Informer.CONSOLE("Command /setspawn successful registered.");
-    	}
-    	if (getCommand("hreload") != null) {
-    		getCommand("hreload").setExecutor((CommandExecutor)new hreload(this));
-    		Informer.CONSOLE("Command /hreload successful registered.");
-    	}
+		PluginCommand spawn = getCommand("spawn");
+		if (spawn != null) {
+			spawn.setExecutor(new spawn(this));
+			Informer.CONSOLE("Command /spawn successful registered.");
+		} else {
+			Informer.CONSOLE("Command /spawn successful not registered.");
+		}
+		PluginCommand setspawn = getCommand("setspawn");
+		if (setspawn != null) {
+			setspawn.setExecutor(new setspawn(this));
+			Informer.CONSOLE("Command /setspawn successful registered.");
+		} else {
+			Informer.CONSOLE("Command /setspawn successful not registered.");
+		}
+		PluginCommand hreload = getCommand("hreload");
+		if (hreload != null) {
+			hreload.setExecutor(new hreload(this));
+			Informer.CONSOLE("Command /hreload successful registered.");
+		} else {
+			Informer.CONSOLE("Command /hreload successful not registered.");
+		}
     }
 
     private void registerEvents() {
     	// Ивенты.
-        Bukkit.getPluginManager().registerEvents((Listener)new Default(this), (Plugin)this);
-        Bukkit.getPluginManager().registerEvents((Listener)new Extra(this), (Plugin)this);
-        Bukkit.getPluginManager().registerEvents((Listener)new HideMessages(this), (Plugin)this);
+        Bukkit.getPluginManager().registerEvents(new Default(this), this);
+        Bukkit.getPluginManager().registerEvents(new Extra(this), this);
+        Bukkit.getPluginManager().registerEvents(new HideMessages(this), this);
 
-        Bukkit.getPluginManager().registerEvents((Listener)new OnPlayerJoinServer(this), (Plugin)this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerJoinServer(this), this);
 
-        Bukkit.getPluginManager().registerEvents((Listener)new OnPlayerSendCommand(this), (Plugin)this);
-        Bukkit.getPluginManager().registerEvents((Listener)new OnPlayerSendMessage(this), (Plugin)this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerSendCommand(this), this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerSendMessage(this), this);
 
         if (HCore.config.getBoolean("settings.chance-on-drop-items-after-death.enabled")) {
-        	Bukkit.getPluginManager().registerEvents((Listener)new OnPlayerDeath(this), (Plugin)this);
+        	Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(this), this);
         }
     	if (HCore.config.getBoolean("settings.batuts.enabled")) {
-    		Bukkit.getPluginManager().registerEvents((Listener)new OnPlayerMove(this), (Plugin)this);
+    		Bukkit.getPluginManager().registerEvents(new OnPlayerMove(this), this);
     	}
     	if (HCore.config.getBoolean("settings.cooldown-on-use-spawnegg.enabled")) {
-    		Bukkit.getPluginManager().registerEvents((Listener)new OnPlayerUseSpawnegg(this), (Plugin)this);
+    		Bukkit.getPluginManager().registerEvents(new OnPlayerUseSpawnegg(this), this);
     	}
 
         // Фиксы эксплойтов.
-    	Bukkit.getPluginManager().registerEvents((Listener)new Dispenser(this), (Plugin)this);
-        Bukkit.getPluginManager().registerEvents((Listener)new Items(this), (Plugin)this);
-        Bukkit.getPluginManager().registerEvents((Listener)new Bed(this), (Plugin)this);
-        Bukkit.getPluginManager().registerEvents((Listener)new Swap(this), (Plugin)this);
-        Bukkit.getPluginManager().registerEvents((Listener)new Overstack(this), (Plugin)this);
+    	Bukkit.getPluginManager().registerEvents(new Dispenser(this), this);
+        Bukkit.getPluginManager().registerEvents(new Items(this), this);
+        Bukkit.getPluginManager().registerEvents(new Bed(this), this);
+        Bukkit.getPluginManager().registerEvents(new Swap(this), this);
+        Bukkit.getPluginManager().registerEvents(new Overstack(this), this);
     }
 
     private void getLogo() {
