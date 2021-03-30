@@ -152,7 +152,7 @@ public class HCore extends JavaPlugin {
 		lang        = file_manager.getConfig("lang" + slash + lang_name + ".yml").get();
 		checkFile("lang" + slash + lang_name + ".yml", "lang", lang.getDouble("version"));
 
-		return error ? false : true;
+		return error;
     }
 
     private void checkFile(String name, String type, Double version) {
