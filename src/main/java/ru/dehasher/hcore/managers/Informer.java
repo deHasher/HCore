@@ -10,7 +10,7 @@ import ru.dehasher.hcore.HCore;
 public class Informer {
 
 	private static void request(Player player, String message) {
-		for (String placeholder : HCore.lang.getConfigurationSection("messages.placeholders").getKeys(true)) {
+		for (String placeholder : HCore.lang.getConfigurationSection("messages.placeholders").getKeys(false)) {
 			message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
 		}
 

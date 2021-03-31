@@ -141,19 +141,19 @@ public class HCore extends JavaPlugin {
 
 
 
-		if (config != null) {
-			if (!file_manager.reloadConfig("config" + slash + config_name + ".yml")) state = false;
-		}
-		config_name = main.getString("config-file");
-		config      = file_manager.getConfig("config" + slash + config_name + ".yml").get();
-		checkFile("config" + slash + config_name + ".yml", "minor", config.getDouble("version"));
-
 		if (lang != null) {
 			if (!file_manager.reloadConfig("lang" + slash + lang_name + ".yml")) state = false;
 		}
 		lang_name   = main.getString("lang-file");
 		lang        = file_manager.getConfig("lang" + slash + lang_name + ".yml").get();
 		checkFile("lang" + slash + lang_name + ".yml", "lang", lang.getDouble("version"));
+
+		if (config != null) {
+			if (!file_manager.reloadConfig("config" + slash + config_name + ".yml")) state = false;
+		}
+		config_name = main.getString("config-file");
+		config      = file_manager.getConfig("config" + slash + config_name + ".yml").get();
+		checkFile("config" + slash + config_name + ".yml", "minor", config.getDouble("version"));
 
 
 		// Проверка на bypass state.
