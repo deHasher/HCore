@@ -54,25 +54,9 @@ public class HCore extends JavaPlugin {
 	}
 
 	public void TODO() {
-//		Выяснить почему когда происходит создание файлов - не загружаются заполнители.
-//		Исправить звук око эндера
-//		Сделать при входе и выходе в портал незера тп на спавны
-//
-//		Пофиксить: Это если в main.yml задать несуществующий файл.
-//		[HCore] File main.yml successful loaded.
-//		[HCore] File spawn.yml successful loaded.
-//		[HCore] File config\survival1.yml not found in HCoreReforged.jar.
-//		[HCore] File main.yml is deprecated...
-//		[HCore] File moved to backups\29.03.2021 18-41-02 main.yml
-//		[HCore] File main.yml successful reloaded.
-//		[HCore] File config\survival1.yml is deprecated...
-//		[HCore] File moved to backups\29.03.2021 18-41-02 config\survival1.yml
-//		[HCore] File config\survival1.yml not found in HCoreReforged.jar.
-//		[HCore] File main.yml is deprecated...
-//		[HCore] File moved to backups\29.03.2021 18-41-02 main.yml
-//		[HCore] File main.yml successful reloaded.
-//		[HCore] File config\survival1.yml successful loaded.
-//		[HCore] File lang\ru_RU.yml successful loaded.
+//		Исправить звук ока эндера.
+//		Сделать при входе и выходе в портал незера тп на спавны.
+//		Сделать выборку целого блока settings при запросе к конфигу.
 	}
 
     @Override
@@ -124,56 +108,50 @@ public class HCore extends JavaPlugin {
 
 	// Тут даже разработчику ничего не понятно :D
     public boolean reloadFiles() {
-    	boolean state = true;
-    	if (main != null) {
-    		if (!file_manager.reloadConfig(main_name + ".yml")) state = false;
-    	}
-		main_name   = "main";
-    	main        = file_manager.getConfig(main_name + ".yml").get();
-		checkFile(main_name + ".yml", "major", main.getDouble("version"));
+		try {
+			if (main != null) file_manager.reloadConfig(main_name + ".yml");
+			main_name   = "main";
+			main        = file_manager.getConfig(main_name + ".yml").get();
+			if (checkFile(main_name + ".yml", "major", main.getDouble("version"))) return false;
 
-		if (spawn != null) {
-			if (!file_manager.reloadConfig(spawn_name + ".yml")) state = false;
+			if (spawn != null) file_manager.reloadConfig(spawn_name + ".yml");
+			spawn_name  = "spawn";
+			spawn       = file_manager.getConfig(spawn_name + ".yml").get();
+			if (checkFile(spawn_name + ".yml", "spawn", null)) return false;
+
+
+
+			if (lang != null) file_manager.reloadConfig("lang" + slash + lang_name + ".yml");
+			lang_name   = main.getString("lang-file");
+			lang        = file_manager.getConfig("lang" + slash + lang_name + ".yml").get();
+			if (checkFile("lang" + slash + lang_name + ".yml", "lang", lang.getDouble("version"))) return false;
+
+			if (config != null) file_manager.reloadConfig("config" + slash + config_name + ".yml");
+			config_name = main.getString("config-file");
+			config      = file_manager.getConfig("config" + slash + config_name + ".yml").get();
+			if (checkFile("config" + slash + config_name + ".yml", "minor", config.getDouble("version"))) return false;
+
+
+			// Проверка на bypass state.
+			if (config.getBoolean("settings.other-params.disable-bypass-permissions")) disable_bypass = true;
+
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
-		spawn_name  = "spawn";
-		spawn       = file_manager.getConfig(spawn_name + ".yml").get();
-		checkFile(spawn_name + ".yml", "spawn", null);
-
-
-
-		if (lang != null) {
-			if (!file_manager.reloadConfig("lang" + slash + lang_name + ".yml")) state = false;
-		}
-		lang_name   = main.getString("lang-file");
-		lang        = file_manager.getConfig("lang" + slash + lang_name + ".yml").get();
-		checkFile("lang" + slash + lang_name + ".yml", "lang", lang.getDouble("version"));
-
-		if (config != null) {
-			if (!file_manager.reloadConfig("config" + slash + config_name + ".yml")) state = false;
-		}
-		config_name = main.getString("config-file");
-		config      = file_manager.getConfig("config" + slash + config_name + ".yml").get();
-		checkFile("config" + slash + config_name + ".yml", "minor", config.getDouble("version"));
-
-
-		// Проверка на bypass state.
-		if (config.getBoolean("settings.other-params.disable-bypass-permissions")) disable_bypass = true;
-
-		return state;
     }
 
-    private void checkFile(String name, String type, Double version) {
-		if (file_manager.getConfig(name).saveDefaultConfig(false)) {
+    private boolean checkFile(String name, String type, Double version) {
+		if (file_manager.getConfig(name).saveDefaultConfig(false)) { // Проверяю сам файл.
 			if (version != null) {
-				if (file_manager.getConfig(name).get().getDouble("version") != getVersion(type)) {
+				if (file_manager.getConfig(name).get().getDouble("version") < getVersion(type)) { // Проверяю версию.
 					file_manager.setOldFile(name);
 					file_manager.getConfig(name).saveDefaultConfig(true);
 				}
 			}
 			getLogger().info("File " + name + " successful loaded.");
-		} else {
-			getLogger().info("An error occurred while loading the " + name + " file.");
-		}
+			return false;
+		} else return true;
     }
 
 	private void checkFolders() {

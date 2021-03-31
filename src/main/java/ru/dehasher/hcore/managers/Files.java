@@ -1,25 +1,20 @@
 package ru.dehasher.hcore.managers;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.dehasher.hcore.HCore;
 
-import javax.annotation.Nonnull;
-
 public class Files {
  
     private final JavaPlugin plugin;
-    private static final String slash = File.separator;
     private final HashMap<String, Config> configs = new HashMap<>();
  
     public Files(JavaPlugin plugin) {
@@ -50,16 +45,23 @@ public class Files {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH-mm-ss ");
 
 		// Объявляем файл.
-        File file  = new File(plugin.getDataFolder(), name);
+        File old_file  = new File(plugin.getDataFolder(), name);
 
-        // Проверяем есть ли папка backups.
-        File check = new File(plugin.getDataFolder(), slash + "backups");
-        if (!check.exists()) check.mkdirs();
+        // Создаём папку с бекапами, если такой нема.
+        File backups = new File(plugin.getDataFolder(), HCore.slash + "backups" + HCore.slash);
+        if (!backups.exists()) {
+			Informer.send("Creating /backups/ folder...");
+        	if (!backups.mkdir()) Informer.send("Failed to create folder /backups/");
+		}
+
+        // Получаем настоящее имя файла.
+		String[] file = name.split(HCore.slash.replace("\\","\\\\"));
+		String new_file = file[(file.length > 1) ? 1 : 0];
 
         // Переименовываем файл в папку.
-        file.renameTo(new File(plugin.getDataFolder(), slash + "backups" + slash + formatter.format(date) + name));
-
-        Informer.send("File moved to backups" + slash + formatter.format(date) + name);
+        if (old_file.renameTo(new File(plugin.getDataFolder(), HCore.slash + "backups" + HCore.slash + formatter.format(date) + new_file))) {
+			Informer.send("File moved to backups" + HCore.slash + formatter.format(date) + new_file);
+		}
 	}
  
 	public class Config {
@@ -95,18 +97,16 @@ public class Files {
 		public boolean saveDefaultConfig(boolean state) {
 			file = new File(plugin.getDataFolder(), this.name);
 			if (!file.exists()) {
-				file.getParentFile().mkdirs();
 				try {
 					plugin.saveResource(this.name, false);
 					return true;
 				} catch (Exception e) {
 					Informer.send("File " + this.name + " not found in " + plugin.getName() + ".jar.");
 					setOldFile(HCore.main_name + ".yml");
-					reloadConfig(HCore.main_name + ".yml");
+					HCore.getPlugin().reloadFiles();
 					return false;
 				}
 			} else if (file.exists() && state) {
-				file.getParentFile().mkdirs();
 				plugin.saveResource(this.name, true);
 				return true;
 			}
@@ -120,11 +120,15 @@ public class Files {
 
 			this.config = YamlConfiguration.loadConfiguration(file);
 
-			Reader reader;
-			reader = new InputStreamReader(plugin.getResource(this.name.replace("\\", "/")), StandardCharsets.UTF_8);
-			YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
-			this.config.setDefaults(cfg);
-			return true;
+			try {
+				Reader reader;
+				reader = new InputStreamReader(plugin.getResource(this.name.replace("\\", "/")), StandardCharsets.UTF_8);
+				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
+				this.config.setDefaults(cfg);
+				return true;
+			} catch (NullPointerException e) {
+				return false;
+			}
 		}
 
 		public Config copyDefaults(boolean force) {

@@ -2,6 +2,7 @@ package ru.dehasher.hcore.managers;
 
 import java.awt.List;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 
@@ -10,8 +11,11 @@ import ru.dehasher.hcore.HCore;
 public class Informer {
 
 	private static void request(Player player, String message) {
-		for (String placeholder : HCore.lang.getConfigurationSection("messages.placeholders").getKeys(false)) {
-			message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
+		ConfigurationSection placeholders = HCore.lang.getConfigurationSection("messages.placeholders");
+		if (placeholders != null) {
+			for (String placeholder : placeholders.getKeys(false)) {
+				message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
+			}
 		}
 
 		if (message == null || message.equals("")) message = HCore.lang.getString("messages.errors.very-bad-error");
