@@ -29,7 +29,6 @@ hcore.bypass.commands.*:
         - hcore.bypass.commands.all     # Позволяет отправлять команды, при disable-commands: true.
         - hcore.bypass.commands.colon   # Позволяет отправлять команды, при disable-colon: true.
 
-
 hcore.health.group.[group]:
     description:
         - Позволяет установить кастомное количество здоровья.
