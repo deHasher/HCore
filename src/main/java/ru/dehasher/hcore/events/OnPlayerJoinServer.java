@@ -67,11 +67,10 @@ public class OnPlayerJoinServer implements Listener {
         }
 
     	// Телепортируем на локацию спавна.
-    	if (HCore.config.getBoolean("settings.join-server.force-tp-to-spawn")) {
-	        Location loc = (Location)HCore.spawn.get("location");
-	        if (loc != null) {
-	        	player.teleport(loc);
-	        }
+    	if (HCore.config.getBoolean("settings.join-server.spawn.first") && !player.hasPlayedBefore() || HCore.config.getBoolean("settings.join-server.spawn.always")) {
+			Location loc = (Location)HCore.spawn.get("location");
+			if (loc == null) return;
+    		player.teleport(loc);
     	}
     }
 }
