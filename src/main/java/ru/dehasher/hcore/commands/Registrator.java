@@ -7,10 +7,19 @@ import ru.dehasher.hcore.commands.list.setspawn;
 import ru.dehasher.hcore.commands.list.hreload;
 import ru.dehasher.hcore.managers.Informer;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class Registrator extends BukkitCommand {
 
-    public Registrator(String name) {
+    public Registrator(String name, List<String> aliases) {
         super(name);
+
+        this.setPermission(null);
+
+        if (!aliases.isEmpty()) {
+            this.setAliases(aliases);
+        }
     }
 
     @Override

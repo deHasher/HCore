@@ -2,8 +2,10 @@ package ru.dehasher.hcore;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.bukkit.command.CommandMap;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -20,11 +22,7 @@ import ru.dehasher.hcore.events.OnPlayerUseSpawnegg;
 import ru.dehasher.hcore.events.other_params.DisableEvents;
 import ru.dehasher.hcore.events.other_params.Extra;
 import ru.dehasher.hcore.events.other_params.HideMessages;
-import ru.dehasher.hcore.exploits.Bed;
-import ru.dehasher.hcore.exploits.Dispenser;
-import ru.dehasher.hcore.exploits.Items;
-import ru.dehasher.hcore.exploits.Overstack;
-import ru.dehasher.hcore.exploits.Swap;
+import ru.dehasher.hcore.exploits.*;
 import ru.dehasher.hcore.managers.Files;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
@@ -54,9 +52,9 @@ public class HCore extends JavaPlugin {
 	}
 
 	public void TODO() {
-//		Исправить звук ока эндера.
-//		Сделать при входе и выходе в портал незера тп на спавны.
-//		Сделать выборку целого блока settings при запросе к конфигу.
+		// Исправить звук ока эндера.
+		// Сделать выборку целого блока settings при запросе к конфигу.
+		// При отсутствии папки плагина - слетает перевод при первом запуске.
 	}
 
     @Override
@@ -96,9 +94,9 @@ public class HCore extends JavaPlugin {
 			case "major":
 				return 0.1;
 			case "minor":
-				return 0.2;
+				return 0.3;
 			case "lang":
-				return 0.2;
+				return 0.3;
 		}
 		return 0.0;
 	}
@@ -106,28 +104,29 @@ public class HCore extends JavaPlugin {
 	// Тут даже разработчику ничего не понятно :D
     public boolean reloadFiles() {
 		try {
+			// Главный конфиг.
 			if (main != null) file_manager.reloadConfig(main_name + ".yml");
 			main_name   = "main";
 			main        = file_manager.getConfig(main_name + ".yml").get();
 			if (checkFile(main_name + ".yml", "major", main.getDouble("version"))) return false;
 
-			if (spawn != null) file_manager.reloadConfig(spawn_name + ".yml");
-			spawn_name  = "spawn";
-			spawn       = file_manager.getConfig(spawn_name + ".yml").get();
-			if (checkFile(spawn_name + ".yml", "spawn", null)) return false;
-
-
-
+			// Перевод.
 			if (lang != null) file_manager.reloadConfig("lang" + slash + lang_name + ".yml");
 			lang_name   = main.getString("lang-file");
 			lang        = file_manager.getConfig("lang" + slash + lang_name + ".yml").get();
 			if (checkFile("lang" + slash + lang_name + ".yml", "lang", lang.getDouble("version"))) return false;
 
+			// Точки спавнов.
+			if (spawn != null) file_manager.reloadConfig(spawn_name + ".yml");
+			spawn_name  = "spawn";
+			spawn       = file_manager.getConfig(spawn_name + ".yml").get();
+			if (checkFile(spawn_name + ".yml", "spawn", null)) return false;
+
+			// Конфигурация.
 			if (config != null) file_manager.reloadConfig("config" + slash + config_name + ".yml");
 			config_name = main.getString("config-file");
 			config      = file_manager.getConfig("config" + slash + config_name + ".yml").get();
 			if (checkFile("config" + slash + config_name + ".yml", "minor", config.getDouble("version"))) return false;
-
 
 			// Проверка на bypass state.
 			disable_bypass = config.getBoolean("settings.other-params.disable-bypass-permissions");
@@ -193,19 +192,26 @@ public class HCore extends JavaPlugin {
 		}
 	}
 
-    public void registerCommands() {
+    public boolean registerCommands() {
 		try {
 			final Field serverCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 			serverCommandMap.setAccessible(true);
 
 			CommandMap commandMap = (CommandMap) serverCommandMap.get(Bukkit.getServer());
 
-			for (String command : config.getStringList("settings.send-command.plugin-commands")) {
-				commandMap.register(command, new Registrator(command));
-				Informer.send("The command /" + command + " successful registered!");
+			ConfigurationSection commands = config.getConfigurationSection("settings.send-command.plugin.commands");
+			if (commands != null) {
+				for (String command : commands.getKeys(false)){
+					ConfigurationSection info = commands.getConfigurationSection(command);
+					List<String> aliases      = info.getStringList("aliases");
+					commandMap.register(command, new Registrator(command, aliases));
+					Informer.send("The command /" + command + " successful registered!");
+				}
 			}
+			return true;
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			Informer.send("An error occurred during initialization of the 'commandMap' class!");
+			return false;
 		}
     }
 
@@ -219,10 +225,8 @@ public class HCore extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new OnPlayerSendCommand(this), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerSendMessage(this), this);
+        Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(this), this);
 
-        if (HCore.config.getBoolean("settings.chance-on-drop-items-after-death.enabled")) {
-        	Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(this), this);
-        }
     	if (HCore.config.getBoolean("settings.batuts.enabled")) {
     		Bukkit.getPluginManager().registerEvents(new OnPlayerMove(this), this);
     	}
@@ -233,7 +237,8 @@ public class HCore extends JavaPlugin {
         // Фиксы эксплойтов.
     	Bukkit.getPluginManager().registerEvents(new Dispenser(this), this);
         Bukkit.getPluginManager().registerEvents(new Items(this), this);
-        Bukkit.getPluginManager().registerEvents(new Bed(this), this);
+		Bukkit.getPluginManager().registerEvents(new Bed(this), this);
+		Bukkit.getPluginManager().registerEvents(new Portals(this), this);
         Bukkit.getPluginManager().registerEvents(new Swap(this), this);
         Bukkit.getPluginManager().registerEvents(new Overstack(this), this);
     }

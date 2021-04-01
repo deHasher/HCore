@@ -1,5 +1,5 @@
 # Версия перевода, не изменять.
-version: 0.2
+version: 0.3
 messages:
     # Имя консоли
     console-name: "CONSOLE"
@@ -30,10 +30,25 @@ messages:
     # Сообщения от команд.
     commands:
         hreload:
+            info:
+                arguments: ""
+                description: "Перезагрузить плагин."
             success: "{plugin}Плагин перезагружен!"
             error: "{plugin}Во время перезагрузки произошла ошибка!"
-        setspawn: "{main}Спавн успешно установлен!"
+        setspawn:
+            info:
+                arguments: "&7[&aoverworld&7/&anether&7]"
+                description: "Установить точку спавна верхнего или нижнего мира."
+            overworld: |-
+              {main}Спавн &bверхнего мира &fуспешно установлен по координатам:
+                           X: &a{x}&f, Y: &a{y}&f, Z: &a{z} &fв мире &e{world}&f.
+            nether: |-
+              {main}Спавн &cнижнего мира &fуспешно установлен по координатам:
+                           X: &a{x}&f, Y: &a{y}&f, Z: &a{z} &fв мире &e{world}&f.
         spawn:
+            info:
+                arguments: "&7[&aник&7]"
+                description: "Телепортировать игрока на спавн."
             self: "{main}Телепортация..."
             other:
                 self: "{main}Игрок &a{player} &fбыл телепортирован на спавн."

@@ -1,8 +1,15 @@
-location:
-  ==: org.bukkit.Location
-  world: world
-  x: 0.5
-  y: 200.0
-  z: 0.5
-  pitch: 0.0
-  yaw: 0.0
+locations:
+  overworld:
+   world: world
+   x: 0.5
+   y: 200.0
+   z: 0.5
+   yaw: 0.0
+   pitch: 0.0
+  nether:
+    world: world_nether
+    x: 0.5
+    y: 200.0
+    z: 0.5
+    yaw: 0.0
+    pitch: 0.0

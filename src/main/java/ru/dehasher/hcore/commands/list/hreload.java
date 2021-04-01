@@ -13,7 +13,7 @@ public class hreload {
         if (sender instanceof Player) player = (Player)sender;
 
         if (Methods.isPerm(player, "hcore.command.hreload")) {
-            if (HCore.getPlugin().reloadFiles()) {
+            if (HCore.getPlugin().reloadFiles() && HCore.getPlugin().registerCommands()) {
                 Informer.send(player, HCore.lang.getString("messages.commands.hreload.success"));
                 return true;
             } else {

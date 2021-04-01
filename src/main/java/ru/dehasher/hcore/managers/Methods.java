@@ -1,10 +1,14 @@
 package ru.dehasher.hcore.managers;
 
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -64,6 +68,49 @@ public class Methods {
 			if (player.hasPermission(permission)) return true;
 		}
 		return isAdmin(player) || isAuthor(player);
+	}
+
+	// Обработка информации о команде.
+	public static String getCommandInfo(String command) {
+		ConfigurationSection info = HCore.lang.getConfigurationSection("messages.commands." + command + ".info");
+		String format = HCore.config.getString("settings.send-command.plugin.format");
+
+		format = format.replace("{command}", command);
+		format = format.replace("{arguments}", info.getString("arguments"));
+		format = format.replace("{description}", info.getString("description"));
+
+		return format;
+	}
+
+	// Округление double числа.
+	public static String round(Double number, int symbols) {
+		if (number == null) return "0.0";
+		StringBuilder format = new StringBuilder();
+		for (int x = 0 ; x < symbols ; x++) format.append("#");
+		DecimalFormat df = new DecimalFormat("###." + format);
+		return df.format(number).replace(",", ".");
+	}
+
+	// Получение точки спавна.
+	public static Location getSpawnLocation(String spawn) {
+		ConfigurationSection info = HCore.spawn.getConfigurationSection("locations." + spawn);
+		if (info != null) {
+			return new Location(
+					Bukkit.getWorld(info.getString("world")),
+					info.getDouble("x"),
+					info.getDouble("y"),
+					info.getDouble("z"),
+					(float)info.getDouble("yaw"),
+					(float)info.getDouble("pitch")
+			);
+		}
+		return null;
+	}
+
+	// Телепортация игрока.
+	public static void teleportPlayer(Player player, @Nullable Location loc) {
+		if (loc == null) return;
+		player.teleport(loc);
 	}
 
 	// Проверка на админку.

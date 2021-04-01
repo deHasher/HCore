@@ -1,6 +1,7 @@
 package ru.dehasher.hcore.events.other_params;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,13 +17,6 @@ import ru.dehasher.hcore.managers.Methods;
 public class Extra implements Listener {
 
     public Extra(HCore plugin) {}
-
-    // Когда игрок возрождается.
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerRespawnEvent(PlayerRespawnEvent e) {
-		Player player = e.getPlayer();
-		Methods.editHealth(player, true);
-	}
 
 	// Когда игрок пишет текст на табличке.
     @EventHandler(priority = EventPriority.HIGHEST)
