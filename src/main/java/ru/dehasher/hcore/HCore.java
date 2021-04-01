@@ -75,9 +75,6 @@ public class HCore extends JavaPlugin {
 		// Шабим.
 		reloadFiles();
 
-		// Грузим readme информацию.
-		readme();
-
         // Регистрируем все эвенты.
         registerEvents();
 
@@ -133,7 +130,7 @@ public class HCore extends JavaPlugin {
 
 
 			// Проверка на bypass state.
-			if (config.getBoolean("settings.other-params.disable-bypass-permissions")) disable_bypass = true;
+			disable_bypass = config.getBoolean("settings.other-params.disable-bypass-permissions");
 
 			return true;
 		} catch (Exception e) {
@@ -170,10 +167,6 @@ public class HCore extends JavaPlugin {
 				file_manager.getConfig("lang" + slash + "en_US.yml").saveDefaultConfig(true);
 			}
 		}
-	}
-
-	private void readme() {
-		saveResource("readme" + slash + "permissions.txt", true);
 	}
 
 	public void runTasks() {

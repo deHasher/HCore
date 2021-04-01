@@ -45,3 +45,6 @@ permissions:
   hcore.command.spawn:
     default: true
     description: Телепортироваться к точке спавна.
+  hcore.health.group:
+    default: op
+    description: Позволяет установить себе кастомное количество здоровья.

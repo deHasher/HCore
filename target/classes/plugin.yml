@@ -1,8 +1,7 @@
 name: HCore
-version: 0.1
+version: 0.2
 main: ru.dehasher.hcore.HCore
 api-version: 1.16
-softdepend: [Multiverse-Core]
 
 database: false
 author: deHasher
@@ -46,3 +45,6 @@ permissions:
   hcore.command.spawn:
     default: true
     description: Телепортироваться к точке спавна.
+  hcore.health.group:
+    default: op
+    description: Позволяет установить себе кастомное количество здоровья.

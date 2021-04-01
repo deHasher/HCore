@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -85,6 +86,13 @@ public class OnPlayerSendMessage implements Listener {
 			if (HCore.config.getBoolean("settings.join-server.custom-nickname.enabled")) {
 				if (Methods.isPerm(player, null)) {
 					playername = HCore.config.getString("settings.join-server.custom-nickname.color.admins") + playername;
+				}
+			}
+
+			ConfigurationSection placeholders = HCore.lang.getConfigurationSection("messages.placeholders");
+			if (placeholders != null) {
+				for (String placeholder : placeholders.getKeys(false)) {
+					format = format.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
 				}
 			}
 
