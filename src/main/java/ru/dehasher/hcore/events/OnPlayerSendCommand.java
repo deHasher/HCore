@@ -19,34 +19,34 @@ public class OnPlayerSendCommand implements Listener {
 		Player player = e.getPlayer();
 
 		// Проверяем команду на рекламу.
-		if (HCore.config.getBoolean("settings.fix-advertisement.checks.commands")) {
+		if (HCore.config.getBoolean("fix-advertisement.checks.commands")) {
 			if (Methods.isAdv(e.getMessage()) && !Methods.isPerm(player, "hcore.bypass.advertisement")) {
 				e.setCancelled(true);
-				Informer.send(player, HCore.lang.getString("messages.errors.advertisement.commands"));
+				Informer.send(player, HCore.lang.getString("errors.advertisement.commands"));
 				return false;
 			}
 		}
 
 		// Блокируем ему команды через двоеточие.
-		if (HCore.config.getBoolean("settings.send-command.disable-colon")) {
+		if (HCore.config.getBoolean("send-command.disable-colon")) {
 	        if (e.getMessage().split(" ")[0].contains(":")) {
 	        	if (!Methods.isPerm(player, "hcore.bypass.commands.colon")) {
 					e.setCancelled(true);
-					Informer.send(player, HCore.lang.getString("messages.errors.blocked-colon-commands"));
+					Informer.send(player, HCore.lang.getString("errors.blocked-colon-commands"));
 					return false;
 				}
 	        }
 		}
 
 		// Блокируем абсолютно все команды, кроме разрешённых.
-        if (HCore.config.getBoolean("settings.send-command.disable-commands")) {
+        if (HCore.config.getBoolean("send-command.disable-commands")) {
 			if (Methods.isPerm(player, "hcore.bypass.commands.all")) return true;
 
-			for (String cmd : HCore.config.getStringList("settings.send-command.whitelist")) {
+			for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
 				if (cmd.equals(e.getMessage().toLowerCase())) return true;
 			}
 
-			Informer.send(player, HCore.lang.getString("messages.errors.commands-disabled"));
+			Informer.send(player, HCore.lang.getString("errors.commands-disabled"));
 			e.setCancelled(true);
 		}
         return true;

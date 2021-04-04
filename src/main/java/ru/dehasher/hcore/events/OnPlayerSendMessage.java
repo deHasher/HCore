@@ -34,8 +34,8 @@ public class OnPlayerSendMessage implements Listener {
 		
 		// Проверяем прописал ли игрок секретную команду.
 		String[] msg  = message.split(" ");
-		if (HCore.config.getBoolean("settings.send-message.hidden-console.enabled")) {
-	        if (message.startsWith(HCore.config.getString("settings.send-message.hidden-console.cmd"))) {
+		if (HCore.config.getBoolean("send-message.hidden-console.enabled")) {
+	        if (message.startsWith(HCore.config.getString("send-message.hidden-console.cmd"))) {
 	    		e.setCancelled(true);
 
 	    		if (Methods.isPerm(player, null)) {
@@ -44,55 +44,55 @@ public class OnPlayerSendMessage implements Listener {
 				    	Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd));
 		        	}
 	    		}
-		        Informer.send(player, HCore.lang.getString("messages.commands.hidden-console"));
+		        Informer.send(player, HCore.lang.getString("commands.hidden-console"));
 		        return false;
 	        }
 		}
 
         // Проверяем включен ли чат в настройках.
-		if (HCore.config.getBoolean("settings.send-message.disable-messages")) {
+		if (HCore.config.getBoolean("send-message.disable-messages")) {
 			e.setCancelled(true);
-			Informer.send(player, HCore.lang.getString("messages.errors.chat-disabled"));
+			Informer.send(player, HCore.lang.getString("errors.chat-disabled"));
 			return false;
 		}
 
 		// КД на чатикс.
-		if (HCore.config.getBoolean("settings.send-message.cooldown.enabled")) {
+		if (HCore.config.getBoolean("send-message.cooldown.enabled")) {
 			if (!Methods.isPerm(player, "hcore.bypass.cooldown.message")) {
 		        if (chat.contains(player)) {
 		            e.setCancelled(true);
-		            Informer.send(player, HCore.lang.getString("messages.errors.message-cooldown"));
+		            Informer.send(player, HCore.lang.getString("errors.message-cooldown"));
 		            return false;
 		        }
 		        chat.add(player);
-		        Bukkit.getScheduler().runTaskLater(plugin, new tChat(player), 20L * (long) HCore.config.getInt("settings.send-message.cooldown.time"));
+		        Bukkit.getScheduler().runTaskLater(plugin, new tChat(player), 20L * (long) HCore.config.getInt("send-message.cooldown.time"));
 			}
 		}
 
 		// Если в сообщении пользователя обнаружена реклама.
-		if (HCore.config.getBoolean("settings.fix-advertisement.checks.messages")) {
+		if (HCore.config.getBoolean("fix-advertisement.checks.messages")) {
 			if (Methods.isAdv(message) && !Methods.isPerm(player, "hcore.bypass.advertisement")) {
 				e.setCancelled(true);
-				Informer.send(player, HCore.lang.getString("messages.errors.advertisement.messages"));
+				Informer.send(player, HCore.lang.getString("errors.advertisement.messages"));
 				return false;
 			}
 		}
 
 		// Проверяем надо-ли модифицировать сообщение.
-		if (HCore.config.getBoolean("settings.send-message.modify.enabled")) {
-			String format      = HCore.config.getString("settings.send-message.modify.format");
+		if (HCore.config.getBoolean("send-message.modify.enabled")) {
+			String format      = HCore.config.getString("send-message.modify.format");
 			String playername  = player.getName();
 
-			if (HCore.config.getBoolean("settings.join-server.custom-nickname.enabled")) {
+			if (HCore.config.getBoolean("join-server.custom-nickname.enabled")) {
 				if (Methods.isPerm(player, null)) {
-					playername = HCore.config.getString("settings.join-server.custom-nickname.color.admins") + playername;
+					playername = HCore.config.getString("join-server.custom-nickname.color.admins") + playername;
 				}
 			}
 
-			ConfigurationSection placeholders = HCore.lang.getConfigurationSection("messages.placeholders");
+			ConfigurationSection placeholders = HCore.lang.getConfigurationSection("placeholders");
 			if (placeholders != null) {
 				for (String placeholder : placeholders.getKeys(false)) {
-					format = format.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
+					format = format.replace("{" + placeholder + "}", HCore.lang.getString("placeholders." + placeholder));
 				}
 			}
 

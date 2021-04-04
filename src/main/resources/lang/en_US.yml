@@ -1,5 +1,8 @@
 # Translation version, do not change.
-version: 0.3
+version: 0.4
+
+# All messages support PlaceholderAPI placeholders!
+# https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
 messages:
     # Имя консоли
     console-name: "CONSOLE"
@@ -12,7 +15,7 @@ messages:
         plugin: "&9HCore &7> &f"
         prefix3: "&f[&cProtect&f] &a»"
 
-    # Сообщения об ошибках.
+    # Error messages.
     errors:
         no-perm: "{main}&cYou do not have permission to do this!"
         only-player: "{main}This command can only be used by players!"
@@ -27,8 +30,13 @@ messages:
         very-bad-error: "{main}An error has occurred! Contact the server administrator."
         player-not-found: "{main}Player not found."
 
-    # Сообщения от команд.
+    # Command messages.
     commands:
+        clearchat:
+            info:
+                arguments: ""
+                description: "Clear your chat."
+            success: "{main}Chat cleared successfully!"
         hreload:
             info:
                 arguments: ""
@@ -38,8 +46,7 @@ messages:
         setspawn:
             info:
                 arguments: "&7[&aoverworld&7/&anether&7]"
-                description: "Установить точку спавна верхнего или нижнего мира."
-            description: "Set the spawn point of the over or nether world."
+                description: "Set the spawn point of the over or nether world."
             overworld: |-
               {main}The &boverworld &fspawn has been successfully set at the coordinates:
                            X: &a{x}&f, Y: &a{y}&f, Z: &a{z} &fin the world &e{world}&f.
@@ -57,7 +64,7 @@ messages:
                 error: "{plugin}You can't teleport this player to spawn!"
         hidden-console: "{plugin}Server made by &adeHasher&f."
 
-    # Название и описание запрещенных предметов.
+    # Name and lore of prohibited items.
     bad-item:
         name: "&aNope!"
         lore:

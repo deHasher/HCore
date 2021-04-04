@@ -1,7 +1,6 @@
 package ru.dehasher.hcore.events;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,7 +15,7 @@ import ru.dehasher.hcore.managers.Methods;
 
 public class OnPlayerJoinServer implements Listener {
 
-    public OnPlayerJoinServer(HCore hCore) {}
+    public OnPlayerJoinServer(HCore plugin) {}
 
 	// Когда игрок заходит на сервер выставляем ему необходимые параметры.
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -24,22 +23,22 @@ public class OnPlayerJoinServer implements Listener {
     	Player player = e.getPlayer();
 
     	// Деопаем игрока который только что вошёл.
-    	if (HCore.config.getBoolean("settings.join-server.auto-deop")) {
+    	if (HCore.config.getBoolean("join-server.auto-deop")) {
     		if (player.isOp()) {
     			player.setOp(false);
     		}
     	}
 
     	// Выдаём флай игроку.
-    	if (HCore.config.getBoolean("settings.join-server.auto-fly")) {
+    	if (HCore.config.getBoolean("join-server.auto-fly")) {
     		player.setAllowFlight(true);
     	}
 
     	// Работа с кастомными хпшками.
-		Methods.editHealth(player, !player.hasPlayedBefore() || HCore.config.getBoolean("settings.join-server.always-set-max-hp"));
+		Methods.editHealth(player, !player.hasPlayedBefore() || HCore.config.getBoolean("join-server.always-set-max-hp"));
 
 	    // Работа с кастомными никами.
-    	if (HCore.config.getBoolean("settings.join-server.custom-nickname.enabled")) {
+    	if (HCore.config.getBoolean("join-server.custom-nickname.enabled")) {
 			ScoreboardManager manager = Bukkit.getScoreboardManager();
 			if (manager != null) {
 				Scoreboard board = manager.getMainScoreboard();
@@ -50,8 +49,8 @@ public class OnPlayerJoinServer implements Listener {
 				Team admins = board.getTeam("admins");
 				if (admins == null) admins = board.registerNewTeam("admins");
 
-				users.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.users")));
-				admins.setPrefix(Methods.color(HCore.config.getString("settings.join-server.custom-nickname.color.admins")));
+				users.setPrefix(Methods.color(HCore.config.getString("join-server.custom-nickname.color.users")));
+				admins.setPrefix(Methods.color(HCore.config.getString("join-server.custom-nickname.color.admins")));
 
 				if (Methods.isPerm(player, null)) {
 					admins.addEntry(player.getName());
@@ -59,7 +58,7 @@ public class OnPlayerJoinServer implements Listener {
 					users.addEntry(player.getName());
 				}
 
-				if (HCore.config.getBoolean("settings.join-server.custom-nickname.disable-collisions")) {
+				if (HCore.config.getBoolean("join-server.custom-nickname.disable-collisions")) {
 					users.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 					admins.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
 				}
@@ -67,7 +66,7 @@ public class OnPlayerJoinServer implements Listener {
         }
 
     	// Телепортируем на локацию спавна.
-    	if (HCore.config.getBoolean("settings.join-server.spawn.first") && !player.hasPlayedBefore() || HCore.config.getBoolean("settings.join-server.spawn.always")) {
+    	if (HCore.config.getBoolean("join-server.spawn.first") && !player.hasPlayedBefore() || HCore.config.getBoolean("join-server.spawn.always")) {
 			Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
     	}
     }

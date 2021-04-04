@@ -1,10 +1,12 @@
 package ru.dehasher.hcore.managers;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -25,9 +27,17 @@ public class Methods {
 		return message;
 	}
 
+	// Заменяем плейсхолдеры.
+	public static String replacePlaceholders(Player player, String message) {
+		if (HCore.PlaceholderAPI) {
+			message = PlaceholderAPI.setPlaceholders(player, message);
+		}
+		return message;
+	}
+
 	// set необходим чтобы устанавливать челам сразу фул хп если они возродились или ток зашли на сервер.
 	public static void editHealth(Player player, boolean set) {
-		String  path   = "settings.join-server.custom-health.";
+		String  path   = "join-server.custom-health.";
 		boolean noperm = true;
 
 		if (!HCore.config.getBoolean(path + "enabled")) return;
@@ -72,8 +82,8 @@ public class Methods {
 
 	// Обработка информации о команде.
 	public static String getCommandInfo(String command) {
-		ConfigurationSection info = HCore.lang.getConfigurationSection("messages.commands." + command + ".info");
-		String format = HCore.config.getString("settings.send-command.plugin.format");
+		ConfigurationSection info = HCore.lang.getConfigurationSection("commands." + command + ".info");
+		String format = HCore.config.getString("send-command.plugin.format");
 
 		format = format.replace("{command}", command);
 		format = format.replace("{arguments}", info.getString("arguments"));
@@ -87,19 +97,19 @@ public class Methods {
 		if (number == null) return "0.0";
 		StringBuilder format = new StringBuilder();
 		for (int x = 0 ; x < symbols ; x++) format.append("#");
-		DecimalFormat df = new DecimalFormat("###." + format);
+		DecimalFormat df = new DecimalFormat("#." + format);
 		return df.format(number).replace(",", ".");
 	}
 
 	// Получение точки спавна.
 	public static Location getSpawnLocation(String spawn) {
-		ConfigurationSection info = HCore.spawn.getConfigurationSection("locations." + spawn);
+		ConfigurationSection info = HCore.spawn.getConfigurationSection(spawn);
 		if (info != null) {
 			return new Location(
 					Bukkit.getWorld(info.getString("world")),
-					info.getDouble("x"),
-					info.getDouble("y"),
-					info.getDouble("z"),
+					(float)info.getDouble("x"),
+					(float)info.getDouble("y"),
+					(float)info.getDouble("z"),
 					(float)info.getDouble("yaw"),
 					(float)info.getDouble("pitch")
 			);
@@ -148,15 +158,20 @@ public class Methods {
 
 	// Проверка строчки на рекламу.
 	public static boolean isAdv(String string) {
-		if (!HCore.config.getBoolean("settings.fix-advertisement.enabled")) return false;
+		if (!HCore.config.getBoolean("fix-advertisement.enabled")) return false;
 		string = string.replaceAll(Pattern.quote("www."), "").replaceAll(Pattern.quote("http://"), "").replaceAll(Pattern.quote("https://"), "");
 
-		for (String url : HCore.config.getStringList("settings.fix-advertisement.whitelist")) {
+		for (String url : HCore.config.getStringList("fix-advertisement.whitelist")) {
 			if (string.contains(url)) return false;
 		}
 
-	    Pattern pattern = Pattern.compile(HCore.config.getString("settings.fix-advertisement.regex"));
+	    Pattern pattern = Pattern.compile(HCore.config.getString("fix-advertisement.regex"));
 	    Matcher matcher = pattern.matcher(string);
 		return matcher.find();
+	}
+
+	public static String fixSlashes(String text) {
+		text = text.replace("/", File.separator);
+		return text;
 	}
 }

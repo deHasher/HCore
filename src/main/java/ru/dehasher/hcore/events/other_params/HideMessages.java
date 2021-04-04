@@ -18,28 +18,28 @@ public class HideMessages implements Listener {
     // Убрать сообщения о входах на сервер.
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
-    	if (!HCore.config.getBoolean("settings.other-params.hide-messages.join")) return;
+    	if (!HCore.config.getBoolean("other-params.hide-messages.join")) return;
     	e.setJoinMessage(null);
     }
 
 	// Убрать сообщения о выходах с сервера.
     @EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerQuitEvent(PlayerQuitEvent e) {
-    	if (!HCore.config.getBoolean("settings.other-params.hide-messages.leave")) return;
+    	if (!HCore.config.getBoolean("other-params.hide-messages.leave")) return;
     	e.setQuitMessage(null);
     }
 
     // Убрать сообщения о смертях.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeathEvent(PlayerDeathEvent e) {
-    	if (!HCore.config.getBoolean("settings.global-params.disable-message-on-death")) return;
+    	if (!HCore.config.getBoolean("global-params.disable-message-on-death")) return;
     	e.setDeathMessage(null);
     }
 
 	// Убрать сообщения об ачивках.
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onWorldLoad(WorldLoadEvent e) {
-		if (!HCore.config.getBoolean("settings.global-params.disable-message-on-advancements")) return;
+		if (!HCore.config.getBoolean("global-params.disable-message-on-advancements")) return;
 		e.getWorld().setGameRuleValue("announceAdvancements", "false");
 	}
 }

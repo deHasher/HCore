@@ -15,24 +15,24 @@ import ru.dehasher.hcore.HCore;
 
 public class OnPlayerMove implements Listener {
 
-	public OnPlayerMove(HCore hCore) {}
+	public OnPlayerMove(HCore plugin) {}
 
 	// Прыжки на блоках с помощью нажимных плит.
 	@EventHandler
 	public void onPlayerMoveEvent(PlayerMoveEvent e) {
     	Player player       = e.getPlayer();
 
-    	double height       = HCore.config.getDouble("settings.batuts.vector.height");
-    	double direction    = HCore.config.getDouble("settings.batuts.vector.direction");
+    	double height       = HCore.config.getDouble("batuts.vector.height");
+    	double direction    = HCore.config.getDouble("batuts.vector.direction");
 
-    	Material blockup    = Material.getMaterial(HCore.config.getString("settings.batuts.block.up"));
-    	Material blockdown  = Material.getMaterial(HCore.config.getString("settings.batuts.block.down"));
+    	Material blockup    = Material.getMaterial(HCore.config.getString("batuts.block.up"));
+    	Material blockdown  = Material.getMaterial(HCore.config.getString("batuts.block.down"));
 
 		Location loc = e.getTo();
 		if (loc != null) {
 			if (loc.getBlock().getType() == blockup && loc.getBlock().getRelative(BlockFace.DOWN).getType() == blockdown) {
-				if (HCore.config.getBoolean("settings.batuts.sound.enabled")) {
-					String sound = HCore.config.getString("settings.batuts.sound.play");
+				if (HCore.config.getBoolean("batuts.sound.enabled")) {
+					String sound = HCore.config.getString("batuts.sound.play");
 					for (Player all : Bukkit.getOnlinePlayers()) {
 						all.playSound(player.getLocation(), Sound.valueOf(sound), 1.0F, 1.0F);
 					}

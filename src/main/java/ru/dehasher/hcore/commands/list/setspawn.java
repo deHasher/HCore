@@ -21,21 +21,20 @@ public class setspawn {
                 if (length > 0) {
                     String spawn = args[0].toLowerCase();
                     Location loc = player.getLocation();
-                    String path  = "locations." + spawn;
                     switch (spawn) {
                         case "overworld":
                         case "nether":
-                            HCore.spawn.set(path + ".world", loc.getWorld().getName());
-                            HCore.spawn.set(path + ".x", loc.getX());
-                            HCore.spawn.set(path + ".y", loc.getY());
-                            HCore.spawn.set(path + ".z", loc.getZ());
-                            HCore.spawn.set(path + ".yaw", loc.getYaw());
-                            HCore.spawn.set(path + ".pitch", loc.getPitch());
+                            HCore.spawn.set(spawn + ".world", loc.getWorld().getName());
+                            HCore.spawn.set(spawn + ".x", loc.getX());
+                            HCore.spawn.set(spawn + ".y", loc.getY());
+                            HCore.spawn.set(spawn + ".z", loc.getZ());
+                            HCore.spawn.set(spawn + ".yaw", loc.getYaw());
+                            HCore.spawn.set(spawn + ".pitch", loc.getPitch());
 
                             HCore.getPlugin().file_manager.getConfig(HCore.spawn_name + ".yml").save();
                             HCore.getPlugin().reloadFiles();
 
-                            String message = HCore.lang.getString("messages.commands.setspawn." + spawn);
+                            String message = HCore.lang.getString("commands.setspawn." + spawn);
 
                             message = message.replace("{x}", Methods.round(loc.getX(), 2));
                             message = message.replace("{y}", Methods.round(loc.getY(), 2));
@@ -48,10 +47,10 @@ public class setspawn {
                 }
                 Informer.send(player, info);
             } else {
-                Informer.send(player, HCore.lang.getString("messages.errors.no-perm"));
+                Informer.send(player, HCore.lang.getString("errors.no-perm"));
             }
         } else {
-            Informer.send(HCore.lang.getString("messages.errors.only-player"));
+            Informer.send(HCore.lang.getString("errors.only-player"));
         }
         return false;
     }

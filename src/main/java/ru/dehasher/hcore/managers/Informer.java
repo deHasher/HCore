@@ -11,20 +11,21 @@ import ru.dehasher.hcore.HCore;
 public class Informer {
 
 	private static void request(Player player, String message) {
-		ConfigurationSection placeholders = HCore.lang.getConfigurationSection("messages.placeholders");
+		ConfigurationSection placeholders = HCore.lang.getConfigurationSection("placeholders");
 		if (placeholders != null) {
 			for (String placeholder : placeholders.getKeys(false)) {
-				message = message.replace("{" + placeholder + "}", HCore.lang.getString("messages.placeholders." + placeholder));
+				message = message.replace("{" + placeholder + "}", HCore.lang.getString("placeholders." + placeholder));
 			}
 		}
 
-		if (message == null || message.equals("")) message = HCore.lang.getString("messages.errors.very-bad-error");
+		if (message == null || message.equals("")) message = HCore.lang.getString("errors.very-bad-error");
 
 		message = Methods.color(message);
 
 		if (player == null) {
 			HCore.getPlugin().getLogger().info(message);
 		} else {
+			message = Methods.replacePlaceholders(player, message);
 			player.sendMessage(message);
 		}
 	}

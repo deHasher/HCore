@@ -1,11 +1,15 @@
 name: HCore
-version: 0.3
+version: 0.4
 main: ru.dehasher.hcore.HCore
 api-version: 1.16
 
 database: false
 author: deHasher
 website: https://dehasher.ru/
+
+softdepend:
+  - PlaceholderAPI
+  - ProtocolLib
 
 permissions:
   hcore.*:
@@ -21,6 +25,7 @@ permissions:
       - hcore.command.spawn.exempt
       - hcore.command.setspawn
       - hcore.command.hreload
+      - hcore.command.clearchat
   hcore.bypass.*:
     default: op
     description: Позволяет обходить установленные плагином ограничения.

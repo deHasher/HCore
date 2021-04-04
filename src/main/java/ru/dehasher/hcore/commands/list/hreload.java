@@ -14,14 +14,14 @@ public class hreload {
 
         if (Methods.isPerm(player, "hcore.command.hreload")) {
             if (HCore.getPlugin().reloadFiles() && HCore.getPlugin().registerCommands()) {
-                Informer.send(player, HCore.lang.getString("messages.commands.hreload.success"));
+                Informer.send(player, HCore.lang.getString("commands.hreload.success"));
                 return true;
             } else {
-                Informer.send(player, HCore.lang.getString("messages.commands.hreload.error"));
+                Informer.send(player, HCore.lang.getString("commands.hreload.error"));
                 return false;
             }
         } else {
-            Informer.send(player, HCore.lang.getString("messages.errors.no-perm"));
+            Informer.send(player, HCore.lang.getString("errors.no-perm"));
         }
         return false;
     }

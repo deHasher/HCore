@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,8 +32,8 @@ public class Files {
 		return getConfig(name).save();
 	}
 
-	public boolean reloadConfig(String name) {
-		return getConfig(name).reload();
+	public void reloadConfig(String name) {
+		getConfig(name).reload();
 	}
 
 	public void setOldFile(String name) {
@@ -48,19 +47,19 @@ public class Files {
         File old_file  = new File(plugin.getDataFolder(), name);
 
         // Создаём папку с бекапами, если такой нема.
-        File backups = new File(plugin.getDataFolder(), HCore.slash + "backups" + HCore.slash);
+        File backups = new File(plugin.getDataFolder(), Methods.fixSlashes("/backups/"));
         if (!backups.exists()) {
 			Informer.send("Creating /backups/ folder...");
         	if (!backups.mkdir()) Informer.send("Failed to create folder /backups/");
 		}
 
         // Получаем настоящее имя файла.
-		String[] file = name.split(HCore.slash.replace("\\","\\\\"));
+		String[] file = name.split(File.separator.replace("\\","\\\\"));
 		String new_file = file[(file.length > 1) ? 1 : 0];
 
         // Переименовываем файл в папку.
-        if (old_file.renameTo(new File(plugin.getDataFolder(), HCore.slash + "backups" + HCore.slash + formatter.format(date) + new_file))) {
-			Informer.send("File moved to backups" + HCore.slash + formatter.format(date) + new_file);
+        if (old_file.renameTo(new File(plugin.getDataFolder(), Methods.fixSlashes("/backups/" + formatter.format(date) + new_file)))) {
+			Informer.send(Methods.fixSlashes("File moved to backups/" + formatter.format(date) + new_file));
 		}
 	}
  
@@ -113,7 +112,7 @@ public class Files {
 			return true;
 		}
 
-		public boolean reload() {
+		public void reload() {
 			if (file == null) {
                 this.file = new File(plugin.getDataFolder(), this.name);
 			}
@@ -125,10 +124,7 @@ public class Files {
 				reader = new InputStreamReader(plugin.getResource(this.name.replace("\\", "/")), StandardCharsets.UTF_8);
 				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
 				this.config.setDefaults(cfg);
-				return true;
-			} catch (NullPointerException e) {
-				return false;
-			}
+			} catch (NullPointerException ignored) {}
 		}
 
 		public Config copyDefaults(boolean force) {

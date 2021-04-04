@@ -24,39 +24,39 @@ public class spawn {
     			return false;
 			} else {
 				if (Methods.isPerm(player, "hcore.command.spawn")) {
-					Informer.send(player, HCore.lang.getString("messages.commands.spawn.self"));
+					Informer.send(player, HCore.lang.getString("commands.spawn.self"));
 					Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
 					return true;
 				} else {
-					Informer.send(player, HCore.lang.getString("messages.errors.no-perm"));
+					Informer.send(player, HCore.lang.getString("errors.no-perm"));
 					return false;
 				}
 			}
 		} else { // Если аргументы есть.
 			Player target = HCore.getPlugin().getServer().getPlayer(args[0]);
-			if (target == null || !target.hasPlayedBefore() || !target.isOnline()) {
-				Informer.send(player, HCore.lang.getString("messages.errors.player-not-found"));
+			if (target == null || !target.isOnline()) {
+				Informer.send(player, HCore.lang.getString("errors.player-not-found"));
 				return false;
 			} else {
 				// Задаём имя того, кто тепнул на спавн чела.
 				if (player == null) {
-					player_name = "" + HCore.lang.getString("messages.console-name");
+					player_name = "" + HCore.lang.getString("console-name");
 				} else {
 					player_name = player.getName();
 				}
 				if (Methods.isPerm(player, "hcore.command.spawn.others")) {
 					if (Methods.isPerm(target, "hcore.command.spawn.exempt")) {
-						Informer.send(player, HCore.lang.getString("messages.commands.spawn.other.error"));
+						Informer.send(player, HCore.lang.getString("commands.spawn.other.error"));
 						return false;
 					} else {
-						Informer.send(player, HCore.lang.getString("messages.commands.spawn.other.self").replace("{player}", target.getName()));
-						Informer.send(target, HCore.lang.getString("messages.commands.spawn.other.target").replace("{player}", player_name));
+						Informer.send(player, HCore.lang.getString("commands.spawn.other.self").replace("{player}", target.getName()));
+						Informer.send(target, HCore.lang.getString("commands.spawn.other.target").replace("{player}", player_name));
 
 						Methods.teleportPlayer(target, Methods.getSpawnLocation("overworld"));
 						return true;
 					}
 				} else {
-					Informer.send(player, HCore.lang.getString("messages.errors.no-perm"));
+					Informer.send(player, HCore.lang.getString("errors.no-perm"));
 					return false;
 				}
 			}

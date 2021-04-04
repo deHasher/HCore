@@ -5,9 +5,9 @@ import org.bukkit.command.defaults.BukkitCommand;
 import ru.dehasher.hcore.commands.list.spawn;
 import ru.dehasher.hcore.commands.list.setspawn;
 import ru.dehasher.hcore.commands.list.hreload;
+import ru.dehasher.hcore.commands.list.clearchat;
 import ru.dehasher.hcore.managers.Informer;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class Registrator extends BukkitCommand {
@@ -24,6 +24,7 @@ public class Registrator extends BukkitCommand {
 
     @Override
     public boolean execute(CommandSender sender, String command, String[] args) {
+        command = this.getName();
         switch (command) {
             case "spawn":
                 return spawn.send(sender, command, args);
@@ -31,6 +32,8 @@ public class Registrator extends BukkitCommand {
                 return setspawn.send(sender, command, args);
             case "hreload":
                 return hreload.send(sender, command, args);
+            case "clearchat":
+                return clearchat.send(sender, command, args);
             default:
                 Informer.send("The command /" + command + " does not exist :P");
                 Informer.send("Remove this command from the configuration and restart the server.");

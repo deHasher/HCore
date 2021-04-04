@@ -1,5 +1,8 @@
 # Версия перевода, не изменять.
-version: 0.3
+version: 0.4
+
+# Все сообщения поддерживают заполнители PlaceholderAPI!
+# https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
 messages:
     # Имя консоли
     console-name: "CONSOLE"
@@ -29,6 +32,11 @@ messages:
 
     # Сообщения от команд.
     commands:
+        clearchat:
+            info:
+                arguments: ""
+                description: "Очистить себе чат."
+            success: "{main}Чат успешно очищен!"
         hreload:
             info:
                 arguments: ""

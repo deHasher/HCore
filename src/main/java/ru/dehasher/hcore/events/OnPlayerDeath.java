@@ -18,12 +18,12 @@ import ru.dehasher.hcore.managers.Methods;
 
 public class OnPlayerDeath implements Listener {
 
-	public OnPlayerDeath(HCore hCore) {}
+	public OnPlayerDeath(HCore plugin) {}
 
 	// Устанавливаем шанс дропа предметов после смерти.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeathEvent(PlayerDeathEvent e) {
-		if (HCore.config.getBoolean("settings.death.chance-on-drop-items.enabled")) {
+		if (HCore.config.getBoolean("death.chance-on-drop-items.enabled")) {
 			if (!e.getKeepLevel() && !e.getKeepInventory()) {
 				Random random = new Random();
 
@@ -46,7 +46,7 @@ public class OnPlayerDeath implements Listener {
 							}
 						}
 
-						double chance_item = HCore.config.getDouble("settings.death.chance-on-drop-items.chance.item");
+						double chance_item = HCore.config.getDouble("death.chance-on-drop-items.chance.item");
 						boolean drop = random.nextDouble() <= chance_item;
 
 						if (drop) {
@@ -59,8 +59,8 @@ public class OnPlayerDeath implements Listener {
 				// Дроп опыта.
 				if (!e.getKeepLevel()) {
 					int total_exp = e.getEntity().getTotalExperience();
-					double chance_exp = HCore.config.getDouble("settings.death.chance-on-drop-items.chance.exp");
-					double amount_exp = HCore.config.getDouble("settings.death.chance-on-drop-items.amount-dropped-exp");
+					double chance_exp = HCore.config.getDouble("death.chance-on-drop-items.chance.exp");
+					double amount_exp = HCore.config.getDouble("death.chance-on-drop-items.amount-dropped-exp");
 
 					if (random.nextDouble() < chance_exp) {
 						double percentage = random.nextDouble() * amount_exp;
@@ -79,9 +79,10 @@ public class OnPlayerDeath implements Listener {
 		Player player = e.getPlayer();
 		Methods.editHealth(player, true);
 
+		Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
 		// Телепортируем игрока к спавну.
-		if (HCore.config.getBoolean("settings.death.teleport-to-spawn")) {
-			Location loc  = Methods.getSpawnLocation("overworld");
+		if (HCore.config.getBoolean("death.teleport-to-spawn")) {
+			Location loc = Methods.getSpawnLocation("overworld");
 			if (loc != null) e.setRespawnLocation(loc);
 		}
 	}
