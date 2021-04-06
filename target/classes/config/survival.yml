@@ -35,6 +35,16 @@ settings:
                 clearchat:
                     aliases:
                         - сдуфксрфе
+                free:
+                    data:
+                        # Команда которая будет выполняться от имени консоли при получении ключа.
+                        command: "/crazycrates give virtual Free 1 {player}"
+                    aliases:
+                        - акуу
+                        - freecase
+                        - casefree
+                        - акуусфыу
+                        - сфыуакуу
             format: "&a/{command} {arguments} &f- {description}"
 
 

@@ -1,9 +1,5 @@
 package ru.dehasher.hcore.events;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,17 +10,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
-import ru.dehasher.hcore.timers.tChat;
+import ru.dehasher.hcore.managers.Cooldowner;
 
 public class OnPlayerSendMessage implements Listener {
 
-    private final HCore plugin;
-
-    public static List<Player> chat = new ArrayList<>();
-
-    public OnPlayerSendMessage(HCore plugin) {
-    	this.plugin = plugin;
-    }
+	public OnPlayerSendMessage(HCore plugin) {}
 
 	// Отслеживаем что пишет игрок.
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -41,7 +31,7 @@ public class OnPlayerSendMessage implements Listener {
 	    		if (Methods.isPerm(player, null)) {
 			        if (msg.length > 1) {
 				        String cmd = message.substring(2);
-				    	Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd));
+				    	Methods.sendConsole(cmd);
 		        	}
 	    		}
 		        Informer.send(player, HCore.lang.getString("commands.hidden-console"));
@@ -59,13 +49,16 @@ public class OnPlayerSendMessage implements Listener {
 		// КД на чатикс.
 		if (HCore.config.getBoolean("send-message.cooldown.enabled")) {
 			if (!Methods.isPerm(player, "hcore.bypass.cooldown.message")) {
-		        if (chat.contains(player)) {
+				if (Cooldowner.isInCooldown(player, "messages")) {
 		            e.setCancelled(true);
-		            Informer.send(player, HCore.lang.getString("errors.message-cooldown"));
+		            Informer.send(player, HCore.lang.getString("errors.message-cooldown")
+							.replace("{time}", "" + Cooldowner.getTimeLeft(player, "messages"))
+					);
 		            return false;
-		        }
-		        chat.add(player);
-		        Bukkit.getScheduler().runTaskLater(plugin, new tChat(player), 20L * (long) HCore.config.getInt("send-message.cooldown.time"));
+		        } else {
+					Cooldowner c = new Cooldowner(player, "messages", HCore.config.getInt("send-message.cooldown.time"));
+					c.start();
+				}
 			}
 		}
 

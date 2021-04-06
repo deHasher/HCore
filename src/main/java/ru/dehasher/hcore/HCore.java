@@ -91,31 +91,27 @@ public class HCore extends JavaPlugin {
         // Запускаем автоматические задачи.
         runTasks();
 
-//		ProtocolLibrary.getProtocolManager().addPacketListener(
-//			new PacketAdapter(this, ListenerPriority.HIGHEST, PacketType.Play.Server.NAMED_SOUND_EFFECT) {
+//		ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+//		pm.addPacketListener(new PacketAdapter(this, ListenerPriority.HIGHEST, PacketType.Play.Server.WORLD_EVENT) {
+//			@Override
+//			public void onPacketSending(PacketEvent e) {
+//				PacketContainer packet = e.getPacket();
+//				Player player = e.getPlayer();
+//				int actionID = packet.getIntegers().read(0);
 //
-//				// Для того, чтобы читать пакеты клиента.
-//				@Override
-//				public void onPacketSending(PacketEvent e) {
-//					PacketContainer packet = e.getPacket();
-//					Player player          = e.getPlayer();
-//
-//					List<Sound> sounds = packet.getSoundEffects().getValues();
-//					for (Sound sound : sounds) {
-//						if (sound.name().equals("BLOCK_END_PORTAL_SPAWN")) {
-//							e.setCancelled(true);
-//						}
-//						Informer.send(player, sound.name());
-//					}
+//				if (actionID == 1038) {
+//					Informer.send(player, "Убран звук создания портала в ЭНД.");
+//					Informer.send(player, packet.);
 //					e.setCancelled(true);
 //				}
+//			}
+//		});
 
 				// Для того, чтобы контролировать отправляемые сервером пакеты.
 //				@Override
 //				public void onPacketSending(PacketEvent e) {
 //					PacketContainer packet = e.getPacket();
 //					Player player          = e.getPlayer();
-
 //					List<Sound> sounds = packet.getSoundEffects().getValues();
 //					for (Sound sound : sounds) {
 //						Informer.send(sound.name());

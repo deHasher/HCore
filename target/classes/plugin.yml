@@ -26,6 +26,7 @@ permissions:
       - hcore.command.setspawn
       - hcore.command.hreload
       - hcore.command.clearchat
+      - hcore.command.free
   hcore.bypass.*:
     default: op
     description: Позволяет обходить установленные плагином ограничения.
@@ -50,6 +51,9 @@ permissions:
   hcore.command.spawn:
     default: true
     description: Телепортироваться к точке спавна.
+  hcore.command.free:
+    default: true
+    description: Получить ключ от бесплатного кейса.
   hcore.health.group:
     default: op
     description: Позволяет установить себе кастомное количество здоровья.

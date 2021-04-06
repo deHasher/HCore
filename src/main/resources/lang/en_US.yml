@@ -23,7 +23,7 @@ messages:
             messages: "{main}You message contains advertisments!"
             commands: "{main}You command contains advertisments!"
         blocked-colon-commands: "{main}Command not found."
-        egg-spawn-cooldown: "{main}Mob spawning can be done once every &a30&f seconds!"
+        egg-spawn-cooldown: "{main}Wait another &a{time} &fseconds before mob spawning."
         message-cooldown: "{main}Wait a little, before you send a message again!"
         chat-disabled: "{main}:P"
         commands-disabled: "{main}Command not found."
@@ -32,6 +32,12 @@ messages:
 
     # Command messages.
     commands:
+        free:
+            info:
+                arguments: ""
+                description: "Get the key to the free case."
+            success: "{main}Received the key from &afree &fcase! You can open it on &e/warp case&f."
+            error: "{main}You have already received the key &atoday&f! Come back tomorrow."
         clearchat:
             info:
                 arguments: ""

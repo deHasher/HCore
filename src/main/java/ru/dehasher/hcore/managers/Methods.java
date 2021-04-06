@@ -174,4 +174,8 @@ public class Methods {
 		text = text.replace("/", File.separator);
 		return text;
 	}
+
+	public static void sendConsole(String command) {
+		Bukkit.getScheduler().runTask(HCore.getPlugin(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
+	}
 }

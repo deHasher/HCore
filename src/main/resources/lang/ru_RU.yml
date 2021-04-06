@@ -23,7 +23,7 @@ messages:
             messages: "{main}В Вашем сообщении обнаружена реклама!"
             commands: "{main}В Вашей команде обнаружена реклама!"
         blocked-colon-commands: "{main}Команда не найдена."
-        egg-spawn-cooldown: "{main}Спавнить мобов можно раз в &a30&f секунд!"
+        egg-spawn-cooldown: "{main}Подожди ещё &a{time} &fсекунд перед повторным спавном моба."
         message-cooldown: "{main}Подождите немного, прежде чем отправлять сообщение в чат снова!"
         chat-disabled: "{main}:P"
         commands-disabled: "{main}Команда не найдена."
@@ -32,6 +32,12 @@ messages:
 
     # Сообщения от команд.
     commands:
+        free:
+            info:
+                arguments: ""
+                description: "Получить ключ от бесплатного кейса."
+            success: "{main}Получен ключ от &aбесплатного &fкейса! Открыть его можно на &e/warp case&f."
+            error: "{main}Вы уже получали &aсегодня &fключ! Возвращайтесь завтра."
         clearchat:
             info:
                 arguments: ""
