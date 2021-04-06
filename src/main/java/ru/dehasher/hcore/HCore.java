@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import ru.dehasher.hcore.commands.Registrator;
 import ru.dehasher.hcore.events.OnPlayerDeath;
 import ru.dehasher.hcore.events.OnPlayerJoinServer;
-import ru.dehasher.hcore.events.OnPlayerMove;
+import ru.dehasher.hcore.events.OnBatutJump;
 import ru.dehasher.hcore.events.OnPlayerSendCommand;
 import ru.dehasher.hcore.events.OnPlayerSendMessage;
 import ru.dehasher.hcore.events.OnPlayerUseSpawnegg;
@@ -286,7 +286,7 @@ public class HCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(this), this);
 
     	if (HCore.config.getBoolean("batuts.enabled")) {
-    		Bukkit.getPluginManager().registerEvents(new OnPlayerMove(this), this);
+    		Bukkit.getPluginManager().registerEvents(new OnBatutJump(this), this);
     	}
     	if (HCore.config.getBoolean("cooldown-on-use-spawnegg.enabled")) {
     		Bukkit.getPluginManager().registerEvents(new OnPlayerUseSpawnegg(this), this);
