@@ -232,7 +232,7 @@ public class HCore extends JavaPlugin {
 						Methods.editHealth(player, false);
 					}
 	            }
-	        }.runTaskTimer(plugin, 0L, 8L);
+	        }.runTaskTimer(plugin, 0L, 10L);
 		}
 
 		if (HCore.config.getBoolean("fix-exploits.overstack.enabled")) {
@@ -244,7 +244,7 @@ public class HCore extends JavaPlugin {
 						Overstack.checkPlayer(player);
 					}
 				}
-			}.runTaskTimer(plugin, time, time);
+			}.runTaskTimer(plugin, 0L, time);
 		}
 	}
 

@@ -36,7 +36,7 @@ messages:
             info:
                 arguments: ""
                 description: "Get the key to the free case."
-            success: "{main}Received the key from &afree &fcase! You can open it on &e/warp case&f."
+            success: "{main}You will be able to get the free key again &atomorrow&f."
             error: "{main}You have already received the key &atoday&f! Come back tomorrow."
         clearchat:
             info:
