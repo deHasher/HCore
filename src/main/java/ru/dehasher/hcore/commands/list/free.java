@@ -24,9 +24,16 @@ public class free {
                 } else {
                     Cooldowner c = new Cooldowner(player, "free", 86400);
                     c.start();
+
                     String cmd = HCore.config.getString("send-command.plugin.commands.free.data.command");
+                    if (cmd.startsWith("/")) {
+                        cmd = cmd.substring(1);
+                    }
+                    cmd = cmd.replace("{player}", player.getName());
                     Methods.sendConsole(cmd);
+
                     Informer.send(player, HCore.lang.getString("commands.free.success"));
+
                     return true;
                 }
             } else {
