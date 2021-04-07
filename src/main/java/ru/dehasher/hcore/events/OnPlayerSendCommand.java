@@ -11,16 +11,18 @@ import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
 
 public class OnPlayerSendCommand implements Listener {
+
 	public OnPlayerSendCommand(HCore plugin) {}
 
     // Отслеживаем какие команды вводит игрок.
 	@EventHandler(priority = EventPriority.HIGHEST)
     public boolean onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
-		Player player = e.getPlayer();
+		Player player  = e.getPlayer();
+		String command = e.getMessage();
 
 		// Проверяем команду на рекламу.
 		if (HCore.config.getBoolean("fix-advertisement.checks.commands")) {
-			if (Methods.isAdv(e.getMessage()) && !Methods.isPerm(player, "hcore.bypass.advertisement")) {
+			if (Methods.isAdv(command) && !Methods.isPerm(player, "hcore.bypass.advertisement")) {
 				e.setCancelled(true);
 				Informer.send(player, HCore.lang.getString("errors.advertisement.commands"));
 				return false;
@@ -29,7 +31,7 @@ public class OnPlayerSendCommand implements Listener {
 
 		// Блокируем ему команды через двоеточие.
 		if (HCore.config.getBoolean("send-command.disable-colon")) {
-	        if (e.getMessage().split(" ")[0].contains(":")) {
+	        if (command.split(" ")[0].contains(":")) {
 	        	if (!Methods.isPerm(player, "hcore.bypass.commands.colon")) {
 					e.setCancelled(true);
 					Informer.send(player, HCore.lang.getString("errors.blocked-colon-commands"));
@@ -43,7 +45,7 @@ public class OnPlayerSendCommand implements Listener {
 			if (Methods.isPerm(player, "hcore.bypass.commands.all")) return true;
 
 			for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
-				if (cmd.equals(e.getMessage().toLowerCase())) return true;
+				if (cmd.equals(command.toLowerCase())) return true;
 			}
 
 			Informer.send(player, HCore.lang.getString("errors.commands-disabled"));

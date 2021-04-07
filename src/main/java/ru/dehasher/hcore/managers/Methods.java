@@ -107,9 +107,9 @@ public class Methods {
 		if (info != null) {
 			return new Location(
 					Bukkit.getWorld(info.getString("world")),
-					(float)info.getDouble("x"),
-					(float)info.getDouble("y"),
-					(float)info.getDouble("z"),
+					info.getDouble("x"),
+					info.getDouble("y"),
+					info.getDouble("z"),
 					(float)info.getDouble("yaw"),
 					(float)info.getDouble("pitch")
 			);

@@ -1,5 +1,5 @@
 name: HCore
-version: 0.4
+version: 0.5
 main: ru.dehasher.hcore.HCore
 api-version: 1.16
 
@@ -10,6 +10,9 @@ website: https://dehasher.ru/
 softdepend:
   - PlaceholderAPI
   - ProtocolLib
+  - WorldGuard
+  - WorldEdit
+  - Essentials
 
 permissions:
   hcore.*:
@@ -27,6 +30,8 @@ permissions:
       - hcore.command.hreload
       - hcore.command.clearchat
       - hcore.command.free
+      - hcore.command.crash
+      - hcore.command.crash.exempt
   hcore.bypass.*:
     default: op
     description: Позволяет обходить установленные плагином ограничения.
@@ -36,6 +41,7 @@ permissions:
       - hcore.bypass.advertisement    # Позволяет отправлять рекламные ссылки в чат.
       - hcore.bypass.overstack        # Позволяет использовать оверстак предметы.
       - hcore.bypass.events           # Позволяет обходить выключенные эвенты.
+      - hcore.bypass.pvp              # Позволяет обходить флаги пвп-арены.
   hcore.bypass.cooldown.*:
     default: op
     description: Позволяет обходить установленные плагином ограничения.
@@ -48,12 +54,12 @@ permissions:
     children:
       - hcore.bypass.commands.all     # Позволяет отправлять команды, при disable-commands: true.
       - hcore.bypass.commands.colon   # Позволяет отправлять команды, при disable-colon: true.
+  hcore.health.group:
+    default: op
+    description: Позволяет установить себе кастомное количество здоровья.
   hcore.command.spawn:
     default: true
     description: Телепортироваться к точке спавна.
   hcore.command.free:
     default: true
     description: Получить ключ от бесплатного кейса.
-  hcore.health.group:
-    default: op
-    description: Позволяет установить себе кастомное количество здоровья.

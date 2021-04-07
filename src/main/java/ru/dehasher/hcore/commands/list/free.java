@@ -9,9 +9,6 @@ import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
 
 public class free {
-
-    public free(HCore plugin) {}
-
     public static boolean send(CommandSender sender, String command, String[] args) {
         Player player = null;
         if (sender instanceof Player) player = (Player)sender;
@@ -20,7 +17,6 @@ public class free {
             if (Methods.isPerm(player, "hcore.command.free")) {
                 if (Cooldowner.isInCooldown(player, "free")) {
                     Informer.send(player, HCore.lang.getString("commands.free.error"));
-                    return false;
                 } else {
                     Cooldowner c = new Cooldowner(player, "free", 86400);
                     c.start();

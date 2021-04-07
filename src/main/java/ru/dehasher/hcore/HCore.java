@@ -12,12 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import ru.dehasher.hcore.commands.Registrator;
-import ru.dehasher.hcore.events.OnPlayerDeath;
-import ru.dehasher.hcore.events.OnPlayerJoinServer;
-import ru.dehasher.hcore.events.OnBatutJump;
-import ru.dehasher.hcore.events.OnPlayerSendCommand;
-import ru.dehasher.hcore.events.OnPlayerSendMessage;
-import ru.dehasher.hcore.events.OnPlayerUseSpawnegg;
+import ru.dehasher.hcore.events.*;
 import ru.dehasher.hcore.events.other_params.DisableEvents;
 import ru.dehasher.hcore.events.other_params.Extra;
 import ru.dehasher.hcore.events.other_params.HideMessages;
@@ -48,6 +43,9 @@ public class HCore extends JavaPlugin {
 	// Плагины.
 	public static Boolean PlaceholderAPI;
 	public static Boolean ProtocolLib;
+	public static Boolean Essentials;
+	public static Boolean WorldGuard;
+	public static Boolean WorldEdit;
 
 	// Костыль.
     public static Boolean disable_bypass = false;
@@ -59,9 +57,8 @@ public class HCore extends JavaPlugin {
 		return HCore.plugin;
 	}
 
-	public void TODO() {
-		// Исправить звук ока эндера.
-	}
+	// Что предстоит сделать.
+	public void TODO() {}
 
     @Override
     public void onEnable() {
@@ -90,46 +87,6 @@ public class HCore extends JavaPlugin {
 
         // Запускаем автоматические задачи.
         runTasks();
-
-//		ProtocolManager pm = ProtocolLibrary.getProtocolManager();
-//		pm.addPacketListener(new PacketAdapter(this, ListenerPriority.HIGHEST, PacketType.Play.Server.WORLD_EVENT) {
-//			@Override
-//			public void onPacketSending(PacketEvent e) {
-//				PacketContainer packet = e.getPacket();
-//				Player player = e.getPlayer();
-//				int actionID = packet.getIntegers().read(0);
-//
-//				if (actionID == 1038) {
-//					Informer.send(player, "Убран звук создания портала в ЭНД.");
-//					Informer.send(player, packet.);
-//					e.setCancelled(true);
-//				}
-//			}
-//		});
-
-				// Для того, чтобы контролировать отправляемые сервером пакеты.
-//				@Override
-//				public void onPacketSending(PacketEvent e) {
-//					PacketContainer packet = e.getPacket();
-//					Player player          = e.getPlayer();
-//					List<Sound> sounds = packet.getSoundEffects().getValues();
-//					for (Sound sound : sounds) {
-//						Informer.send(sound.name());
-//					}
-//					Informer.send(player, 123);
-//					player.playSound(player.getLocation(), Sound.ENTITY_CHICKEN_EGG, 500.0f, 1.0f);
-//					if (ProtocolLibrary.getProtocolManager().getProtocolVersion(e.getPlayer()) <= 47) {
-//						if (soundName("random.levelup")) {
-//							e.setCancelled(true);
-//						} else if (ProtocolLibrary.getProtocolManager().getProtocolVersion(e.getPlayer()) >= 107) {
-//							if (soundName.equalsIgnoreCase("entity.player.levelup")) {
-//								e.setCancelled(true);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		);
     }
 
     @Override
@@ -140,7 +97,10 @@ public class HCore extends JavaPlugin {
     @Nullable
     public void checkPlugins() {
 		PlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
-		ProtocolLib = Bukkit.getPluginManager().getPlugin("ProtocolLib") != null;
+		ProtocolLib    = Bukkit.getPluginManager().getPlugin("ProtocolLib")    != null;
+		Essentials     = Bukkit.getPluginManager().getPlugin("Essentials")     != null;
+		WorldGuard     = Bukkit.getPluginManager().getPlugin("WorldGuard")     != null;
+		WorldEdit      = Bukkit.getPluginManager().getPlugin("WorldEdit")      != null;
 	}
 
 	private double getVersion(String config) {
@@ -149,9 +109,9 @@ public class HCore extends JavaPlugin {
 			case "major":
 				return 0.1;
 			case "minor":
-				return 0.4;
+				return 0.5;
 			case "lang":
-				return 0.4;
+				return 0.5;
 		}
 		return 0.0;
 	}
@@ -224,27 +184,22 @@ public class HCore extends JavaPlugin {
 	}
 
 	public void runTasks() {
-		if (HCore.config.getBoolean("join-server.custom-health.enabled")) {
+		boolean health    = HCore.config.getBoolean("join-server.custom-health.enabled");
+		boolean overstack = HCore.config.getBoolean("fix-exploits.overstack.enabled");
+		boolean pvp       = HCore.config.getBoolean("pvp-arena.enabled");
+
+		if (overstack || health || pvp) {
+			int time = HCore.config.getInt("other-params.timer");
 	        new BukkitRunnable() {
 	        	@Override
 	            public void run() {
 					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-						Methods.editHealth(player, false);
+						if (overstack) Overstack.checkPlayer(player);
+						if (health) Methods.editHealth(player, false);
+						if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
 					}
 	            }
-	        }.runTaskTimer(plugin, 0L, 10L);
-		}
-
-		if (HCore.config.getBoolean("fix-exploits.overstack.enabled")) {
-			int time = HCore.config.getInt("fix-exploits.overstack.time");
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-						Overstack.checkPlayer(player);
-					}
-				}
-			}.runTaskTimer(plugin, 0L, time);
+	        }.runTaskTimer(plugin, 0L, time);
 		}
 	}
 
@@ -262,7 +217,7 @@ public class HCore extends JavaPlugin {
 					List<String> aliases      = info.getStringList("aliases");
 					commandMap.register(command, new Registrator(command, aliases));
 					String message = "Command /" + command + " successful registered!";
-					if (!aliases.isEmpty()) message = message + " Aliases: " + aliases.toString();
+					if (!aliases.isEmpty()) message = message + " Aliases: " + aliases;
 					Informer.send(message);
 				}
 			}
@@ -291,6 +246,9 @@ public class HCore extends JavaPlugin {
     	if (HCore.config.getBoolean("cooldown-on-use-spawnegg.enabled")) {
     		Bukkit.getPluginManager().registerEvents(new OnPlayerUseSpawnegg(this), this);
     	}
+		if (HCore.config.getBoolean("pvp-arena.enabled") && WorldGuard && WorldEdit) {
+			Bukkit.getPluginManager().registerEvents(new OnPlayerJoinToPvpArena(this), this);
+		}
 
         // Фиксы эксплойтов.
     	Bukkit.getPluginManager().registerEvents(new Dispenser(this), this);

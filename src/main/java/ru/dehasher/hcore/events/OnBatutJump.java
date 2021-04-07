@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,8 +20,8 @@ public class OnBatutJump implements Listener {
 	public OnBatutJump(HCore plugin) {}
 
 	// Прыжки на блоках с помощью нажимных плит.
-	@EventHandler
-	public void onPlayerMoveEvent(PlayerInteractEvent e) {
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerInteractEvent(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 
 		double height = HCore.config.getDouble("batuts.vector.height");
@@ -39,8 +40,8 @@ public class OnBatutJump implements Listener {
 							all.playSound(player.getLocation(), Sound.valueOf(sound), 1.0F, 1.0F);
 						}
 					}
-					Vector v = player.getLocation().getDirection().multiply(direction).setY(player.getLocation().getDirection().getY() + height);
-					e.getPlayer().setVelocity(v);
+					Vector v = player.getLocation().getDirection().multiply(direction)
+							.setY(player.getLocation().getDirection().getY() + height);
 					Bukkit.getScheduler().scheduleSyncDelayedTask(HCore.getPlugin(), () -> player.setVelocity(v), 0L);
 				}
 			}

@@ -18,7 +18,6 @@ public class hreload {
                 return true;
             } else {
                 Informer.send(player, HCore.lang.getString("commands.hreload.error"));
-                return false;
             }
         } else {
             Informer.send(player, HCore.lang.getString("errors.no-perm"));

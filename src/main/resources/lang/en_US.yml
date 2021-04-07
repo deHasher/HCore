@@ -1,5 +1,5 @@
 # Translation version, do not change.
-version: 0.4
+version: 0.5
 
 # All messages support PlaceholderAPI placeholders!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
@@ -29,9 +29,19 @@ messages:
         commands-disabled: "{main}Command not found."
         very-bad-error: "{main}An error has occurred! Contact the server administrator."
         player-not-found: "{main}Player not found."
+        no-plugin: "{main}Plugin &a{plugin} &fis not installed. Function don't working."
+        pvp-arena:
+            player-in-pvp: "{main}The player is located on &cpvp-arena&f! Don't disturb him."
+            commands-disabled: "{main}You can't use commands in the pvp-arena."
 
     # Command messages.
     commands:
+        crash:
+            info:
+                arguments: "&7[&anick&7]"
+                description: "Crash the player."
+            success: "{main}The player &e{player} &flagging &a:)"
+            error: "{main}The player has crash protection!"
         free:
             info:
                 arguments: ""

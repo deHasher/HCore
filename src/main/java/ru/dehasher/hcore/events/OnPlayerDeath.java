@@ -24,50 +24,48 @@ public class OnPlayerDeath implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeathEvent(PlayerDeathEvent e) {
 		if (HCore.config.getBoolean("death.chance-on-drop-items.enabled")) {
-			if (!e.getKeepLevel() && !e.getKeepInventory()) {
-				Random random = new Random();
+			Random random = new Random();
+			Player player = e.getEntity();
 
-				// Дроп предметов.
-				if (!e.getKeepInventory()) {
-					e.setKeepInventory(true);
+			// Дроп предметов.
+			if (!e.getKeepInventory()) {
+				e.setKeepInventory(true);
 
-					ItemStack[] inv = e.getEntity().getInventory().getContents();
-					for (int i = 0; i < inv.length; i++) {
-						ItemStack s = inv[i];
+				ItemStack[] inv = player.getInventory().getContents();
 
-						// Пропускаем воздух.
-						if (inv[i] == null || inv[i].getType().equals(Material.AIR)) continue;
+				for (int slot = 0; slot < inv.length; slot++) {
+					ItemStack s = inv[slot];
 
-						// Пропускаем предметы у которых присутствует описание.
-						if (s.hasItemMeta()) {
-							ItemMeta m = s.getItemMeta();
-							if (m != null && m.hasLore()) {
-								continue;
-							}
-						}
+					// Пропускаем воздух.
+					if (inv[slot] == null || inv[slot].getType().equals(Material.AIR)) continue;
 
-						double chance_item = HCore.config.getDouble("death.chance-on-drop-items.chance.item");
-						boolean drop = random.nextDouble() <= chance_item;
+					// Пропускаем предметы у которых присутствует описание.
+					if (s.hasItemMeta()) {
+						ItemMeta m = s.getItemMeta();
+						if (m != null && m.hasLore()) continue;
+					}
 
-						if (drop) {
-							e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation(), s);
-							e.getEntity().getInventory().setItem(i, null);
-						}
+					double chance_item = HCore.config.getDouble("death.chance-on-drop-items.chance.item");
+					boolean drop = random.nextDouble() <= chance_item;
+
+					if (drop) {
+						player.getWorld().dropItemNaturally(player.getLocation(), s);
+						player.getInventory().setItem(slot, null);
 					}
 				}
+			}
 
-				// Дроп опыта.
-				if (!e.getKeepLevel()) {
-					int total_exp = e.getEntity().getTotalExperience();
-					double chance_exp = HCore.config.getDouble("death.chance-on-drop-items.chance.exp");
-					double amount_exp = HCore.config.getDouble("death.chance-on-drop-items.amount-dropped-exp");
+			// Дроп опыта.
+			if (!e.getKeepLevel()) {
+				int total_exp     = player.getTotalExperience();
+				double chance_exp = HCore.config.getDouble("death.chance-on-drop-items.chance.exp");
+				double amount_exp = HCore.config.getDouble("death.chance-on-drop-items.amount-dropped-exp");
 
-					if (random.nextDouble() < chance_exp) {
-						double percentage = random.nextDouble() * amount_exp;
-						int p = (int) (percentage * 100.0d);
-						int dropped = total_exp * p / 100;
-						e.setDroppedExp(dropped);
-					}
+				if (random.nextDouble() < chance_exp) {
+					double percentage = random.nextDouble() * amount_exp;
+					int p = (int) (percentage * 100.0d);
+					int dropped = total_exp * p / 100;
+					e.setDroppedExp(dropped);
 				}
 			}
 		}

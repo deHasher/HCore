@@ -1,5 +1,5 @@
 # Версия перевода, не изменять.
-version: 0.4
+version: 0.5
 
 # Все сообщения поддерживают заполнители PlaceholderAPI!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
@@ -29,9 +29,19 @@ messages:
         commands-disabled: "{main}Команда не найдена."
         very-bad-error: "{main}Произошла ошибка! Обратись к администратору сервера."
         player-not-found: "{main}Игрок не найден."
+        no-plugin: "{main}Плагин &a{plugin} &fне установлен. Функция не работает."
+        pvp-arena:
+            player-in-pvp: "{main}Игрок находиться на &cпвп арене&f! Не мешайте ему."
+            commands-disabled: "{main}Вы не можете использовать команды на пвп-арене."
 
     # Сообщения от команд.
     commands:
+        crash:
+            info:
+                arguments: "&7[&aник&7]"
+                description: "Крашнуть игрока."
+            success: "{main}У игрока &e{player} &fзавис майнкрафт &a:)"
+            error: "{main}У игрока защита от краша!"
         free:
             info:
                 arguments: ""
