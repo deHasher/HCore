@@ -349,7 +349,7 @@ settings:
         # Эффекты крови.
         blood:
             enabled: true
-            effect: REDSTONE_BLOCK
+            effect: REDSTONE_WIRE
 
     #  ▄▄█▀▀██     ▄   ▀██
     # ▄█▀    ██  ▄██▄   ██ ▄▄     ▄▄▄▄  ▄▄▄ ▄▄  

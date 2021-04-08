@@ -54,7 +54,7 @@ public class OnPlayerCombat implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDeathEvent(EntityDeathEvent e) {
-        effect(e.getEntity());
+        for (int i = 0; i < 20; i++) effect(e.getEntity());
     }
 
     private void effect(Entity entity) {
