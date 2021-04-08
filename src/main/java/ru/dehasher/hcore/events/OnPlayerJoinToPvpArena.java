@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
 import ru.dehasher.hcore.HCore;
-import ru.dehasher.hcore.api.essentials.Initializer;
+import ru.dehasher.hcore.api.essentials.EAPI;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
 
@@ -27,7 +27,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
     public OnPlayerJoinToPvpArena(HCore plugin) {
         WorldGuard = WorldGuardPlugin.inst();
         if (HCore.Essentials) {
-            Bukkit.getPluginManager().registerEvents(new Initializer(), HCore.getPlugin());
+            Bukkit.getPluginManager().registerEvents(new EAPI(), HCore.getPlugin());
         }
     }
 
@@ -43,7 +43,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
                 if (player.isFlying()) player.setFlying(false);
             }
             if (HCore.config.getBoolean("pvp-arena.flags.block-godmode") && HCore.Essentials) {
-                Initializer.offGodMode(player);
+                EAPI.offGodMode(player);
             }
         }
     }

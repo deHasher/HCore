@@ -11,11 +11,11 @@ import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.events.OnPlayerJoinToPvpArena;
 import ru.dehasher.hcore.managers.Methods;
 
-public class Initializer implements Listener {
+public class EAPI implements Listener {
 
     private static Essentials Essentials;
 
-    public Initializer() {
+    public EAPI() {
         Essentials = (Essentials) HCore.getPlugin().getServer().getPluginManager().getPlugin("Essentials");
     }
 
