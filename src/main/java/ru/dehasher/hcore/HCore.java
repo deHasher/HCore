@@ -234,10 +234,10 @@ public class HCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Extra(this), this);
         Bukkit.getPluginManager().registerEvents(new HideMessages(this), this);
 
-        Bukkit.getPluginManager().registerEvents(new OnPlayerJoinServer(this), this);
-
         Bukkit.getPluginManager().registerEvents(new OnPlayerSendCommand(this), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerSendMessage(this), this);
+		Bukkit.getPluginManager().registerEvents(new OnPlayerJoinServer(this), this);
+		Bukkit.getPluginManager().registerEvents(new OnPlayerCombat(this), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(this), this);
 
     	if (HCore.config.getBoolean("batuts.enabled")) {
