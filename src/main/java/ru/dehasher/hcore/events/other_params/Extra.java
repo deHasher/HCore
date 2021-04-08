@@ -13,10 +13,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.*;
 
-import org.bukkit.event.player.PlayerTeleportEvent;
 import ru.dehasher.hcore.HCore;
+import ru.dehasher.hcore.api.protocollib.WrapperPlayClientUseEntity;
+import ru.dehasher.hcore.api.protocollib.WrapperPlayServerEntityStatus;
 import ru.dehasher.hcore.api.protocollib.WrapperPlayServerWorldEvent;
 import ru.dehasher.hcore.managers.Methods;
 
@@ -24,10 +25,11 @@ import ru.dehasher.hcore.managers.Methods;
 public class Extra implements Listener {
 
     public Extra(HCore plugin) {
-    	// Убираем звук создания портала в ЭНД.
-		if (HCore.config.getBoolean("other-params.block-actions.end-portal-sound")) {
-			if (HCore.ProtocolLib) {
-				ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+    	if (HCore.ProtocolLib) {
+			ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+
+			// Убираем звук создания портала в ЭНД.
+			if (HCore.config.getBoolean("other-params.block-actions.end-portal-sound")) {
 				pm.addPacketListener(new PacketAdapter(plugin, ListenerPriority.HIGHEST, PacketType.Play.Server.WORLD_EVENT) {
 					@Override
 					public void onPacketSending(PacketEvent e) {
@@ -36,12 +38,33 @@ public class Extra implements Listener {
 					}
 				});
 			}
-		}
-	}
+
+			// Делаем фейк анимации ударов.
+			if (HCore.config.getBoolean("other-params.fake-damage-animations")) {
+				pm.addPacketListener(new PacketAdapter(plugin, ListenerPriority.HIGHEST, PacketType.Play.Client.USE_ENTITY) {
+					@Override
+					public void onPacketReceiving(PacketEvent e) {
+						WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
+						if (checker.getTarget(e) instanceof Player) {
+							Player target = (Player) checker.getTarget(e);
+							Player player = e.getPlayer();
+							if (checker.getType().name().equals("ATTACK")) {
+								WrapperPlayServerEntityStatus attack = new WrapperPlayServerEntityStatus();
+								attack.setEntityID(target.getEntityId());
+								attack.setEntityStatus((byte) 2);
+								attack.sendPacket(player);
+							}
+						}
+					}
+				});
+			}
+
+    	}
+    }
 
     // Когда игрок пытается телепортироваться через /gm 3.
 	@EventHandler(priority = EventPriority.HIGHEST)
-	final void onPlayerTeleportEvent(PlayerTeleportEvent e) {
+	public final void onPlayerTeleportEvent(PlayerTeleportEvent e) {
 		if (!HCore.config.getBoolean("other-params.block-actions.spectate-teleport")) return;
 		if (e.getPlayer().getGameMode() == GameMode.SPECTATOR && e.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
 			e.setCancelled(true);

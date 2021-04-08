@@ -37,7 +37,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.PlayerInteractEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.setCancelled(true);
     }
 
@@ -45,7 +45,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreakEvent(BlockBreakEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.BlockBreakEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.setCancelled(true);
     }
 
@@ -60,7 +60,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlaceEvent(BlockPlaceEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.BlockPlaceEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.setCancelled(true);
     }
 
@@ -70,7 +70,7 @@ public class DisableEvents implements Listener {
         if (!HCore.config.getBoolean("other-params.disable-events.EntityDamageEvent")) return;
         if (e.getEntity() instanceof Player) {
             Player player = (Player)e.getEntity();
-            if (Methods.isPerm(player, "hcore.bypass.events") && !HCore.disable_bypass) return;
+            if (Methods.isPerm(player, "hcore.bypass.events")) return;
         }
         e.setCancelled(true);
     }
@@ -79,7 +79,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.PlayerInteractEntityEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.setCancelled(true);
     }
 
@@ -87,7 +87,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.PlayerDropItemEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.setCancelled(true);
     }
 
@@ -97,7 +97,7 @@ public class DisableEvents implements Listener {
         if (!HCore.config.getBoolean("other-params.disable-events.EntityPickupItemEvent")) return;
         if (e.getEntity() instanceof Player) {
             Player player = (Player)e.getEntity();
-            if (Methods.isPerm(player, "hcore.bypass.events") && !HCore.disable_bypass) return;
+            if (Methods.isPerm(player, "hcore.bypass.events")) return;
         }
         e.setCancelled(true);
     }
@@ -134,7 +134,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockIgniteEvent(BlockIgniteEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.BlockIgniteEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.setCancelled(true);
     }
 
@@ -163,7 +163,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onStructureGrowEvent(StructureGrowEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.StructureGrowEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.setCancelled(true);
     }
 
@@ -171,7 +171,7 @@ public class DisableEvents implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChatTabCompleteEvent(PlayerChatTabCompleteEvent e) {
         if (!HCore.config.getBoolean("other-params.disable-events.PlayerChatTabCompleteEvent")) return;
-        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events") && !HCore.disable_bypass) return;
+        if (Methods.isPerm(e.getPlayer(), "hcore.bypass.events")) return;
         e.getTabCompletions().clear();
     }
 

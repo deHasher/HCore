@@ -22,10 +22,12 @@ public class OnPlayerSendCommand implements Listener {
 
 		// Проверяем команду на рекламу.
 		if (HCore.config.getBoolean("fix-advertisement.checks.commands")) {
-			if (Methods.isAdv(command) && !Methods.isPerm(player, "hcore.bypass.advertisement")) {
-				e.setCancelled(true);
-				Informer.send(player, HCore.lang.getString("errors.advertisement.commands"));
-				return false;
+			if (Methods.isAdv(command)) {
+				if (!Methods.isPerm(player, "hcore.bypass.advertisement")) {
+					e.setCancelled(true);
+					Informer.send(player, HCore.lang.getString("errors.advertisement.commands"));
+					return false;
+				}
 			}
 		}
 
