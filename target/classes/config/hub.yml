@@ -1,5 +1,5 @@
 # Версия конфигурации, не изменять.
-version: 0.7
+version: 0.8
 
 # Конфигурация плагина.
 settings:
@@ -46,7 +46,7 @@ settings:
         - "/spavn"
         - "/ызфцт"
         - "/ызфмт"
-        - "/hcorereload"
+        - "/hreload"
         - "/server"
         - "/donate"
         - "/setspawn"
@@ -377,6 +377,22 @@ settings:
             - "/ьгеу"
             - "/цфкт"
 
+    #   ▄▄█▀▀▀▄█                    ▀██                ▄
+    # ▄█▀     ▀    ▄▄▄   ▄▄ ▄▄ ▄▄    ██ ▄▄▄   ▄▄▄▄   ▄██▄
+    # ██         ▄█  ▀█▄  ██ ██ ██   ██▀  ██ ▀▀ ▄██   ██
+    # ▀█▄      ▄ ██   ██  ██ ██ ██   ██    █ ▄█▀ ██   ██
+    #  ▀▀█▄▄▄▄▀   ▀█▄▄█▀ ▄██ ██ ██▄  ▀█▄▄▄▀  ▀█▄▄▀█▀  ▀█▄▀
+
+    combat:
+        # Фейковые анимации ударов.
+        # Необходим ProtocolLib.
+        fake-damage-animation: true
+
+        # Эффекты крови.
+        blood:
+            enabled: true
+            effect: REDSTONE_BLOCK
+
     #  ▄▄█▀▀██     ▄   ▀██                      
     # ▄█▀    ██  ▄██▄   ██ ▄▄     ▄▄▄▄  ▄▄▄ ▄▄  
     # ██      ██  ██    ██▀ ██  ▄█▄▄▄██  ██▀ ▀▀ 
@@ -387,9 +403,6 @@ settings:
     other-params:
         # Возможность писать на табличках используя цветовые теги &1 &2 &3 и т.д.
         colored-signs: true
-
-        # Включить фейковые анимации ударов.
-        fake-damage-animations: true
 
         # Права hcore.bypass.* перестанут работать.
         # Рекомендуется держать включённым на серверах авторизации и хаба.
@@ -443,5 +456,5 @@ settings:
             StructureGrowEvent: true
             PlayerChatTabCompleteEvent: true
             BlockFormEvent: true
-            CreatureSpawnEvent: true
+            CreatureSpawnEvent: false
             LeavesDecayEvent: true
