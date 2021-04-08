@@ -1,0 +1,87 @@
+# Версия перевода, не изменять.
+version: 0.8
+
+# Все сообщения поддерживают заполнители PlaceholderAPI!
+# https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
+messages:
+    # Имя консоли
+    console-name: "CONSOLE"
+
+    # Заполнители для сообщений.
+    # Использование: "текст {prefix3} текст".
+    # Можно добавить собственные заполнители.
+    placeholders:
+        main: "&8(&fL&6M&8) &f"
+        plugin: "&9HCore &7> &f"
+        prefix3: "&f[&cЗащита&f] &a» &f"
+
+    # Сообщения об ошибках.
+    errors:
+        no-perm: "{main}&cУ Вас недостаточно прав!"
+        only-player: "{main}Эта команда доступна только игрокам!"
+        advertisement:
+            messages: "{main}В Вашем сообщении обнаружена реклама!"
+            commands: "{main}В Вашей команде обнаружена реклама!"
+        blocked-colon-commands: "{main}Команда не найдена."
+        egg-spawn-cooldown: "{main}Подожди ещё &a{time} &fсекунд перед повторным спавном моба."
+        message-cooldown: "{main}Подождите немного, прежде чем отправлять сообщение в чат снова!"
+        chat-disabled: "{main}:P"
+        commands-disabled: "{main}Команда не найдена."
+        very-bad-error: "{main}Произошла ошибка! Обратись к администратору сервера."
+        player-not-found: "{main}Игрок не найден."
+        no-plugin: "{main}Плагин &a{plugin} &fне установлен. Функция не работает."
+        pvp-arena:
+            player-in-pvp: "{main}Игрок находиться на &cпвп арене&f! Не мешайте ему."
+            commands-disabled: "{main}Вы не можете использовать команды на пвп-арене."
+
+    # Сообщения от команд.
+    commands:
+        crash:
+            info:
+                arguments: "&7[&aник&7]"
+                description: "Крашнуть игрока."
+            success: "{main}У игрока &e{player} &fзавис майнкрафт &a:)"
+            error: "{main}У игрока защита от краша!"
+        free:
+            info:
+                arguments: ""
+                description: "Получить ключ от бесплатного кейса."
+            success: "{main}Повторно получить бесплатный ключ можно будет &aзавтра&f."
+            error: "{main}Вы уже получали &aсегодня &fключ! Возвращайтесь завтра."
+        clearchat:
+            info:
+                arguments: ""
+                description: "Очистить себе чат."
+            success: "{main}Чат успешно очищен!"
+        hreload:
+            info:
+                arguments: ""
+                description: "Перезагрузить плагин."
+            success: "{plugin}Плагин перезагружен!"
+            error: "{plugin}Во время перезагрузки произошла ошибка!"
+        setspawn:
+            info:
+                arguments: "&7[&aoverworld&7/&anether&7]"
+                description: "Установить точку спавна верхнего или нижнего мира."
+            overworld: |-
+              {main}Спавн &bверхнего мира &fуспешно установлен по координатам:
+                           X: &a{x}&f, Y: &a{y}&f, Z: &a{z} &fв мире &e{world}&f.
+            nether: |-
+              {main}Спавн &cнижнего мира &fуспешно установлен по координатам:
+                           X: &a{x}&f, Y: &a{y}&f, Z: &a{z} &fв мире &e{world}&f.
+        spawn:
+            info:
+                arguments: "&7[&aник&7]"
+                description: "Телепортировать игрока на спавн."
+            self: "{main}Телепортация..."
+            other:
+                self: "{main}Игрок &a{player} &fбыл телепортирован на спавн."
+                target: "{main}Вы были телепортированы на спавн игроком &a{player}&f."
+                error: "{main}Вы не можете телепортировать этого игрока к спавну!"
+        hidden-console: "{plugin}Server made by &adeHasher&f."
+
+    # Название и описание запрещенных предметов.
+    bad-item:
+        name: "&aНизя!"
+        lore:
+          - "&7Такие предметы запрещены :C"
