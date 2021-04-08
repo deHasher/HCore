@@ -109,9 +109,9 @@ public class HCore extends JavaPlugin {
 			case "major":
 				return 0.1;
 			case "minor":
-				return 0.7;
+				return 0.8;
 			case "lang":
-				return 0.6;
+				return 0.8;
 		}
 		return 0.0;
 	}
