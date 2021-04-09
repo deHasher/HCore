@@ -160,7 +160,11 @@ public class Methods {
 	// Проверка строчки на рекламу.
 	public static boolean isAdv(String string) {
 		if (!HCore.config.getBoolean("fix-advertisement.enabled")) return false;
-		string = string.replaceAll(Pattern.quote("www."), "").replaceAll(Pattern.quote("http://"), "").replaceAll(Pattern.quote("https://"), "");
+
+		string = string
+				.replaceAll(Pattern.quote("www."), "")
+				.replaceAll(Pattern.quote("http://"), "")
+				.replaceAll(Pattern.quote("https://"), "");
 
 		for (String url : HCore.config.getStringList("fix-advertisement.whitelist")) {
 			if (string.contains(url)) return false;
