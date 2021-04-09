@@ -82,8 +82,18 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
         // Блокируем команды которые вводят другие игроки и которые относятся к игроку на пвп арене.
         for (String cmd : command) {
+
+            // Скипаем название команды.
+            if (cmd.equals(command[0])) continue;
+
+            // Скипаем если в кусочке команды всё состоит из цифр.
+            if (cmd.matches("-?(0|[1-9]\\d*)")) continue;
+
+            // Скипаем аргументы команды.
+            if (HCore.config.getStringList("pvp-arena.whitelist-other-arguments").contains(cmd)) continue;
+
             Player target = HCore.getPlugin().getServer().getPlayer(cmd);
-            if (target != null && target.isOnline() && target.getName().equals(cmd)) {
+            if (target != null && target.isOnline()) {
                 if (cancelAction(target)) {
                     for (String whitelist : HCore.config.getStringList("pvp-arena.whitelist-other-commands")) {
                         if (e.getMessage().toLowerCase().startsWith(whitelist.toLowerCase())) return;

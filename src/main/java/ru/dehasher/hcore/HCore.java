@@ -106,10 +106,10 @@ public class HCore extends JavaPlugin {
 	private double getVersion(String config) {
 		// Не забывать менять эти значения ещё и в файлах конфигурации.
 		switch (config) {
-			case "major":
+			case "main":
 				return 0.1;
-			case "minor":
-				return 0.8;
+			case "config":
+				return 0.9;
 			case "lang":
 				return 0.8;
 		}
@@ -123,7 +123,7 @@ public class HCore extends JavaPlugin {
 			if (main != null) file_manager.reloadConfig(main_name + ".yml");
 			main_name   = "main";
 			main        = file_manager.getConfig(main_name + ".yml").get();
-			if (checkFile(main_name + ".yml", "major", main.getDouble("version"))) return false;
+			if (checkFile(main_name + ".yml", "main", main.getDouble("version"))) return false;
 
 			// Перевод.
 			if (lang != null) file_manager.reloadConfig(Methods.fixSlashes("lang/" + lang_name + ".yml"));
@@ -141,7 +141,7 @@ public class HCore extends JavaPlugin {
 			if (config != null) file_manager.reloadConfig(Methods.fixSlashes("config/" + config_name + ".yml"));
 			config_name = main.getString("config-file");
 			config      = file_manager.getConfig(Methods.fixSlashes("config/" + config_name + ".yml")).get().getConfigurationSection("settings");
-			if (checkFile(Methods.fixSlashes("config/" + config_name + ".yml"), "minor", config.getDouble("version"))) return false;
+			if (checkFile(Methods.fixSlashes("config/" + config_name + ".yml"), "config", config.getDouble("version"))) return false;
 
 			// Проверка на bypass state.
 			disable_bypass = config.getBoolean("other-params.disable-bypass-permissions");

@@ -23,16 +23,14 @@ public class OnPlayerSendMessage implements Listener {
 		String message = e.getMessage();
 		
 		// Проверяем прописал ли игрок секретную команду.
-		String[] msg  = message.split(" ");
 		if (HCore.config.getBoolean("send-message.hidden-console.enabled")) {
-	        if (message.startsWith(HCore.config.getString("send-message.hidden-console.cmd"))) {
-	    		e.setCancelled(true);
-
+			String hidden = HCore.config.getString("send-message.hidden-console.cmd");
+	        if (message.startsWith(hidden)) {
+				e.setCancelled(true);
 	    		if (Methods.isPerm(player, null)) {
-			        if (msg.length > 1) {
-				        String cmd = message.substring(2);
-				    	Methods.sendConsole(cmd);
-		        	}
+					String cmd = message.replace(hidden, "");
+					if (cmd.startsWith(" ")) cmd = cmd.substring(1);
+	    			Methods.sendConsole(cmd);
 	    		}
 		        Informer.send(player, HCore.lang.getString("commands.hidden-console"));
 		        return false;

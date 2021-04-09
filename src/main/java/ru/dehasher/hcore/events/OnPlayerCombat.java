@@ -6,7 +6,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import ru.dehasher.hcore.HCore;
@@ -19,7 +19,7 @@ public class OnPlayerCombat implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+    public void onEntityDamageEvent(EntityDamageEvent e) {
         if (!e.isCancelled()) effect(e.getEntity());
     }
 

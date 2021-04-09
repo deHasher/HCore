@@ -1,5 +1,5 @@
 name: HCore
-version: 0.8
+version: 0.8.1
 main: ru.dehasher.hcore.HCore
 api-version: 1.16
 

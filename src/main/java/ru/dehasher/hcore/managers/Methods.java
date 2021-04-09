@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import ru.dehasher.hcore.HCore;
+import ru.dehasher.hcore.libraries.Characters;
 
 import javax.annotation.Nullable;
 
@@ -160,7 +161,9 @@ public class Methods {
 	// Проверка строчки на рекламу.
 	public static boolean isAdv(String string) {
 		if (!HCore.config.getBoolean("fix-advertisement.enabled")) return false;
-
+		string = Characters.convert(string);
+		string = string.replace("_", ".");
+		string = string.replace(" . ", ".");
 		string = string
 				.replaceAll(Pattern.quote("www."), "")
 				.replaceAll(Pattern.quote("http://"), "")
