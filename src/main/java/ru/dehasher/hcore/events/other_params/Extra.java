@@ -1,11 +1,5 @@
 package ru.dehasher.hcore.events.other_params;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -16,28 +10,14 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.*;
 
 import ru.dehasher.hcore.HCore;
-import ru.dehasher.hcore.api.protocollib.WrapperPlayClientUseEntity;
-import ru.dehasher.hcore.api.protocollib.WrapperPlayServerEntityStatus;
-import ru.dehasher.hcore.api.protocollib.WrapperPlayServerWorldEvent;
+import ru.dehasher.hcore.api.protocollib.PLAPI;
 import ru.dehasher.hcore.managers.Methods;
 
 @SuppressWarnings("deprecation")
 public class Extra implements Listener {
 
     public Extra(HCore plugin) {
-    	if (HCore.ProtocolLib) {
-			ProtocolManager pm = ProtocolLibrary.getProtocolManager();
-			// Убираем звук создания портала в ЭНД.
-			if (HCore.config.getBoolean("other-params.block-actions.end-portal-sound")) {
-				pm.addPacketListener(new PacketAdapter(plugin, ListenerPriority.HIGHEST, PacketType.Play.Server.WORLD_EVENT) {
-					@Override
-					public void onPacketSending(PacketEvent e) {
-						WrapperPlayServerWorldEvent packet = new WrapperPlayServerWorldEvent(e.getPacket());
-						if (packet.getEffectId() == 1038) packet.setDisableRelativeVolume(false);
-					}
-				});
-			}
-    	}
+    	if (HCore.ProtocolLib) PLAPI.endPortalSound();
     }
 
     // Когда игрок пытается телепортироваться через /gm 3.
