@@ -1,5 +1,5 @@
 name: HCore
-version: 0.8.1
+version: 0.9.0
 main: ru.dehasher.hcore.HCore
 api-version: 1.16
 
@@ -13,6 +13,8 @@ softdepend:
   - WorldGuard
   - WorldEdit
   - Essentials
+  - LuckPerms
+  - TAB
 
 permissions:
   hcore.*:
@@ -32,6 +34,7 @@ permissions:
       - hcore.command.free
       - hcore.command.crash
       - hcore.command.crash.exempt
+      - hcore.command.prefix
   hcore.bypass.*:
     default: op
     description: Позволяет обходить установленные плагином ограничения.
@@ -57,6 +60,11 @@ permissions:
   hcore.health.group:
     default: op
     description: Позволяет установить себе кастомное количество здоровья.
+
+
+
+
+  # Права которые доступны всем.
   hcore.command.spawn:
     default: true
     description: Телепортироваться к точке спавна.

@@ -14,7 +14,7 @@ public class spawn {
 		String info   = Methods.getCommandInfo(command);
 		String player_name;
 
-		if (sender instanceof Player) player = (Player)sender;
+		if (sender instanceof Player) player = (Player) sender;
 
 		// Если аргументов нет.
     	if (length == 0 || length == 1 && (player != null && player.getName().equals(args[0]))) {

@@ -16,7 +16,7 @@ public class crash {
         Player player = null;
         String info   = Methods.getCommandInfo(command);
 
-        if (sender instanceof Player) player = (Player)sender;
+        if (sender instanceof Player) player = (Player) sender;
 
         if (Methods.isPerm(player, "hcore.command.crash")) {
             if (length > 0) {

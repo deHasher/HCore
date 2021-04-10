@@ -14,7 +14,7 @@ public class setspawn {
         Player player = null;
         String info   = Methods.getCommandInfo(command);
 
-        if (sender instanceof Player) player = (Player)sender;
+        if (sender instanceof Player) player = (Player) sender;
 
         if (player != null) {
             if (Methods.isPerm(player, "hcore.command.setspawn")) {

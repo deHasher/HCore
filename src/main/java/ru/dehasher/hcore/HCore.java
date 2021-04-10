@@ -46,6 +46,8 @@ public class HCore extends JavaPlugin {
 	public static Boolean Essentials;
 	public static Boolean WorldGuard;
 	public static Boolean WorldEdit;
+	public static Boolean LuckPerms;
+	public static Boolean TAB;
 
 	// Костыль.
     public static Boolean disable_bypass = false;
@@ -101,6 +103,8 @@ public class HCore extends JavaPlugin {
 		Essentials     = Bukkit.getPluginManager().getPlugin("Essentials")     != null;
 		WorldGuard     = Bukkit.getPluginManager().getPlugin("WorldGuard")     != null;
 		WorldEdit      = Bukkit.getPluginManager().getPlugin("WorldEdit")      != null;
+		LuckPerms      = Bukkit.getPluginManager().getPlugin("LuckPerms")      != null;
+		TAB            = Bukkit.getPluginManager().getPlugin("TAB")            != null;
 	}
 
 	private double getVersion(String config) {
@@ -109,9 +113,9 @@ public class HCore extends JavaPlugin {
 			case "main":
 				return 0.1;
 			case "config":
-				return 0.9;
+				return 0.10;
 			case "lang":
-				return 0.8;
+				return 0.9;
 		}
 		return 0.0;
 	}

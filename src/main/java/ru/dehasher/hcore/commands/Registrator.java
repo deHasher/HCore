@@ -35,6 +35,8 @@ public class Registrator extends BukkitCommand {
                 return free.send(sender, command, args);
             case "crash":
                 return crash.send(sender, command, args);
+            case "prefix":
+                return prefix.send(sender, command, args);
             default:
                 Informer.send("The command /" + command + " does not exist :P");
                 Informer.send("Remove this command from the configuration and restart the server.");

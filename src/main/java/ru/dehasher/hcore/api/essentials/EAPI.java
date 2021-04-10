@@ -13,10 +13,8 @@ import ru.dehasher.hcore.managers.Methods;
 
 public class EAPI implements Listener {
 
-    private static Essentials Essentials;
-
-    public EAPI() {
-        Essentials = (Essentials) HCore.getPlugin().getServer().getPluginManager().getPlugin("Essentials");
+    public static Essentials getPlugin() {
+        return (Essentials) HCore.getPlugin().getServer().getPluginManager().getPlugin("Essentials");
     }
 
     // Попытки сменить игроку режим бессмертия.
@@ -28,7 +26,7 @@ public class EAPI implements Listener {
     }
 
     public static void offGodMode(Player player) {
-        IUser user = Essentials.getUser(player);
+        IUser user = getPlugin().getUser(player);
         if (user.isGodModeEnabled()) Methods.sendConsole("god " + player.getName());
     }
 }

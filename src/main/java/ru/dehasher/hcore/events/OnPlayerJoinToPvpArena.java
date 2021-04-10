@@ -112,13 +112,16 @@ public class OnPlayerJoinToPvpArena implements Listener {
         // Локация игрока.
         Location loc = player.getLocation();
 
+        // Если игрок находится не в нужном мире.
+        if (!loc.getWorld().getName().equals(HCore.config.getString("pvp-arena.world"))) return false;
+
         // Список регионов мира где находится игрок.
         RegionManager regionManager = WorldGuard.getRegionManager(loc.getWorld());
 
         // Список регионов в которых находится игрок.
         ApplicableRegionSet set     = regionManager.getApplicableRegions(loc);
         for (ProtectedRegion region : set.getRegions()) {
-            if (HCore.config.getStringList("pvp-arena.regions").contains(region.getId())) {
+            if (HCore.config.getString("pvp-arena.region").equals(region.getId())) {
                 return true;
             }
         }

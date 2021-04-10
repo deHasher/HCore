@@ -1,5 +1,5 @@
 # Translation version, do not change.
-version: 0.8
+version: 0.9
 
 # All messages support PlaceholderAPI placeholders!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
@@ -36,6 +36,12 @@ messages:
 
     # Command messages.
     commands:
+        prefix:
+            info:
+                arguments: "&7[&anick&7]"
+                description: "Change prefix."
+            success: "{main}The player &e{player} &flagging &a:)"
+            error: "{main}The player has crash protection!"
         crash:
             info:
                 arguments: "&7[&anick&7]"
@@ -75,8 +81,8 @@ messages:
                 description: "Teleport the player to spawn."
             self: "{plugin}Teleporting..."
             other:
-                self: "{plugin}Player &a{player} &fhas been teleported to spawn."
-                target: "{plugin}You were teleported to spawn by a player &a{player}&f."
+                self: "{plugin}Player &e{player} &fhas been teleported to spawn."
+                target: "{plugin}You were teleported to spawn by a player &e{player}&f."
                 error: "{plugin}You can't teleport this player to spawn!"
         hidden-console: "{plugin}Server made by &adeHasher&f."
 
