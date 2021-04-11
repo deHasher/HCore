@@ -315,7 +315,15 @@ settings:
             gamemode: SURVIVAL
             block-fly: true
             block-godmode: true # Необходим Essentials.
+            block-gadgets: true # Необходим GadgetsMenu.
             disable-commands: true
+
+        # Блокировка взаимодействия с предметами.
+        # Выключить - block-items-interact: []
+        block-items-interact:
+            - COMPASS
+            - GOLDEN_CARROT
+            - COOKIE
 
         # Список разрешённых команд которые можно вводить в регионе.
         whitelist-commands:

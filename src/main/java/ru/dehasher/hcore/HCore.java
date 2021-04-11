@@ -42,6 +42,7 @@ public class HCore extends JavaPlugin {
 
 	// Плагины.
 	public static Boolean PlaceholderAPI;
+	public static Boolean GadgetsMenu;
 	public static Boolean ProtocolLib;
 	public static Boolean Essentials;
 	public static Boolean WorldGuard;
@@ -99,6 +100,7 @@ public class HCore extends JavaPlugin {
     @Nullable
     public void checkPlugins() {
 		PlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+		GadgetsMenu    = Bukkit.getPluginManager().getPlugin("GadgetsMenu")    != null;
 		ProtocolLib    = Bukkit.getPluginManager().getPlugin("ProtocolLib")    != null;
 		Essentials     = Bukkit.getPluginManager().getPlugin("Essentials")     != null;
 		WorldGuard     = Bukkit.getPluginManager().getPlugin("WorldGuard")     != null;

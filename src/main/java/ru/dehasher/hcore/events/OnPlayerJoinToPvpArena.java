@@ -15,8 +15,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
+import org.bukkit.event.player.PlayerInteractEvent;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.api.essentials.EAPI;
+import ru.dehasher.hcore.api.gadgetsmenu.GMAPI;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
 
@@ -45,6 +47,9 @@ public class OnPlayerJoinToPvpArena implements Listener {
             }
             if (HCore.config.getBoolean("pvp-arena.flags.block-godmode") && HCore.Essentials) {
                 EAPI.offGodMode(player);
+            }
+            if (HCore.config.getBoolean("pvp-arena.flags.block-gadgets") && HCore.GadgetsMenu) {
+                GMAPI.getPlugin(player).unequipGadget();
             }
         }
     }
@@ -105,6 +110,16 @@ public class OnPlayerJoinToPvpArena implements Listener {
                     e.setCancelled(true);
                 }
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public static void onPlayerInteractEvent(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        if (Methods.isPerm(player, "hcore.bypass.pvp")) return;
+        if (!e.hasItem()) return;
+        for (String item : HCore.config.getStringList("pvp-arena.block-items-interact")) {
+            if (e.getItem().getType().name().equals(item)) e.setCancelled(true);
         }
     }
 
