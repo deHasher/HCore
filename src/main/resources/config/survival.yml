@@ -1,5 +1,5 @@
 # Версия конфигурации, не изменять.
-version: 0.10
+version: 1.0
 
 # Конфигурация плагина.
 settings:
@@ -323,8 +323,8 @@ settings:
         enabled: true
 
         # Регион пвп-арены.
-        region: "pvp"
-        world: "world"
+        regions:
+            - "pvp:world"
 
         # Установка флагов на регион.
         flags:

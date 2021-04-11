@@ -113,9 +113,9 @@ public class HCore extends JavaPlugin {
 			case "main":
 				return 0.1;
 			case "config":
-				return 0.10;
+				return 1.0;
 			case "lang":
-				return 0.9;
+				return 1.0;
 		}
 		return 0.0;
 	}

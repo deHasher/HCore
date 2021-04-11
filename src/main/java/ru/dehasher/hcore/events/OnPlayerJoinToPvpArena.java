@@ -29,6 +29,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
         if (HCore.Essentials) {
             Bukkit.getPluginManager().registerEvents(new EAPI(), HCore.getPlugin());
         }
+
     }
 
     // Постоянная проверка игрока.
@@ -68,6 +69,8 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
         String[] command = e.getMessage().split(" ");
         Player player    = e.getPlayer();
+
+        if (Methods.isPerm(player, "hcore.bypass.pvp")) return;
 
         // Блокируем команды которые вводит игрок.
         if (HCore.config.getBoolean("pvp-arena.flags.disable-commands")) {
@@ -120,9 +123,14 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
         // Список регионов в которых находится игрок.
         ApplicableRegionSet set     = regionManager.getApplicableRegions(loc);
-        for (ProtectedRegion region : set.getRegions()) {
-            if (HCore.config.getString("pvp-arena.region").equals(region.getId())) {
-                return true;
+        for (ProtectedRegion regions : set.getRegions()) {
+            for (String info : HCore.config.getStringList("pvp-arena.regions")) {
+                String[] data = info.split(":");
+                String region = data[0];
+                String world  = data[1];
+                if (regions.getId().equals(region) && loc.getWorld().getName().equals(world)) {
+                    return true;
+                }
             }
         }
 

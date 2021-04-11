@@ -162,7 +162,6 @@ public class Methods {
 	public static boolean isAdv(String string) {
 		if (!HCore.config.getBoolean("fix-advertisement.enabled")) return false;
 		string = Characters.convert(string);
-		string = string.replace("_", ".");
 		string = string.replace(" . ", ".");
 		string = string
 				.replaceAll(Pattern.quote("www."), "")
