@@ -1,5 +1,5 @@
 # Translation version, do not change.
-version: 0.9
+version: 1.0
 
 # All messages support PlaceholderAPI placeholders!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
@@ -38,10 +38,18 @@ messages:
     commands:
         prefix:
             info:
-                arguments: "&7[&anick&7]"
-                description: "Change prefix."
-            success: "{main}The player &e{player} &flagging &a:)"
-            error: "{main}The player has crash protection!"
+                arguments: "&7[&achat&7/&atab&7/&aclear&7] [&anick&7] [&aprefix&7]"
+                description: "Change prefix. &7(support <name>)"
+            types:
+                chat: "chat"
+                tab: "tab"
+            success:
+                self: "{main}You changed the prefix in the {type} to the player &e{player} &fon &a\"&f{prefix}&a\"&f."
+                target: "{main}The player &e{player} &fchanged your prefix in the {type} on &a\"&f{prefix}&a\"&f."
+            clear:
+                self: "{main}You cleared the prefix to the player &e{player}&f."
+                target: "{main}The player &e{player} &fcleared your prefix."
+            error: "{main}The prefix/suffix must not contain more than &a{max} &fcharacters!"
         crash:
             info:
                 arguments: "&7[&anick&7]"
