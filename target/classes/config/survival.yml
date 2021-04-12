@@ -334,12 +334,11 @@ settings:
             block-gadgets: true # Необходим GadgetsMenu.
             disable-commands: true
 
-        # Блокировка взаимодействия с предметами.
-        # Выключить - block-items-interact: []
-        block-items-interact:
-            - COMPASS
-            - GOLDEN_CARROT
-            - COOKIE
+        # Удаление предметов у игроков во время пвп.
+        clear-custom-items:
+            enabled: true
+            item-names:
+                - "&a» &fМеню &a«"
 
         # Список разрешённых команд которые можно вводить в регионе.
         whitelist-commands:

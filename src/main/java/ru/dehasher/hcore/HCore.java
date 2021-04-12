@@ -52,6 +52,7 @@ public class HCore extends JavaPlugin {
 
 	// Костыль.
     public static Boolean disable_bypass = false;
+    public static Boolean debug_mode     = true;
 
     // Менеджер файлов.
 	public Files file_manager = new Files(this);
@@ -107,6 +108,16 @@ public class HCore extends JavaPlugin {
 		WorldEdit      = Bukkit.getPluginManager().getPlugin("WorldEdit")      != null;
 		LuckPerms      = Bukkit.getPluginManager().getPlugin("LuckPerms")      != null;
 		TAB            = Bukkit.getPluginManager().getPlugin("TAB")            != null;
+		if (debug_mode) {
+			getLogger().info("PlaceholderAPI: " + PlaceholderAPI);
+			getLogger().info("GadgetsMenu: "    + GadgetsMenu);
+			getLogger().info("ProtocolLib: "    + ProtocolLib);
+			getLogger().info("Essentials: "     + Essentials);
+			getLogger().info("WorldGuard: "     + WorldGuard);
+			getLogger().info("WorldEdit: "      + WorldEdit);
+			getLogger().info("LuckPerms: "      + LuckPerms);
+			getLogger().info("TAB: "            + TAB);
+		}
 	}
 
 	private double getVersion(String config) {

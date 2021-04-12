@@ -31,7 +31,8 @@ public class OnPlayerJoinServer implements Listener {
 
     	// Выдаём флай игроку.
     	if (HCore.config.getBoolean("join-server.auto-fly")) {
-    		player.setAllowFlight(true);
+			player.setAllowFlight(true);
+			player.setFlying(true);
     	}
 
     	// Работа с кастомными хпшками.

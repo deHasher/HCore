@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.api.essentials.EAPI;
 import ru.dehasher.hcore.api.gadgetsmenu.GMAPI;
@@ -50,6 +51,19 @@ public class OnPlayerJoinToPvpArena implements Listener {
             }
             if (HCore.config.getBoolean("pvp-arena.flags.block-gadgets") && HCore.GadgetsMenu) {
                 GMAPI.getPlugin(player).unequipGadget();
+            }
+            if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
+                ItemStack[] inv = player.getInventory().getContents();
+                for (int slot = 0; slot < inv.length; slot++) {
+                    ItemStack s = inv[slot];
+                    if (inv[slot] == null || inv[slot].getType().equals(Material.AIR)) continue;
+                    if (!s.hasItemMeta()) continue;
+                    for (String item : HCore.config.getStringList("pvp-arena.clear-custom-items.item-names")) {
+                        if (s.getItemMeta().getDisplayName().equals(Methods.color(item))) {
+                            player.getInventory().setItem(slot, null);
+                        }
+                    }
+                }
             }
         }
     }
@@ -113,16 +127,6 @@ public class OnPlayerJoinToPvpArena implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public static void onPlayerInteractEvent(PlayerInteractEvent e) {
-        Player player = e.getPlayer();
-        if (Methods.isPerm(player, "hcore.bypass.pvp")) return;
-        if (!e.hasItem()) return;
-        for (String item : HCore.config.getStringList("pvp-arena.block-items-interact")) {
-            if (e.getItem().getType().name().equals(item)) e.setCancelled(true);
-        }
-    }
-
     // Проверка где находится игрок и можно ли его трогать.
     public static boolean cancelAction(Player player) {
         if (Methods.isPerm(player, "hcore.bypass.pvp")) return false;
@@ -130,14 +134,12 @@ public class OnPlayerJoinToPvpArena implements Listener {
         // Локация игрока.
         Location loc = player.getLocation();
 
-        // Если игрок находится не в нужном мире.
-        if (!loc.getWorld().getName().equals(HCore.config.getString("pvp-arena.world"))) return false;
-
         // Список регионов мира где находится игрок.
         RegionManager regionManager = WorldGuard.getRegionManager(loc.getWorld());
 
         // Список регионов в которых находится игрок.
         ApplicableRegionSet set     = regionManager.getApplicableRegions(loc);
+
         for (ProtectedRegion regions : set.getRegions()) {
             for (String info : HCore.config.getStringList("pvp-arena.regions")) {
                 String[] data = info.split(":");

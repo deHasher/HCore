@@ -26,8 +26,8 @@ public class prefix {
             playerName = player.getName();
         }
 
-        if (length > 2) {
-            if (Methods.isPerm(player, "hcore.command.prefix")) {
+        if (Methods.isPerm(player, "hcore.command.prefix")) {
+            if (length > 2) {
 
                 String type    = message[1].toLowerCase();
                 Player target  = HCore.getPlugin().getServer().getPlayer(message[2]);
@@ -139,9 +139,11 @@ public class prefix {
                     Informer.send(player, HCore.lang.getString("errors.player-not-found"));
                 }
             } else {
-                Informer.send(player, HCore.lang.getString("errors.no-perm"));
+                    Informer.send(player, info);
             }
-        } else Informer.send(player, info);
+        } else {
+                Informer.send(player, HCore.lang.getString("errors.no-perm"));
+        }
         return false;
     }
 
