@@ -1,5 +1,5 @@
 # Translation version, do not change.
-version: 1.0
+version: 1.1
 
 # All messages support PlaceholderAPI placeholders!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
@@ -30,6 +30,7 @@ messages:
         very-bad-error: "{main}An error has occurred! Contact the server administrator."
         player-not-found: "{main}Player not found."
         no-plugin: "{main}Plugin &a{plugin} &fis not installed. Function don't working."
+        chunk-ban: "{main}In this chuck there cannot be more than &a{max} &f blocks of this particular kind."
         pvp-arena:
             player-in-pvp: "{main}The player is located on &cpvp-arena&f! Don't disturb him."
             commands-disabled: "{main}You can't use commands in the pvp-arena."

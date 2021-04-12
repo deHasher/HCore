@@ -1,5 +1,5 @@
 # Версия конфигурации, не изменять.
-version: 1.0
+version: 1.1
 
 # Конфигурация плагина.
 settings:
@@ -148,6 +148,33 @@ settings:
 
         # Краш сервера с помощью быстрого перемещения предметов в слотах.
         swap: true
+
+        # Исправление чанк бана.
+        chunk-ban:
+            enabled: true
+            max:
+                blocks: 512
+                heads: 100
+            blocks:
+                - FURNACE
+                - TRAPPED_CHEST
+                - ENCHANTMENT_TABLE
+                - STANDING_BANNER
+                - WALL_BANNER
+                - WALL_SIGN
+                - SIGN_POST
+                - HOPPER
+                - DROPPER
+                - DISPENSER
+                - BREWING_STAND
+                - BEACON
+                - ENDER_CHEST
+                - FLOWER_POT
+                - BANNER
+            heads:
+                - SKULL_ITEM
+                - SKULL
+            frame: ITEM_FRAME
 
         # Блокировка открытия инвенторя и ввода команд во время сна.
         bed:

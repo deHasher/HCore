@@ -126,9 +126,9 @@ public class HCore extends JavaPlugin {
 			case "main":
 				return 0.1;
 			case "config":
-				return 1.0;
+				return 1.1;
 			case "lang":
-				return 1.0;
+				return 1.1;
 		}
 		return 0.0;
 	}
@@ -273,7 +273,8 @@ public class HCore extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new Bed(this), this);
 		Bukkit.getPluginManager().registerEvents(new Portals(this), this);
         Bukkit.getPluginManager().registerEvents(new Swap(this), this);
-        Bukkit.getPluginManager().registerEvents(new Overstack(this), this);
+		Bukkit.getPluginManager().registerEvents(new Overstack(this), this);
+		Bukkit.getPluginManager().registerEvents(new ChunkBan(this), this);
     }
 
     private void getLogo() {
