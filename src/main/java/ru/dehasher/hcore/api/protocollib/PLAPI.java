@@ -39,7 +39,7 @@ public class PLAPI {
                 public void onPacketReceiving(PacketEvent e) {
                     WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
                     Entity entity = checker.getTarget(e);
-                    if (entity.getEntityId() < 0) return;
+                    if (entity == null || entity.getEntityId() < 0) return;
                     if (entity instanceof Player) {
                         Player target = (Player) entity;
                         Player player = e.getPlayer();
