@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.*;
 
+import org.bukkit.material.SpawnEgg;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.api.protocollib.PLAPI;
 import ru.dehasher.hcore.managers.Methods;
@@ -22,10 +23,19 @@ public class Extra implements Listener {
 
     // Когда игрок пытается телепортироваться через /gm 3.
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public final void onPlayerTeleportEvent(PlayerTeleportEvent e) {
+	public void onPlayerTeleportEvent(PlayerTeleportEvent e) {
 		if (!HCore.config.getBoolean("other-params.block-actions.spectate-teleport")) return;
 		if (e.getPlayer().getGameMode() == GameMode.SPECTATOR && e.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
 			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerInteractEvent(PlayerInteractEvent e) {
+		if (!HCore.config.getBoolean("other-params.block-actions.use-spawners")) return;
+    	Player player = e.getPlayer();
+		if (player.getItemInHand().getData() instanceof SpawnEgg) {
+    		if (!Methods.isPerm(player, null)) e.setCancelled(true);
 		}
 	}
 
