@@ -59,7 +59,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
                     if (inv[slot] == null || inv[slot].getType().equals(Material.AIR)) continue;
                     if (!s.hasItemMeta()) continue;
                     for (String item : HCore.config.getStringList("pvp-arena.clear-custom-items.item-names")) {
-                        if (s.getItemMeta().getDisplayName().equals(Methods.color(item))) {
+                        if (s.getItemMeta().getDisplayName().equals(Methods.colorSet(item))) {
                             player.getInventory().setItem(slot, null);
                         }
                     }

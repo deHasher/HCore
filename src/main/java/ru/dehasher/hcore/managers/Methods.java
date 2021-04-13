@@ -22,10 +22,15 @@ import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
 public class Methods {
+
 	// Красим сообщения.
-	public static String color(String message) {
-		message = ChatColor.translateAlternateColorCodes('&', message);
-		return message;
+	public static String colorSet(String message) {
+		return ChatColor.translateAlternateColorCodes('&', message);
+	}
+
+	// Удаляем все цветовые коды из сообщения.
+	public static String colorClear(String message) {
+		return ChatColor.stripColor(colorSet(message));
 	}
 
 	// Заменяем плейсхолдеры.
@@ -72,7 +77,7 @@ public class Methods {
 		}
 	}
 
-	// Неявная проверка игрока на наличие прав.
+	// Проверка игрока на наличие прав.
 	public static boolean isPerm(@Nullable Player player, @Nullable String permission) {
 		if (player == null) return true;
 		if (permission != null) {

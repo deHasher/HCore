@@ -63,24 +63,24 @@ public class prefix {
                         return true;
                     } else if (type.equals("chat") || type.equals("tab")) {
                         if (length > 3) {
-                            String prefix = Methods.color(fix(message[3]));
+                            String prefix = Methods.colorSet(fix(message[3]));
                             String suffix = "";
 
                             if (message[3].contains("<name>")) {
                                 String[] msg = message[3].split("<name>", 2);
-                                prefix = Methods.color(fix(msg[0]));
+                                prefix = Methods.colorSet(fix(msg[0]));
                                 if (msg.length > 1) {
-                                    suffix = Methods.color(fix(msg[1]));
+                                    suffix = Methods.colorSet(fix(msg[1]));
                                 }
                             }
 
-                            if (prefix.length() > max_chars) {
+                            if (Methods.colorClear(prefix).length() > max_chars) {
                                 Informer.send(player, HCore.lang.getString("commands.prefix.error")
                                         .replace("{max}", "" + max_chars));
                                 return false;
                             }
 
-                            if (suffix.length() > max_chars) {
+                            if (Methods.colorClear(suffix).length() > max_chars) {
                                 Informer.send(player, HCore.lang.getString("commands.prefix.error")
                                         .replace("{max}", "" + max_chars));
                                 return false;

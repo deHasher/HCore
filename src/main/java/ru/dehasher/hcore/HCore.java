@@ -52,7 +52,7 @@ public class HCore extends JavaPlugin {
 
 	// Костыль.
     public static Boolean disable_bypass = false;
-    public static Boolean debug_mode     = true;
+    public static Boolean debug_mode     = false;
 
     // Менеджер файлов.
 	public Files file_manager = new Files(this);
@@ -164,7 +164,7 @@ public class HCore extends JavaPlugin {
 			disable_bypass = config.getBoolean("other-params.disable-bypass-permissions");
 
 			return true;
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 			return false;
 		}
     }

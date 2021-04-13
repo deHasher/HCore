@@ -50,8 +50,8 @@ public class OnPlayerJoinServer implements Listener {
 				Team admins = board.getTeam("admins");
 				if (admins == null) admins = board.registerNewTeam("admins");
 
-				users.setPrefix(Methods.color(HCore.config.getString("join-server.custom-nickname.color.users")));
-				admins.setPrefix(Methods.color(HCore.config.getString("join-server.custom-nickname.color.admins")));
+				users.setPrefix(Methods.colorSet(HCore.config.getString("join-server.custom-nickname.color.users")));
+				admins.setPrefix(Methods.colorSet(HCore.config.getString("join-server.custom-nickname.color.admins")));
 
 				if (Methods.isPerm(player, null)) {
 					admins.addEntry(player.getName());

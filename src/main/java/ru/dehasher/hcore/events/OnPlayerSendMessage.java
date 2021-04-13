@@ -89,7 +89,7 @@ public class OnPlayerSendMessage implements Listener {
 
 			format = format.replace("{player}", playername);
 			format = format.replace("{message}", message);
-			format = Methods.color(format);
+			format = Methods.colorSet(format);
 
 			e.setFormat(format);
 			e.setMessage(message);

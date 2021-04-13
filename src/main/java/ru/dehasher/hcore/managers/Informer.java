@@ -20,7 +20,7 @@ public class Informer {
 
 		if (message == null || message.equals("")) message = HCore.lang.getString("errors.very-bad-error");
 
-		message = Methods.color(message);
+		message = Methods.colorSet(message);
 
 		if (player == null) {
 			HCore.getPlugin().getLogger().info(message);
@@ -32,7 +32,7 @@ public class Informer {
 
 	@Nullable
 	public static void send(Player player, String message) {
-		request(player, message);
+		request(player, message + "");
 	}
 
 	@Nullable
@@ -52,7 +52,7 @@ public class Informer {
 
 	@Nullable
 	public static void send(Player player, List message) {
-		request(player, message.toString());
+		request(player, message.toString() + "");
 	}
 
 	@Nullable
@@ -62,7 +62,7 @@ public class Informer {
 
 	@Nullable
 	public static void send(String message) {
-		request(null, message);
+		request(null, message + "");
 	}
 
 	@Nullable
@@ -82,7 +82,7 @@ public class Informer {
 
 	@Nullable
 	public static void send(List message) {
-		request(null, message.toString());
+		request(null, message.toString() + "");
 	}
 
 	@Nullable

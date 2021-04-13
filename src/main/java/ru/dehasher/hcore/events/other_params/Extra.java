@@ -35,9 +35,9 @@ public class Extra implements Listener {
     	int i = 0;
     	for (String line : e.getLines()) {
     		if (Methods.isAdv(line) && HCore.config.getBoolean("fix-advertisement.checks.signs")) {
-    			e.setLine(i, Methods.color(HCore.config.getString("fix-advertisement.replacement")));
+    			e.setLine(i, Methods.colorSet(HCore.config.getString("fix-advertisement.replacement")));
     		} else if (HCore.config.getBoolean("other-params.colored-signs")) {
-    			e.setLine(i, Methods.color(e.getLine(i)));
+    			e.setLine(i, Methods.colorSet(e.getLine(i)));
     		}
     		i++;
     	}

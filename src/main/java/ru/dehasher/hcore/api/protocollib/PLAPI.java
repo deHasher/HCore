@@ -7,6 +7,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import ru.dehasher.hcore.HCore;
 
@@ -37,8 +38,10 @@ public class PLAPI {
                 @Override
                 public void onPacketReceiving(PacketEvent e) {
                     WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
-                    if (checker.getTarget(e) instanceof Player) {
-                        Player target = (Player) checker.getTarget(e);
+                    Entity entity = checker.getTarget(e);
+                    if (entity.getEntityId() < 0) return;
+                    if (entity instanceof Player) {
+                        Player target = (Player) entity;
                         Player player = e.getPlayer();
                         if (checker.getType().name().equals("ATTACK")) {
                             WrapperPlayServerEntityStatus attack = new WrapperPlayServerEntityStatus();
