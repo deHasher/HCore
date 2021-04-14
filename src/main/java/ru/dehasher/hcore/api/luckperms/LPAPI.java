@@ -7,6 +7,7 @@ import net.luckperms.api.node.types.PrefixNode;
 import net.luckperms.api.node.types.SuffixNode;
 import net.luckperms.api.query.QueryOptions;
 import org.bukkit.entity.Player;
+import ru.dehasher.hcore.managers.Informer;
 
 import java.util.UUID;
 
@@ -56,7 +57,9 @@ public class LPAPI {
                     break;
             }
             saveUser(uuid);
-        } catch (NullPointerException ignored) {}
+        } catch (NullPointerException ignored) {
+            Informer.send(null, "LPAPI error");
+        }
     }
 
     private static User loadUser(UUID uuid) {

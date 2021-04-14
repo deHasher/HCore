@@ -28,7 +28,7 @@ public class HCore extends JavaPlugin {
 
 	// Мур.
 	private static HCore plugin;
-	public static Boolean debug = false;
+	public static Boolean debug = true;
 
 	// Конфигурации файлов.
 	public static ConfigurationSection main;

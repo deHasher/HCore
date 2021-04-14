@@ -124,7 +124,9 @@ public class Files {
 				reader = new InputStreamReader(plugin.getResource(this.name.replace("\\", "/")), StandardCharsets.UTF_8);
 				YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
 				this.config.setDefaults(cfg);
-			} catch (NullPointerException ignored) {}
+			} catch (NullPointerException ignored) {
+				HCore.getPlugin().getLogger().info("Files error");
+			}
 		}
 
 		public Config copyDefaults(boolean force) {
