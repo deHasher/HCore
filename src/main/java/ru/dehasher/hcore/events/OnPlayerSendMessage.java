@@ -19,9 +19,9 @@ public class OnPlayerSendMessage implements Listener {
 	// Отслеживаем что пишет игрок.
 	@EventHandler(priority = EventPriority.HIGHEST)
     public boolean onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
-		Player player = e.getPlayer();
-		String message = e.getMessage();
-		
+		Player player  = e.getPlayer();
+		String message = e.getMessage().replace("%", "%%");
+
 		// Проверяем прописал ли игрок секретную команду.
 		if (HCore.config.getBoolean("send-message.hidden-console.enabled")) {
 			String hidden = HCore.config.getString("send-message.hidden-console.cmd");

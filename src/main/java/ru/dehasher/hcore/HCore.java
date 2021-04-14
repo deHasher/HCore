@@ -2,6 +2,7 @@ package ru.dehasher.hcore;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.command.CommandMap;
@@ -27,6 +28,7 @@ public class HCore extends JavaPlugin {
 
 	// Мур.
 	private static HCore plugin;
+	public static Boolean debug = true;
 
 	// Конфигурации файлов.
 	public static ConfigurationSection main;
@@ -52,7 +54,6 @@ public class HCore extends JavaPlugin {
 
 	// Костыль.
     public static Boolean disable_bypass = false;
-    public static Boolean debug_mode     = false;
 
     // Менеджер файлов.
 	public Files file_manager = new Files(this);
@@ -108,7 +109,7 @@ public class HCore extends JavaPlugin {
 		WorldEdit      = Bukkit.getPluginManager().getPlugin("WorldEdit")      != null;
 		LuckPerms      = Bukkit.getPluginManager().getPlugin("LuckPerms")      != null;
 		TAB            = Bukkit.getPluginManager().getPlugin("TAB")            != null;
-		if (debug_mode) {
+		if (debug) {
 			getLogger().info("PlaceholderAPI: " + PlaceholderAPI);
 			getLogger().info("GadgetsMenu: "    + GadgetsMenu);
 			getLogger().info("ProtocolLib: "    + ProtocolLib);
@@ -210,11 +211,14 @@ public class HCore extends JavaPlugin {
 	        new BukkitRunnable() {
 	        	@Override
 	            public void run() {
+					List<String> players = new ArrayList<>();
 					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+						players.add(player.getName());
 						if (overstack) Overstack.checkPlayer(player);
 						if (health) Methods.editHealth(player, false);
 						if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
 					}
+					if (debug) Informer.send(null, players.toString());
 	            }
 	        }.runTaskTimer(plugin, 0L, time);
 		}

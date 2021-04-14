@@ -34,7 +34,7 @@ settings:
                 hreload:
                     aliases: []
                 crash:
-                    aliases: [ ]
+                    aliases: []
                 clearchat:
                     aliases:
                         - сдуфксрфе
