@@ -8,7 +8,6 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,6 +16,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.api.essentials.EAPI;
 import ru.dehasher.hcore.api.gadgetsmenu.GMAPI;
@@ -42,29 +42,44 @@ public class OnPlayerJoinToPvpArena implements Listener {
                 GameMode gm = GameMode.valueOf(HCore.config.getString("pvp-arena.flags.gamemode"));
                 if (player.getGameMode() != gm) player.setGameMode(gm);
             }
+
             if (HCore.config.getBoolean("pvp-arena.flags.block-fly")) {
-                if (player.getAllowFlight()) player.setAllowFlight(false);
-                if (player.isFlying()) player.setFlying(false);
+                if (player.getAllowFlight()) {
+                    player.setAllowFlight(false);
+                    player.setFlying(false);
+                }
             }
+
             if (HCore.config.getBoolean("pvp-arena.flags.block-godmode") && HCore.Essentials) {
                 EAPI.offGodMode(player);
             }
+
             if (HCore.config.getBoolean("pvp-arena.flags.block-gadgets") && HCore.GadgetsMenu) {
                 GMAPI.getPlugin(player).unequipGadget();
             }
+
             if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
                 ItemStack[] inv = player.getInventory().getContents();
                 for (int slot = 0; slot < inv.length; slot++) {
                     ItemStack s = inv[slot];
-                    if (inv[slot] == null || inv[slot].getType().equals(Material.AIR)) continue;
+
+                    if (s == null) continue;
+                    if (s.getType().name().equals("AIR")) continue;
+
                     if (!s.hasItemMeta()) continue;
+                    ItemMeta item_meta = s.getItemMeta();
+
+                    if (!item_meta.hasDisplayName()) continue;
+                    String item_name = item_meta.getDisplayName();
+
                     for (String item : HCore.config.getStringList("pvp-arena.clear-custom-items.item-names")) {
-                        if (s.getItemMeta().getDisplayName().equals(Methods.colorSet(item))) {
+                        if (item_name.equals(Methods.colorSet(item))) {
                             player.getInventory().setItem(slot, null);
                         }
                     }
                 }
             }
+
         }
     }
 

@@ -37,7 +37,7 @@ public class OnPlayerDeath implements Listener {
 					ItemStack s = inv[slot];
 
 					// Пропускаем воздух.
-					if (inv[slot] == null || inv[slot].getType().equals(Material.AIR)) continue;
+					if (s == null || s.getType().equals(Material.AIR)) continue;
 
 					// Пропускаем предметы у которых присутствует описание.
 					if (s.hasItemMeta()) {

@@ -28,7 +28,7 @@ public class HCore extends JavaPlugin {
 
 	// Мур.
 	private static HCore plugin;
-	public static Boolean debug = true;
+	public static Boolean debug = false;
 
 	// Конфигурации файлов.
 	public static ConfigurationSection main;
@@ -208,19 +208,24 @@ public class HCore extends JavaPlugin {
 
 		if (overstack || health || pvp) {
 			int time = HCore.config.getInt("other-params.timer");
-			getServer().getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunnable() {
+			new BukkitRunnable() {
 				@Override
 				public void run() {
 					List<String> players = new ArrayList<>();
 					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 						players.add(player.getName());
-						if (overstack) Overstack.checkPlayer(player);
-						if (health) Methods.editHealth(player, false);
-						if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
+						if (!player.isOnline()) continue;
+						try {
+							if (overstack) Overstack.checkPlayer(player);
+							if (health) Methods.editHealth(player, false);
+							if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
+						} catch (NullPointerException e) {
+							Informer.send(null, e.toString());
+						}
 					}
 					if (debug) Informer.send(null, players.toString());
 				}
-			}, 0L, time);
+			}.runTaskTimer(this, 0L, time);
 		}
 	}
 
