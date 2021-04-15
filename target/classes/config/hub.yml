@@ -42,8 +42,13 @@ settings:
 
         # Список разрешённых команд. Работает только когда disable-commands: true
         whitelist:
-        - "/spawn"
+        - "/crash"
+        - "/ban"
+        - "/mute"
+        - "/warn"
+        - "/kick"
         - "/spavn"
+        - "/spawn"
         - "/ызфцт"
         - "/ызфмт"
         - "/hreload"

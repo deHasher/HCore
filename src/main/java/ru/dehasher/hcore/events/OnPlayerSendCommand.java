@@ -47,7 +47,7 @@ public class OnPlayerSendCommand implements Listener {
 			if (Methods.isPerm(player, "hcore.bypass.commands.all")) return true;
 
 			for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
-				if (cmd.equals(command.toLowerCase())) return true;
+				if (cmd.startsWith(command.toLowerCase())) return true;
 			}
 
 			Informer.send(player, HCore.lang.getString("errors.commands-disabled"));

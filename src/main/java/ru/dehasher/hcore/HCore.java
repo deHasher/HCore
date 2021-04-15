@@ -213,8 +213,10 @@ public class HCore extends JavaPlugin {
 				public void run() {
 					List<String> players = new ArrayList<>();
 					for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-						players.add(player.getName());
 						if (!player.isOnline()) continue;
+
+						players.add(player.getName());
+
 						try {
 							if (overstack) Overstack.checkPlayer(player);
 							if (health) Methods.editHealth(player, false);
@@ -222,6 +224,7 @@ public class HCore extends JavaPlugin {
 						} catch (NullPointerException e) {
 							Informer.send(null, e.toString());
 						}
+
 					}
 					if (debug) Informer.send(null, players.toString());
 				}
