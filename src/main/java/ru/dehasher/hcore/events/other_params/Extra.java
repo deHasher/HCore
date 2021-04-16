@@ -34,12 +34,15 @@ public class Extra implements Listener {
 		}
 	}
 
+	// Когда игрок юзает яйки на спавнерах.
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerInteractEvent(PlayerInteractEvent e) {
 		if (!HCore.config.getBoolean("other-params.block-actions.use-spawners")) return;
     	Player player = e.getPlayer();
 		if (player.getItemInHand().getData() instanceof SpawnEgg) {
-    		if (!Methods.isPerm(player, null)) e.setCancelled(true);
+			if (e.getClickedBlock().getType().name().equals("MOB_SPAWNER")) {
+				if (!Methods.isPerm(player, null)) e.setCancelled(true);
+			}
 		}
 	}
 
