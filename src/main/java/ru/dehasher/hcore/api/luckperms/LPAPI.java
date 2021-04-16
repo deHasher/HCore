@@ -46,14 +46,18 @@ public class LPAPI {
         UUID uuid = player.getUniqueId();
         try {
             User user = loadUser(uuid);
-            PrefixNode prefixNode = PrefixNode.builder(getPrefix(uuid), weight).build();
-            SuffixNode suffixNode = SuffixNode.builder(getSuffix(uuid), weight).build();
             switch (type) {
                 case "prefix":
-                    user.data().clear(n -> n.getType().matches(prefixNode));
+                    if (getPrefix(uuid) != null) {
+                        PrefixNode prefixNode = PrefixNode.builder(getPrefix(uuid), weight).build();
+                        user.data().clear(n -> n.getType().matches(prefixNode));
+                    }
                     break;
                 case "suffix":
-                    user.data().clear(n -> n.getType().matches(suffixNode));
+                    if (getSuffix(uuid) != null) {
+                        SuffixNode suffixNode = SuffixNode.builder(getSuffix(uuid), weight).build();
+                        user.data().clear(n -> n.getType().matches(suffixNode));
+                    }
                     break;
             }
             saveUser(uuid);
