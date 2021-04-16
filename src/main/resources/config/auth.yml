@@ -1,5 +1,5 @@
 # Версия конфигурации, не изменять.
-version: 1.3
+version: 1.4
 
 # Конфигурация плагина.
 settings:
@@ -313,13 +313,15 @@ settings:
         regions:
             - "pvp:world"
 
-        # Установка флагов на регион.
-        flags:
-            gamemode: SURVIVAL
-            block-fly: true
-            block-godmode: true # Необходим Essentials.
-            block-gadgets: true # Необходим GadgetsMenu.
-            disable-commands: true
+        # Блокировка возможностей игроков на арене.
+        block:
+            fly: true
+            godmode: true # Необходим Essentials.
+            gadgets: true # Необходим GadgetsMenu.
+            commands: true
+            gamemodes:
+                - CREATIVE
+                - ADVENTURE
 
         # Удаление предметов у игроков во время пвп.
         clear-custom-items:

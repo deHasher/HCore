@@ -38,25 +38,21 @@ public class OnPlayerJoinToPvpArena implements Listener {
     // Постоянная проверка игрока.
     public static void checkPlayer(Player player) {
         if (cancelAction(player)) {
-            if (HCore.config.getString("pvp-arena.flags.gamemode") != null) {
-                GameMode gm = GameMode.valueOf(HCore.config.getString("pvp-arena.flags.gamemode"));
-                if (player.getGameMode() != gm) player.setGameMode(gm);
+            for (String gamemode : HCore.config.getStringList("pvp-arena.block.gamemodes")) {
+                if (player.getGameMode() == GameMode.valueOf(gamemode)) {
+                    player.setGameMode(GameMode.SURVIVAL);
+                }
             }
 
-            if (HCore.config.getBoolean("pvp-arena.flags.block-fly")) {
+            if (HCore.config.getBoolean("pvp-arena.block.fly")) {
                 if (player.getAllowFlight()) {
                     player.setAllowFlight(false);
                     player.setFlying(false);
                 }
             }
 
-            if (HCore.config.getBoolean("pvp-arena.flags.block-godmode") && HCore.Essentials) {
-                EAPI.offGodMode(player);
-            }
-
-            if (HCore.config.getBoolean("pvp-arena.flags.block-gadgets") && HCore.GadgetsMenu) {
-                GMAPI.getPlugin(player).unequipGadget();
-            }
+            if (HCore.config.getBoolean("pvp-arena.block.godmode") && HCore.Essentials) EAPI.offGodMode(player);
+            if (HCore.config.getBoolean("pvp-arena.block.gadgets") && HCore.GadgetsMenu) GMAPI.getPlugin(player).unequipGadget();
 
             if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
                 ItemStack[] inv = player.getInventory().getContents();
@@ -86,14 +82,13 @@ public class OnPlayerJoinToPvpArena implements Listener {
     // Попытки сменить игроку режим игры.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerGameModeChangeEvent(PlayerGameModeChangeEvent e) {
-        if (HCore.config.getString("pvp-arena.flags.gamemode") == null) return;
         Player player = e.getPlayer();
         if (cancelAction(player)) {
-            if (HCore.config.getString("pvp-arena.flags.gamemode") != null) {
-                GameMode gm = GameMode.valueOf(HCore.config.getString("pvp-arena.flags.gamemode"));
-                if (player.getGameMode() != gm) return;
+            for (String gamemode : HCore.config.getStringList("pvp-arena.block.gamemodes")) {
+                if (e.getNewGameMode() == GameMode.valueOf(gamemode)) {
+                    e.setCancelled(true);
+                }
             }
-            e.setCancelled(true);
         }
     }
 
@@ -107,7 +102,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
         if (Methods.isPerm(player, "hcore.bypass.pvp")) return;
 
         // Блокируем команды которые вводит игрок.
-        if (HCore.config.getBoolean("pvp-arena.flags.disable-commands")) {
+        if (HCore.config.getBoolean("pvp-arena.block.commands")) {
             if (cancelAction(player)) {
                 for (String cmd : HCore.config.getStringList("pvp-arena.whitelist-commands")) {
                     if (cmd.equals(e.getMessage().toLowerCase())) return;
