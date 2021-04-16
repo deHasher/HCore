@@ -29,9 +29,8 @@ public class Extra implements Listener {
 				e.setCancelled(true);
 			}
 		}
-		if (HCore.config.getBoolean("other-params.block-actions.invalid-teleport")) {
-			double Y = e.getTo().getY();
-			if (Y < -1000 || Y > 1000) e.setCancelled(true);
+		if (HCore.config.getBoolean("other-params.block-actions.invalid-location")) {
+			if (Methods.invalidLocation(e.getTo())) e.setCancelled(true);
 		}
 	}
 

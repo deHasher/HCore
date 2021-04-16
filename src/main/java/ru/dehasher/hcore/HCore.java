@@ -205,6 +205,7 @@ public class HCore extends JavaPlugin {
 		boolean health    = HCore.config.getBoolean("join-server.custom-health.enabled");
 		boolean overstack = HCore.config.getBoolean("fix-exploits.overstack.enabled");
 		boolean pvp       = HCore.config.getBoolean("pvp-arena.enabled");
+		boolean invalid   = HCore.config.getBoolean("other-params.block-actions.invalid-location");
 
 		if (overstack || health || pvp) {
 			int time = HCore.config.getInt("other-params.timer");
@@ -221,7 +222,7 @@ public class HCore extends JavaPlugin {
 							if (overstack) Overstack.checkPlayer(player);
 							if (health) Methods.editHealth(player, false);
 							if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
-							if (player.getLocation().getY() < -1000) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
+							if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
 						} catch (NullPointerException e) {
 							Informer.send(null, e.toString());
 						}

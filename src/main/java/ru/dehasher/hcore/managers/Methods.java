@@ -190,4 +190,9 @@ public class Methods {
 	public static void sendConsole(String command) {
 		Bukkit.getScheduler().runTask(HCore.getPlugin(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
 	}
+
+	public static boolean invalidLocation(Location loc) {
+		double Y = loc.getY();
+		return Y < -1000 || Y > 1000;
+	}
 }
