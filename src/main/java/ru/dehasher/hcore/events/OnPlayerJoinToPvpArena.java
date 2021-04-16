@@ -45,7 +45,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
             }
 
             if (HCore.config.getBoolean("pvp-arena.block.fly")) {
-                if (player.getAllowFlight()) {
+                if (player.getAllowFlight() && player.getGameMode() != GameMode.SPECTATOR) {
                     player.setAllowFlight(false);
                     player.setFlying(false);
                 }
