@@ -24,9 +24,14 @@ public class Extra implements Listener {
     // Когда игрок пытается телепортироваться через /gm 3.
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerTeleportEvent(PlayerTeleportEvent e) {
-		if (!HCore.config.getBoolean("other-params.block-actions.spectate-teleport")) return;
-		if (e.getPlayer().getGameMode() == GameMode.SPECTATOR && e.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
-			e.setCancelled(true);
+		if (HCore.config.getBoolean("other-params.block-actions.spectate-teleport")) {
+			if (e.getPlayer().getGameMode() == GameMode.SPECTATOR && e.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
+				e.setCancelled(true);
+			}
+		}
+		if (HCore.config.getBoolean("other-params.block-actions.invalid-teleport")) {
+			double Y = e.getTo().getY();
+			if (Y < -1000 || Y > 1000) e.setCancelled(true);
 		}
 	}
 
