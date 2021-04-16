@@ -37,19 +37,20 @@ public class PLAPI {
             ProtocolLib.addPacketListener(new PacketAdapter(HCore.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Client.USE_ENTITY) {
                 @Override
                 public void onPacketReceiving(PacketEvent e) {
-                    Entity entity = e.getPacket().getEntityModifier(e.getPlayer().getWorld()).read(0);
-                    if (entity == null || entity.getEntityId() < 0) return;
-                    if (entity instanceof Player) {
-                        WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
-                        Player target = (Player) entity;
-                        Player player = e.getPlayer();
-                        if (checker.getType().name().equals("ATTACK")) {
-                            WrapperPlayServerEntityStatus attack = new WrapperPlayServerEntityStatus();
-                            attack.setEntityID(target.getEntityId());
-                            attack.setEntityStatus((byte) 2);
-                            attack.sendPacket(player);
+                    try {
+                        Entity entity = e.getPacket().getEntityModifier(e.getPlayer().getWorld()).read(0);
+                        if (entity instanceof Player) {
+                            WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
+                            Player target = (Player) entity;
+                            Player player = e.getPlayer();
+                            if (checker.getType().name().equals("ATTACK")) {
+                                WrapperPlayServerEntityStatus attack = new WrapperPlayServerEntityStatus();
+                                attack.setEntityID(target.getEntityId());
+                                attack.setEntityStatus((byte) 2);
+                                attack.sendPacket(player);
+                            }
                         }
-                    }
+                    } catch (Exception ignored) {}
                 }
             });
         }
