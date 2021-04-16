@@ -221,6 +221,7 @@ public class HCore extends JavaPlugin {
 							if (overstack) Overstack.checkPlayer(player);
 							if (health) Methods.editHealth(player, false);
 							if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
+							if (player.getLocation().getY() < -1000) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
 						} catch (NullPointerException e) {
 							Informer.send(null, e.toString());
 						}
