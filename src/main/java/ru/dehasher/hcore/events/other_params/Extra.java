@@ -2,6 +2,7 @@ package ru.dehasher.hcore.events.other_params;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -40,9 +41,9 @@ public class Extra implements Listener {
 		if (!HCore.config.getBoolean("other-params.block-actions.use-spawners")) return;
     	Player player = e.getPlayer();
 		if (player.getItemInHand().getData() instanceof SpawnEgg) {
-			if (e.getClickedBlock().getType().name().equals("MOB_SPAWNER")) {
-				if (!Methods.isPerm(player, null)) e.setCancelled(true);
-			}
+			Block block = e.getClickedBlock();
+			if (block == null || !block.getType().name().equals("MOB_SPAWNER")) return;
+			if (!Methods.isPerm(player, null)) e.setCancelled(true);
 		}
 	}
 
