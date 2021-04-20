@@ -197,6 +197,7 @@ public class HCore extends JavaPlugin {
 				file_manager.getConfig(Methods.fixSlashes("config/auth.yml")).saveDefaultConfig(true);
 				file_manager.getConfig(Methods.fixSlashes("config/hub.yml")).saveDefaultConfig(true);
 				file_manager.getConfig(Methods.fixSlashes("config/survival.yml")).saveDefaultConfig(true);
+				file_manager.getConfig(Methods.fixSlashes("config/1.16.yml")).saveDefaultConfig(true);
 			}
 		}
 	}
