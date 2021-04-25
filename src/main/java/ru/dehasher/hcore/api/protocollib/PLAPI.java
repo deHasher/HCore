@@ -7,6 +7,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import ru.dehasher.hcore.HCore;
@@ -41,8 +42,12 @@ public class PLAPI {
                         Entity entity = e.getPacket().getEntityModifier(e.getPlayer().getWorld()).read(0);
                         if (entity instanceof Player) {
                             WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
+
                             Player target = (Player) entity;
                             Player player = e.getPlayer();
+
+                            if (player.getGameMode() == GameMode.SPECTATOR) return;
+
                             if (checker.getType().name().equals("ATTACK")) {
                                 WrapperPlayServerEntityStatus attack = new WrapperPlayServerEntityStatus();
                                 attack.setEntityID(target.getEntityId());
