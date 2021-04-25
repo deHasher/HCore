@@ -20,24 +20,24 @@ public class OnPlayerCombat implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamageEvent(EntityDamageEvent e) {
-        if (!e.isCancelled()) effect(e.getEntity());
+        if (!e.isCancelled()) effect(e.getEntity(), 1);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDeathEvent(EntityDeathEvent e) {
-        for (int i = 0; i < 20; i++) effect(e.getEntity());
+        effect(e.getEntity(), 20);
     }
 
-    private void effect(Entity entity) {
+    private void effect(Entity entity, int count) {
         if (entity instanceof Monster || entity instanceof Animals || entity instanceof Player) {
             if (HCore.config.getBoolean("combat.blood.enabled")) {
                 Material material = Material.valueOf(HCore.config.getString("combat.blood.effect"));
-                entity.getWorld().playEffect(
-                        entity.getLocation(),
-                        Effect.STEP_SOUND,
-                        material
-                );
+                for (int i = 0; i < count; i++) sendParticles(entity, material);
             }
         }
+    }
+
+    private void sendParticles(Entity entity, Material material) {
+        entity.getWorld().playEffect(entity.getLocation(), Effect.STEP_SOUND, material);
     }
 }
