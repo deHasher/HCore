@@ -20,6 +20,11 @@ public class OnPlayerSendCommand implements Listener {
 		Player player  = e.getPlayer();
 		String command = e.getMessage();
 
+		// Разрешаем отправку команд в белом списке.
+		for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
+			if (cmd.startsWith(command.toLowerCase())) return true;
+		}
+
 		// Проверяем команду на рекламу.
 		if (HCore.config.getBoolean("fix-advertisement.checks.commands")) {
 			if (Methods.isAdv(command)) {
@@ -45,13 +50,9 @@ public class OnPlayerSendCommand implements Listener {
 		// Блокируем абсолютно все команды, кроме разрешённых.
         if (HCore.config.getBoolean("send-command.disable-commands")) {
 			if (Methods.isPerm(player, "hcore.bypass.commands.all")) return true;
-
-			for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
-				if (cmd.startsWith(command.toLowerCase())) return true;
-			}
-
 			Informer.send(player, HCore.lang.getString("errors.commands-disabled"));
 			e.setCancelled(true);
+			return false;
 		}
         return true;
     }
