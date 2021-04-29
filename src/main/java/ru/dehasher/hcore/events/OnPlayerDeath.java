@@ -11,9 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import ru.dehasher.hcore.HCore;
+import ru.dehasher.hcore.managers.Experience;
 import ru.dehasher.hcore.managers.Methods;
 
 public class OnPlayerDeath implements Listener {
@@ -25,47 +25,47 @@ public class OnPlayerDeath implements Listener {
     public void onPlayerDeathEvent(PlayerDeathEvent e) {
 		if (HCore.config.getBoolean("death.chance-on-drop-items.enabled")) {
 			Random random = new Random();
-			Player player = e.getEntity();
+			Player player = e.getEntity().getPlayer();
 
 			// Дроп предметов.
 			if (!e.getKeepInventory()) {
 				e.setKeepInventory(true);
-
 				ItemStack[] inv = player.getInventory().getContents();
 
 				for (int slot = 0; slot < inv.length; slot++) {
-					ItemStack s = inv[slot];
+					ItemStack item = inv[slot];
 
 					// Пропускаем воздух.
-					if (s == null || s.getType().equals(Material.AIR)) continue;
-
-					// Пропускаем предметы у которых присутствует описание.
-					if (s.hasItemMeta()) {
-						ItemMeta m = s.getItemMeta();
-						if (m != null && m.hasLore()) continue;
-					}
+					if (item == null || item.getType().equals(Material.AIR)) continue;
 
 					double chance_item = HCore.config.getDouble("death.chance-on-drop-items.chance.item");
-					boolean drop = random.nextDouble() <= chance_item;
+					boolean drop       = random.nextDouble() <= chance_item;
 
 					if (drop) {
-						player.getWorld().dropItemNaturally(player.getLocation(), s);
 						player.getInventory().setItem(slot, null);
+					} else {
+						e.getDrops().remove(item);
 					}
 				}
 			}
 
 			// Дроп опыта.
 			if (!e.getKeepLevel()) {
-				int total_exp     = player.getTotalExperience();
+				e.setKeepLevel(true);
+				int total_exp     = Experience.getTotalExperience(player); // Текущий опыт игрока.
+
 				double chance_exp = HCore.config.getDouble("death.chance-on-drop-items.chance.exp");
 				double amount_exp = HCore.config.getDouble("death.chance-on-drop-items.amount-dropped-exp");
+				double dropped    = total_exp * amount_exp; // Количество опыта которое выпадет.
 
-				if (random.nextDouble() < chance_exp) {
-					double percentage = random.nextDouble() * amount_exp;
-					int p = (int) (percentage * 100.0d);
-					int dropped = total_exp * p / 100;
-					e.setDroppedExp(dropped);
+				boolean drop      = random.nextDouble() <= chance_exp;
+
+				if (drop) {
+					int new_total_exp = total_exp - (int) dropped;
+					Experience.setTotalExperience(player, new_total_exp);
+					e.setDroppedExp((int) dropped);
+				} else {
+					e.setDroppedExp(0);
 				}
 			}
 		}
