@@ -41,39 +41,11 @@ public class Methods {
 		return message;
 	}
 
-	// set необходим чтобы устанавливать челам сразу фул хп если они возродились или ток зашли на сервер.
-	public static void editHealth(Player player, boolean set) {
-		String  path   = "join-server.custom-health.";
-		boolean noperm = true;
-
-		if (!HCore.config.getBoolean(path + "enabled")) return;
-
-		// Перебор по всем правам игрока.
-		for (String group : HCore.config.getConfigurationSection(path + "groups").getKeys(false)) {
-			// Если у игрока есть право на кастомные хпшки.
-			if (player.hasPermission("hcore.health.group." + group.toLowerCase())) {
-
-				// Устанавливаем ему хп сколько положено.
-				player.setMaxHealth(HCore.config.getInt(path + "groups." + group));
-
-				// Следует ли установить максимум хп игроку.
-				if (set) {
-					player.setHealth(HCore.config.getInt(path + "groups." + group));
-				}
-
-				noperm = false;
-				break;
-			}
-		}
-
-		// Тоже самое, но если у игрока не найдено пермов.
-		if (noperm) {
-			player.setMaxHealth(HCore.config.getInt(path + "default"));
-
-			// Следует ли установить максимум хп игроку.
-			if (set) {
-				player.setHealth(HCore.config.getInt(path + "default"));
-			}
+	public static void setHealth(Player player) {
+		if (HCore.config.getBoolean("other-params.custom-health.enabled")) {
+			int health = HCore.config.getInt("other-params.custom-health.enabled");
+			player.setMaxHealth(health);
+			player.setHealth(health);
 		}
 	}
 

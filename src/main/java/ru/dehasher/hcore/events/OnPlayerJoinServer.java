@@ -36,7 +36,7 @@ public class OnPlayerJoinServer implements Listener {
     	}
 
     	// Работа с кастомными хпшками.
-		Methods.editHealth(player, !player.hasPlayedBefore() || HCore.config.getBoolean("join-server.always-set-max-hp"));
+		Methods.setHealth(player);
 
 	    // Работа с кастомными никами.
     	if (HCore.config.getBoolean("join-server.custom-nickname.enabled")) {

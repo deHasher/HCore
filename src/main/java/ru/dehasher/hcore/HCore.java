@@ -124,14 +124,11 @@ public class HCore extends JavaPlugin {
 	private double getVersion(String config) {
 		// Не забывать менять эти значения ещё и в файлах конфигурации.
 		switch (config) {
-			case "main":
-				return 0.1;
-			case "config":
-				return 1.4;
-			case "lang":
-				return 1.1;
+			case "main":   return 0.1;
+			case "lang":   return 1.2;
+			case "config": return 1.6;
+			default:       return 0.0;
 		}
-		return 0.0;
 	}
 
 	// Тут даже разработчику ничего не понятно :D
@@ -203,12 +200,11 @@ public class HCore extends JavaPlugin {
 	}
 
 	public void runTasks() {
-		boolean health    = HCore.config.getBoolean("join-server.custom-health.enabled");
 		boolean overstack = HCore.config.getBoolean("fix-exploits.overstack.enabled");
 		boolean pvp       = HCore.config.getBoolean("pvp-arena.enabled");
 		boolean invalid   = HCore.config.getBoolean("other-params.block-actions.invalid-location");
 
-		if (overstack || health || pvp) {
+		if (overstack || pvp) {
 			int time = HCore.config.getInt("other-params.timer");
 			new BukkitRunnable() {
 				@Override
@@ -221,7 +217,6 @@ public class HCore extends JavaPlugin {
 
 						try {
 							if (overstack) Overstack.checkPlayer(player);
-							if (health) Methods.editHealth(player, false);
 							if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
 							if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
 						} catch (NullPointerException e) {

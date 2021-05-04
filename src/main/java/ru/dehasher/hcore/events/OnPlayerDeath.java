@@ -52,18 +52,12 @@ public class OnPlayerDeath implements Listener {
 			// Дроп опыта.
 			if (!e.getKeepLevel()) {
 				e.setKeepLevel(true);
-				int total_exp     = Experience.getTotalExperience(player); // Текущий опыт игрока.
 
 				double chance_exp = HCore.config.getDouble("death.chance-on-drop-items.chance.exp");
-				double amount_exp = HCore.config.getDouble("death.chance-on-drop-items.amount-dropped-exp");
-				double dropped    = total_exp * amount_exp; // Количество опыта которое выпадет.
-
 				boolean drop      = random.nextDouble() <= chance_exp;
 
 				if (drop) {
-					int new_total_exp = total_exp - (int) dropped;
-					Experience.setTotalExperience(player, new_total_exp);
-					e.setDroppedExp((int) dropped);
+					Experience.setTotalExperience(player, 0);
 				} else {
 					e.setDroppedExp(0);
 				}
@@ -75,7 +69,7 @@ public class OnPlayerDeath implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerRespawnEvent(PlayerRespawnEvent e) {
 		Player player = e.getPlayer();
-		Methods.editHealth(player, true);
+		Methods.setHealth(player);
 
 		Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
 		// Телепортируем игрока к спавну.
