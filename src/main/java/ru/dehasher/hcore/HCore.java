@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import org.jetbrains.annotations.Nullable;
 import ru.dehasher.hcore.commands.Registrator;
 import ru.dehasher.hcore.events.*;
 import ru.dehasher.hcore.events.other_params.DisableEvents;
@@ -21,8 +22,6 @@ import ru.dehasher.hcore.exploits.*;
 import ru.dehasher.hcore.managers.Files;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
-
-import javax.annotation.Nullable;
 
 public class HCore extends JavaPlugin {
 

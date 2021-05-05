@@ -3,9 +3,9 @@ package ru.dehasher.hcore.managers;
 import java.awt.List;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.entity.Player;
 
+import org.jetbrains.annotations.Nullable;
 import ru.dehasher.hcore.HCore;
 
 public class Informer {

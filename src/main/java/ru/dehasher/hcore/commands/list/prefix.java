@@ -3,13 +3,12 @@ package ru.dehasher.hcore.commands.list;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import org.jetbrains.annotations.Nullable;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.api.luckperms.LPAPI;
 import ru.dehasher.hcore.api.tab.TAPI;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
-
-import javax.annotation.Nullable;
 
 public class prefix {
     public static boolean send(CommandSender sender, String command, String[] args) {

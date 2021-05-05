@@ -15,10 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import org.jetbrains.annotations.Nullable;
 import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.libraries.Characters;
-
-import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
 public class Methods {
