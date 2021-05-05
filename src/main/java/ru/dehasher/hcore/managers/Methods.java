@@ -42,7 +42,7 @@ public class Methods {
 
 	public static void setHealth(Player player) {
 		if (HCore.config.getBoolean("other-params.custom-health.enabled")) {
-			int health = HCore.config.getInt("other-params.custom-health.enabled");
+			int health = HCore.config.getInt("other-params.custom-health.health");
 			player.setMaxHealth(health);
 			player.setHealth(health);
 		}
