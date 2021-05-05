@@ -4,6 +4,7 @@ import me.neznamy.tab.api.EnumProperty;
 import me.neznamy.tab.api.TABAPI;
 import org.bukkit.entity.Player;
 
+@SuppressWarnings("deprecation")
 public class TAPI {
 
     public static void setPrefix(Player player, String string) {

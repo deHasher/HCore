@@ -1,4 +1,4 @@
-name: HCore
+name: ${project.name}
 version: 1.3.1
 main: ru.dehasher.hcore.HCore
 api-version: 1.16

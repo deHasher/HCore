@@ -1,11 +1,11 @@
-name: HCore
-version: 1.3.1
+name: ${project.name}
+version: ${project.version}
 main: ru.dehasher.hcore.HCore
 api-version: 1.16
 
 database: false
 author: deHasher
-website: https://dehasher.ru/
+website: ${project.url}
 
 softdepend:
   - PlaceholderAPI
