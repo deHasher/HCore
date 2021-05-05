@@ -200,9 +200,9 @@ public class HCore extends JavaPlugin {
 	}
 
 	public void runTasks() {
-		boolean overstack = HCore.config.getBoolean("fix-exploits.overstack.enabled");
-		boolean pvp       = HCore.config.getBoolean("pvp-arena.enabled");
-		boolean invalid   = HCore.config.getBoolean("other-params.block-actions.invalid-location");
+		final boolean overstack = HCore.config.getBoolean("fix-exploits.overstack.enabled");
+		final boolean pvp       = HCore.config.getBoolean("pvp-arena.enabled");
+		final boolean invalid   = HCore.config.getBoolean("other-params.block-actions.invalid-location");
 
 		if (overstack || pvp) {
 			int time = HCore.config.getInt("other-params.timer");
