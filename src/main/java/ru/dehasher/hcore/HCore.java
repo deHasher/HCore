@@ -49,6 +49,7 @@ public class HCore extends JavaPlugin {
 	public static Boolean WorldGuard;
 	public static Boolean WorldEdit;
 	public static Boolean LuckPerms;
+	public static Boolean Guilds;
 	public static Boolean TAB;
 
 	// Костыль.
@@ -107,6 +108,7 @@ public class HCore extends JavaPlugin {
 		WorldGuard     = Bukkit.getPluginManager().getPlugin("WorldGuard")     != null;
 		WorldEdit      = Bukkit.getPluginManager().getPlugin("WorldEdit")      != null;
 		LuckPerms      = Bukkit.getPluginManager().getPlugin("LuckPerms")      != null;
+		Guilds         = Bukkit.getPluginManager().getPlugin("Guilds")         != null;
 		TAB            = Bukkit.getPluginManager().getPlugin("TAB")            != null;
 		if (debug) {
 			getLogger().info("PlaceholderAPI: " + PlaceholderAPI);
@@ -125,7 +127,7 @@ public class HCore extends JavaPlugin {
 		switch (config) {
 			case "main":   return 0.1;
 			case "lang":   return 1.2;
-			case "config": return 1.6;
+			case "config": return 1.7;
 			default:       return 0.0;
 		}
 	}

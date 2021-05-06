@@ -1,5 +1,8 @@
 package ru.dehasher.hcore.events;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.glaremasters.guilds.Guilds;
+import me.glaremasters.guilds.api.GuildsAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -7,8 +10,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import ru.dehasher.hcore.HCore;
+import ru.dehasher.hcore.api.guilds.GAPI;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
+
+import java.util.Locale;
 
 public class OnPlayerSendCommand implements Listener {
 
@@ -23,6 +29,21 @@ public class OnPlayerSendCommand implements Listener {
 		// Разрешаем отправку команд в белом списке.
 		for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
 			if (cmd.startsWith(command.toLowerCase())) return true;
+		}
+
+		// Исправление гильдий.
+		if (HCore.config.getBoolean("guilds-fix.enabled") && HCore.Guilds) {
+			for (String guild : HCore.config.getString("guilds-fix.commands").split("\\|")) {
+				if (command.substring(1).equals(guild)) {
+					e.setCancelled(true);
+					String playerRole = Methods.colorClear(GAPI.getRole(player)).toLowerCase();
+					Informer.send(player, HCore.config.getString("guilds-fix.prefix"));
+					for (String role : HCore.config.getConfigurationSection("guilds-fix.roles").getKeys(false)) {
+						Informer.send(player, HCore.config.getString("guilds-fix.roles." + role));
+						if (role.equals(playerRole)) return false;
+					}
+				}
+			}
 		}
 
 		// Проверяем команду на рекламу.
