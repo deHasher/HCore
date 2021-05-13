@@ -5,7 +5,7 @@
 
     <artifactId>HCore</artifactId>
     <groupId>ru.dehasher</groupId>
-    <version>1.4</version>
+    <version>1.4.1</version>
     <url>https://dehasher.ru/</url>
 
     <dependencies>
