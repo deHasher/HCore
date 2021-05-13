@@ -17,153 +17,150 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import org.jetbrains.annotations.Nullable;
 import ru.dehasher.hcore.HCore;
-import ru.dehasher.hcore.libraries.Characters;
 
 @SuppressWarnings("deprecation")
 public class Methods {
 
-	// Красим сообщения.
-	public static String colorSet(String message) {
-		return ChatColor.translateAlternateColorCodes('&', message);
-	}
+    // Красим сообщения.
+    public static String colorSet(String message) {
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
 
-	// Удаляем все цветовые коды из сообщения.
-	public static String colorClear(String message) {
-		return ChatColor.stripColor(colorSet(message));
-	}
+    // Удаляем все цветовые коды из сообщения.
+    public static String colorClear(String message) {
+        return ChatColor.stripColor(colorSet(message));
+    }
 
-	// Заменяем плейсхолдеры.
-	public static String replacePlaceholders(Player player, String message) {
-		if (HCore.PlaceholderAPI) {
-			message = PlaceholderAPI.setPlaceholders(player, message);
-		}
-		return message;
-	}
+    // Заменяем плейсхолдеры.
+    public static String replacePlaceholders(Player player, String message) {
+        if (HCore.PlaceholderAPI) {
+            message = PlaceholderAPI.setPlaceholders(player, message);
+        }
+        return message;
+    }
 
-	public static void setHealth(Player player) {
-		if (HCore.config.getBoolean("other-params.custom-health.enabled")) {
-			int health = HCore.config.getInt("other-params.custom-health.health");
-			player.setMaxHealth(health);
-			player.setHealth(health);
-		}
-	}
+    public static void setHealth(Player player) {
+        if (HCore.config.getBoolean("other-params.custom-health.enabled")) {
+            int health = HCore.config.getInt("other-params.custom-health.health");
+            player.setMaxHealth(health);
+            player.setHealth(health);
+        }
+    }
 
-	// Проверка игрока на наличие прав.
-	public static boolean isPerm(@Nullable Player player, @Nullable String permission) {
-		if (player == null) return true;
-		if (permission != null) {
-			if (permission.contains("bypass") && HCore.disable_bypass) return false;
-			if (player.hasPermission(permission)) return true;
-		}
-		return isAdmin(player) || isAuthor(player);
-	}
+    // Проверка игрока на наличие прав.
+    public static boolean isPerm(@Nullable Player player, @Nullable String permission) {
+        if (player == null) return true;
+        if (permission != null) {
+            if (permission.contains("bypass") && HCore.disable_bypass) return false;
+            if (player.hasPermission(permission)) return true;
+        }
+        return isAdmin(player) || isAuthor(player);
+    }
 
-	// Обработка информации о команде.
-	public static String getCommandInfo(String command) {
-		ConfigurationSection info = HCore.lang.getConfigurationSection("commands." + command + ".info");
-		String format = HCore.config.getString("send-command.plugin.format");
+    // Обработка информации о команде.
+    public static String getCommandInfo(String command) {
+        ConfigurationSection info = HCore.lang.getConfigurationSection("commands." + command + ".info");
+        String format = HCore.config.getString("send-command.plugin.format");
 
-		format = format.replace("{command}", command);
-		format = format.replace("{arguments}", info.getString("arguments"));
-		format = format.replace("{description}", info.getString("description"));
+        format = format.replace("{command}", command);
+        format = format.replace("{arguments}", info.getString("arguments"));
+        format = format.replace("{description}", info.getString("description"));
 
-		return format;
-	}
+        return format;
+    }
 
-	// Округление double числа.
-	public static String round(Double number, int symbols) {
-		if (number == null) return "0.0";
-		StringBuilder format = new StringBuilder();
-		for (int x = 0 ; x < symbols ; x++) format.append("#");
-		DecimalFormat df = new DecimalFormat("#." + format);
-		return df.format(number).replace(",", ".");
-	}
+    // Округление double числа.
+    public static String round(Double number, int symbols) {
+        if (number == null) return "0.0";
+        StringBuilder format = new StringBuilder();
+        for (int x = 0 ; x < symbols ; x++) format.append("#");
+        DecimalFormat df = new DecimalFormat("#." + format);
+        return df.format(number).replace(",", ".");
+    }
 
-	// Получение точки спавна.
-	public static Location getSpawnLocation(String spawn) {
-		ConfigurationSection info = HCore.spawn.getConfigurationSection(spawn);
-		if (info != null) {
-			return new Location(
-					Bukkit.getWorld(info.getString("world")),
-					info.getDouble("x"),
-					info.getDouble("y"),
-					info.getDouble("z"),
-					(float)info.getDouble("yaw"),
-					(float)info.getDouble("pitch")
-			);
-		}
-		return null;
-	}
+    // Получение точки спавна.
+    public static Location getSpawnLocation(String spawn) {
+        ConfigurationSection info = HCore.spawn.getConfigurationSection(spawn);
+        if (info != null) {
+            return new Location(
+                    Bukkit.getWorld(info.getString("world")),
+                    info.getDouble("x"),
+                    info.getDouble("y"),
+                    info.getDouble("z"),
+                    (float)info.getDouble("yaw"),
+                    (float)info.getDouble("pitch")
+            );
+        }
+        return null;
+    }
 
-	// Телепортация игрока.
-	public static void teleportPlayer(Player player, @Nullable Location loc) {
-		if (loc == null) return;
-		player.teleport(loc);
-	}
+    // Телепортация игрока.
+    public static void teleportPlayer(Player player, @Nullable Location loc) {
+        if (loc == null) return;
+        player.teleport(loc);
+    }
 
-	// Проверка на админку.
-	private static boolean isAdmin(Player player) {
-		for (String user : HCore.main.getStringList("admins.nicknames")) {
-			if (user.equals(player.getName())) return true;
-		}
-		return false;
-	}
+    // Проверка на админку.
+    private static boolean isAdmin(Player player) {
+        for (String user : HCore.main.getStringList("admins.nicknames")) {
+            if (user.equals(player.getName())) return true;
+        }
+        return false;
+    }
 
-	// Проверка на автора.
-	private static boolean isAuthor(Player player) {
-		for (String user : HCore.getPlugin().getDescription().getAuthors()) {
-			if (user.equals(player.getName())) return true;
-		}
+    // Проверка на автора.
+    private static boolean isAuthor(Player player) {
+        for (String user : HCore.getPlugin().getDescription().getAuthors()) {
+            if (user.equals(player.getName())) return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	// Подсчёт байт в предмете.
-	public static int checkBytes(ItemStack item) {
-		int length = 0;
+    // Подсчёт байт в предмете.
+    public static int checkBytes(ItemStack item) {
+        int length = 0;
 
-		if (item == null)        return 0;
-		if (!item.hasItemMeta()) return 0;
+        if (item == null)        return 0;
+        if (!item.hasItemMeta()) return 0;
 
-		ItemMeta meta = item.getItemMeta();
+        ItemMeta meta = item.getItemMeta();
 
-		if (meta != null) {
-			length = meta.toString().getBytes(StandardCharsets.UTF_8).length;
-		}
+        if (meta != null) {
+            length = meta.toString().getBytes(StandardCharsets.UTF_8).length;
+        }
 
-		return length;
-	}
+        return length;
+    }
 
-	// Проверка строчки на рекламу.
-	public static boolean isAdv(String string) {
-		if (!HCore.config.getBoolean("fix-advertisement.enabled")) return false;
-		string = Characters.convert(string);
-		string = string.replace(" . ", ".");
-		string = string
-				.replaceAll(Pattern.quote("www."), "")
-				.replaceAll(Pattern.quote("http://"), "")
-				.replaceAll(Pattern.quote("https://"), "");
+    // Проверка строчки на рекламу.
+    public static boolean isAdv(String string) {
+        if (!HCore.config.getBoolean("fix-advertisement.enabled")) return false;
+        string = string
+                .replaceAll(Pattern.quote("www."), "")
+                .replaceAll(Pattern.quote("http://"), "")
+                .replaceAll(Pattern.quote("https://"), "");
 
-		for (String url : HCore.config.getStringList("fix-advertisement.whitelist")) {
-			if (string.contains(url)) return false;
-		}
+        for (String url : HCore.config.getStringList("fix-advertisement.whitelist")) {
+            if (string.contains(url)) return false;
+        }
 
-	    Pattern pattern = Pattern.compile(HCore.config.getString("fix-advertisement.regex"));
-	    Matcher matcher = pattern.matcher(string);
-		return matcher.find();
-	}
+        Pattern pattern = Pattern.compile(HCore.config.getString("fix-advertisement.regex"));
+        Matcher matcher = pattern.matcher(string);
+        return matcher.find();
+    }
 
-	public static String fixSlashes(String text) {
-		text = text.replace("/", File.separator);
-		return text;
-	}
+    public static String fixSlashes(String text) {
+        text = text.replace("/", File.separator);
+        return text;
+    }
 
-	public static void sendConsole(String command) {
-		Bukkit.getScheduler().runTask(HCore.getPlugin(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
-	}
+    public static void sendConsole(String command) {
+        Bukkit.getScheduler().runTask(HCore.getPlugin(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
+    }
 
-	public static boolean invalidLocation(Location loc) {
-		double Y = loc.getY();
-		return Y < -1000 || Y > 1000;
-	}
+    public static boolean invalidLocation(Location loc) {
+        double Y = loc.getY();
+        return Y < -1000 || Y > 1000;
+    }
 }

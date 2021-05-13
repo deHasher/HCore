@@ -19,64 +19,64 @@ import ru.dehasher.hcore.managers.Methods;
 public class Extra implements Listener {
 
     public Extra(HCore plugin) {
-    	if (HCore.ProtocolLib) PLAPI.endPortalSound();
+        if (HCore.ProtocolLib) PLAPI.endPortalSound();
     }
 
     // Когда игрок пытается телепортироваться через /gm 3.
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerTeleportEvent(PlayerTeleportEvent e) {
-		if (HCore.config.getBoolean("other-params.block-actions.spectate-teleport")) {
-			if (e.getPlayer().getGameMode() == GameMode.SPECTATOR && e.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
-				e.setCancelled(true);
-			}
-		}
-		if (HCore.config.getBoolean("other-params.block-actions.invalid-location")) {
-			if (Methods.invalidLocation(e.getTo())) e.setCancelled(true);
-		}
-	}
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerTeleportEvent(PlayerTeleportEvent e) {
+        if (HCore.config.getBoolean("other-params.block-actions.spectate-teleport")) {
+            if (e.getPlayer().getGameMode() == GameMode.SPECTATOR && e.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
+                e.setCancelled(true);
+            }
+        }
+        if (HCore.config.getBoolean("other-params.block-actions.invalid-location")) {
+            if (Methods.invalidLocation(e.getTo())) e.setCancelled(true);
+        }
+    }
 
-	// Когда игрок юзает яйки на спавнерах.
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerInteractEvent(PlayerInteractEvent e) {
-		if (!HCore.config.getBoolean("other-params.block-actions.use-spawners")) return;
-    	Player player = e.getPlayer();
-		if (player.getItemInHand().getData() instanceof SpawnEgg) {
-			Block block = e.getClickedBlock();
-			if (block == null || !block.getType().name().equals("MOB_SPAWNER")) return;
-			if (!Methods.isPerm(player, null)) e.setCancelled(true);
-		}
-	}
+    // Когда игрок юзает яйки на спавнерах.
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerInteractEvent(PlayerInteractEvent e) {
+        if (!HCore.config.getBoolean("other-params.block-actions.use-spawners")) return;
+        Player player = e.getPlayer();
+        if (player.getItemInHand().getData() instanceof SpawnEgg) {
+            Block block = e.getClickedBlock();
+            if (block == null || !block.getType().name().equals("MOB_SPAWNER")) return;
+            if (!Methods.isPerm(player, null)) e.setCancelled(true);
+        }
+    }
 
-	// Когда игрок пишет текст на табличке.
+    // Когда игрок пишет текст на табличке.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onSignChangeEvent(SignChangeEvent e) {
-    	int i = 0;
-    	for (String line : e.getLines()) {
-    		if (Methods.isAdv(line) && HCore.config.getBoolean("fix-advertisement.checks.signs")) {
-    			e.setLine(i, Methods.colorSet(HCore.config.getString("fix-advertisement.replacement")));
-    		} else if (HCore.config.getBoolean("other-params.colored-signs")) {
-    			e.setLine(i, Methods.colorSet(e.getLine(i)));
-    		}
-    		i++;
-    	}
+        int i = 0;
+        for (String line : e.getLines()) {
+            if (Methods.isAdv(line) && HCore.config.getBoolean("fix-advertisement.checks.signs")) {
+                e.setLine(i, Methods.colorSet(HCore.config.getString("fix-advertisement.replacement")));
+            } else if (HCore.config.getBoolean("other-params.colored-signs")) {
+                e.setLine(i, Methods.colorSet(e.getLine(i)));
+            }
+            i++;
+        }
     }
 
     // Когда игрок заходит на сервер.
-	@EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
-		Player player = e.getPlayer();
+        Player player = e.getPlayer();
 
-		// Скрываем игрока от других игроков.
-	    if (HCore.config.getBoolean("other-params.block-actions.see-other-players")) {
-		    for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
-		    	otherPlayer.hidePlayer(player);
-		    	player.hidePlayer(otherPlayer);
-		    }
-	    }
+        // Скрываем игрока от других игроков.
+        if (HCore.config.getBoolean("other-params.block-actions.see-other-players")) {
+            for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
+                otherPlayer.hidePlayer(player);
+                player.hidePlayer(otherPlayer);
+            }
+        }
 
         // Устанавливаем максимальный уровень еды.
-    	if (HCore.config.getBoolean("other-params.disable-events.FoodLevelChangeEvent")) {
-    		player.setFoodLevel(20);
-    	}
-	}
+        if (HCore.config.getBoolean("other-params.disable-events.FoodLevelChangeEvent")) {
+            player.setFoodLevel(20);
+        }
+    }
 }
