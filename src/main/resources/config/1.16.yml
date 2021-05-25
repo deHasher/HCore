@@ -498,24 +498,30 @@ settings:
 
         # Больше информации можно узнать тут: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/Cancellable.html
         disable-events:
-            PlayerInteractEvent: false
-            BlockBreakEvent: false
-            WeatherChangeEvent: false
-            BlockPlaceEvent: false
-            EntityDamageEvent: false
-            PlayerInteractEntityEvent: false
-            PlayerDropItemEvent: false
-            EntityPickupItemEvent: false
-            BlockFadeEvent: false
-            BlockPhysicsEvent: false
-            BlockFromToEvent: false
-            BlockBurnEvent: false
-            BlockIgniteEvent: false
-            BlockSpreadEvent: false
-            FoodLevelChangeEvent: false
-            EntityExplodeEvent: false
-            StructureGrowEvent: false
-            PlayerChatTabCompleteEvent: false
-            BlockFormEvent: false
-            CreatureSpawnEvent: false
-            LeavesDecayEvent: false
+
+            # Необходим перезапуск сервера для включения/выключения этой функции.
+            enabled: false
+
+            # Список доступных для отключения эвентов.
+            list:
+                PlayerInteractEvent: false
+                BlockBreakEvent: false
+                WeatherChangeEvent: false
+                BlockPlaceEvent: false
+                EntityDamageEvent: false
+                PlayerInteractEntityEvent: false
+                PlayerDropItemEvent: false
+                EntityPickupItemEvent: false
+                BlockFadeEvent: false
+                BlockPhysicsEvent: false
+                BlockFromToEvent: false
+                BlockBurnEvent: false
+                BlockIgniteEvent: false
+                BlockSpreadEvent: false
+                FoodLevelChangeEvent: false
+                EntityExplodeEvent: false
+                StructureGrowEvent: false
+                PlayerChatTabCompleteEvent: false
+                BlockFormEvent: false
+                CreatureSpawnEvent: false
+                LeavesDecayEvent: false

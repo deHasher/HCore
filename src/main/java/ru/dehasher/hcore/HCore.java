@@ -258,7 +258,6 @@ public class HCore extends JavaPlugin {
 
     private void registerEvents() {
         // Ивенты.
-        Bukkit.getPluginManager().registerEvents(new DisableEvents(this), this);
         Bukkit.getPluginManager().registerEvents(new Extra(this), this);
         Bukkit.getPluginManager().registerEvents(new HideMessages(this), this);
 
@@ -276,6 +275,9 @@ public class HCore extends JavaPlugin {
         }
         if (HCore.config.getBoolean("pvp-arena.enabled") && WorldGuard && WorldEdit) {
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoinToPvpArena(this), this);
+        }
+        if (HCore.config.getBoolean("other-params.disable-events.enabled")) {
+            Bukkit.getPluginManager().registerEvents(new DisableEvents(this), this);
         }
 
         // Фиксы эксплойтов.

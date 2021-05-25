@@ -531,24 +531,30 @@ settings:
 
         # Больше информации можно узнать тут: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/Cancellable.html
         disable-events:
-            PlayerInteractEvent: true
-            BlockBreakEvent: true
-            WeatherChangeEvent: true
-            BlockPlaceEvent: true
-            EntityDamageEvent: true
-            PlayerInteractEntityEvent: true
-            PlayerDropItemEvent: true
-            EntityPickupItemEvent: true
-            BlockFadeEvent: true
-            BlockPhysicsEvent: true
-            BlockFromToEvent: true
-            BlockBurnEvent: true
-            BlockIgniteEvent: true
-            BlockSpreadEvent: true
-            FoodLevelChangeEvent: true
-            EntityExplodeEvent: true
-            StructureGrowEvent: true
-            PlayerChatTabCompleteEvent: true
-            BlockFormEvent: true
-            CreatureSpawnEvent: false
-            LeavesDecayEvent: true
+
+            # Необходим перезапуск сервера для включения/выключения этой функции.
+            enabled: true
+
+            # Список доступных для отключения эвентов.
+            list:
+                PlayerInteractEvent: true
+                BlockBreakEvent: true
+                WeatherChangeEvent: true
+                BlockPlaceEvent: true
+                EntityDamageEvent: true
+                PlayerInteractEntityEvent: true
+                PlayerDropItemEvent: true
+                EntityPickupItemEvent: true
+                BlockFadeEvent: true
+                BlockPhysicsEvent: true
+                BlockFromToEvent: true
+                BlockBurnEvent: true
+                BlockIgniteEvent: true
+                BlockSpreadEvent: true
+                FoodLevelChangeEvent: true
+                EntityExplodeEvent: true
+                StructureGrowEvent: true
+                PlayerChatTabCompleteEvent: true
+                BlockFormEvent: true
+                CreatureSpawnEvent: false
+                LeavesDecayEvent: true
