@@ -1,5 +1,5 @@
 # Translation version, do not change.
-version: 1.2
+version: ${hcore.version.lang}
 
 # All messages support PlaceholderAPI placeholders!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders

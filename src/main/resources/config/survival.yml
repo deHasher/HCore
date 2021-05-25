@@ -1,5 +1,5 @@
 # Версия конфигурации, не изменять.
-version: 1.7
+version: ${hcore.version.config}
 
 # Конфигурация плагина.
 settings:

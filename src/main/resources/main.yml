@@ -27,4 +27,4 @@ admins:
     color: "&c"
 
 # Версия конфигурации, не изменять.
-version: 0.1
+version: ${hcore.version.main}
