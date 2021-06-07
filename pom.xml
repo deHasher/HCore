@@ -19,7 +19,7 @@
     </properties>
 
     <artifactId>HCore</artifactId>
-    <groupId>ru.dehasher</groupId>
+    <groupId>ru.dehasher.hcore</groupId>
     <version>${plugin.version.hcore}</version>
     <url>${hcore.url}</url>
 
