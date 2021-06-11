@@ -1,8 +1,5 @@
 package ru.dehasher.hcore.events;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.glaremasters.guilds.Guilds;
-import me.glaremasters.guilds.api.GuildsAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,8 +10,6 @@ import ru.dehasher.hcore.HCore;
 import ru.dehasher.hcore.api.guilds.GAPI;
 import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
-
-import java.util.Locale;
 
 public class OnPlayerSendCommand implements Listener {
 
