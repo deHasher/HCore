@@ -20,7 +20,7 @@
 
     <artifactId>HCore</artifactId>
     <groupId>ru.dehasher.hcore</groupId>
-    <version>${plugin.version.hcore}</version>
+    <version>${hcore.version.plugin}</version>
     <url>${hcore.url}</url>
 
     <dependencies>

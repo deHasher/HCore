@@ -133,6 +133,39 @@ public class Methods {
         return length;
     }
 
+    // Подсчёт байт в предмете.
+    public static int getServerVersion() {
+        String version = HCore.getPlugin().getServer().getVersion();
+
+        if (version.contains("1.8")) {
+            return 8;
+        } else if (version.contains("1.9")) {
+            return 9;
+        } else if (version.contains("1.10")) {
+            return 10;
+        } else if (version.contains("1.11")) {
+            return 11;
+        } else if (version.contains("1.12")) {
+            return 12;
+        } else if (version.contains("1.13")) {
+            return 13;
+        } else if (version.contains("1.14")) {
+            return 14;
+        } else if (version.contains("1.15")) {
+            return 15;
+        } else if (version.contains("1.16")) {
+            return 16;
+        } else if (version.contains("1.17")) {
+            return 17;
+        } else if (version.contains("1.18")) {
+            return 18;
+        } else if (version.contains("1.19")) {
+            return 19;
+        } else if (version.contains("1.20")) {
+            return 20;
+        } else return 12;
+    }
+
     // Проверка строчки на рекламу.
     public static boolean isAdv(String string) {
         if (!HCore.config.getBoolean("fix-advertisement.enabled")) return false;
