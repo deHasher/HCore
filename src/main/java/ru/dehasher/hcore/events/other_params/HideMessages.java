@@ -34,14 +34,14 @@ public class HideMessages implements Listener {
     // Убрать сообщения о смертях.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeathEvent(PlayerDeathEvent e) {
-        if (!HCore.config.getBoolean("global-params.disable-message-on-death")) return;
+        if (!HCore.config.getBoolean("other-params.hide-messages.death")) return;
         e.setDeathMessage(null);
     }
 
     // Убрать сообщения об ачивках.
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onWorldLoad(WorldLoadEvent e) {
-        if (!HCore.config.getBoolean("global-params.disable-message-on-advancements")) return;
+        if (!HCore.config.getBoolean("other-params.hide-messages.advancements")) return;
         if (Methods.getServerVersion() > 12) {
             e.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         } else {
