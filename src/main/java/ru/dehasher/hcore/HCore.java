@@ -288,6 +288,9 @@ public class HCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Swap(this), this);
         Bukkit.getPluginManager().registerEvents(new Overstack(this), this);
         Bukkit.getPluginManager().registerEvents(new ChunkBan(this), this);
+
+        // Вручную вызываем ивенты при запуске плагина.
+        HideMessages.disableAchievements();
     }
 
     private void getLogo() {

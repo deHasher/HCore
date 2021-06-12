@@ -1,6 +1,7 @@
 package ru.dehasher.hcore.events.other_params;
 
 import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 
 import ru.dehasher.hcore.HCore;
+import ru.dehasher.hcore.managers.Informer;
 import ru.dehasher.hcore.managers.Methods;
 
 @SuppressWarnings("deprecation")
@@ -39,13 +41,15 @@ public class HideMessages implements Listener {
     }
 
     // Убрать сообщения об ачивках.
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onWorldLoad(WorldLoadEvent e) {
+    public static void disableAchievements() {
         if (!HCore.config.getBoolean("other-params.hide-messages.advancements")) return;
-        if (Methods.getServerVersion() > 12) {
-            e.getWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
-        } else {
-            e.getWorld().setGameRuleValue("announceAdvancements", "false");
+
+        for (World world : HCore.getPlugin().getServer().getWorlds()) {
+            if (Methods.getServerVersion() > 12) {
+                world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            } else {
+                world.setGameRuleValue("announceAdvancements", "false");
+            }
         }
     }
 }
