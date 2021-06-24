@@ -153,9 +153,10 @@ public class OnPlayerJoinToPvpArena implements Listener {
         for (ProtectedRegion regions : set.getRegions()) {
             for (String info : HCore.config.getStringList("pvp-arena.regions")) {
                 String[] data = info.split(":");
-                String region = data[0];
-                String world  = data[1];
-                if (regions.getId().equals(region) && loc.getWorld().getName().equals(world)) {
+                if (data[1] == null && loc.getWorld().getName().equals(data[0].toLowerCase())) {
+                    return true;
+                }
+                if (regions.getId().equals(data[0]) && loc.getWorld().getName().equals(data[1])) {
                     return true;
                 }
             }

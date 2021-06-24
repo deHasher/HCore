@@ -1,5 +1,6 @@
 package ru.dehasher.hcore.events;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -26,6 +27,10 @@ public class OnPlayerDeath implements Listener {
         if (HCore.config.getBoolean("death.chance-on-drop-items.enabled")) {
             Random random = new Random();
             Player player = e.getEntity().getPlayer();
+
+            for (String world : HCore.config.getStringList("death.chance-on-drop-items.ignored-worlds")) {
+                if (world.equals(player.getWorld().getName().toLowerCase())) return;
+            }
 
             // Дроп предметов.
             if (!e.getKeepInventory()) {
