@@ -1,0 +1,5 @@
+name: ${project.name}
+version: ${project.version}
+main: ru.dehasher.bungee.HCore
+
+author: deHasher

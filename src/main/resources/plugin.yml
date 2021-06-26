@@ -1,6 +1,6 @@
 name: ${project.name}
 version: ${project.version}
-main: ru.dehasher.hcore.HCore
+main: ru.dehasher.bukkit.HCore
 api-version: 1.16
 
 database: false
