@@ -1,11 +1,11 @@
 package ru.dehasher.bungee.managers;
 
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.List;
 
+@SuppressWarnings("deprecation")
 public class Informer {
 
     private static void request(ProxiedPlayer player, String message) {
