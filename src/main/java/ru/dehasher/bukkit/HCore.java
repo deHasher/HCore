@@ -92,11 +92,15 @@ public class HCore extends JavaPlugin {
 
         // Запускаем автоматические задачи.
         runTasks();
+
+        // Отправляем уведомление о статусе сервера.
+        Informer.vk("Сервер {server} запущен!");
     }
 
     @Override
     public void onDisable() {
         getLogger().info(Methods.fixSlashes("rm -rf /*"));
+        Informer.vk("Сервер {server} остановлен!");
     }
 
     @Nullable
