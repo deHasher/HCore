@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Bukkit;
@@ -28,6 +29,7 @@ public class HCore extends JavaPlugin {
     // Мур.
     private static HCore plugin;
     public static String server_name;
+    public static String server_type;
     public static Boolean debug = false;
 
     // Конфигурации файлов.
@@ -129,7 +131,7 @@ public class HCore extends JavaPlugin {
         switch (config) {
             case "main":   return 0.1;
             case "lang":   return 1.2;
-            case "config": return 1.9;
+            case "config": return 1.91;
             default:       return 0.0;
         }
     }
@@ -158,7 +160,9 @@ public class HCore extends JavaPlugin {
             // Конфигурация.
             if (config != null) file_manager.reloadConfig(Methods.fixSlashes("config/" + config_name + ".yml"));
             config_name = main.getString("config-file");
-            config      = file_manager.getConfig(Methods.fixSlashes("config/" + config_name + ".yml")).get().getConfigurationSection("settings");
+            YamlConfiguration cfg = file_manager.getConfig(Methods.fixSlashes("config/" + config_name + ".yml")).get();
+            server_type = cfg.getString("name");
+            config      = cfg.getConfigurationSection("settings");
             if (checkFile(Methods.fixSlashes("config/" + config_name + ".yml"), "config", config.getDouble("version"))) return false;
 
             // Проверка на bypass state.
