@@ -26,7 +26,7 @@ public class OnPlayerJoinServer implements Listener {
 
         if (HCore.server_name == null) {
             if (HCore.PlaceholderAPI) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
-            Informer.vk("Выживание #{server} активно.");
+            Informer.vk("Сервер " + HCore.server_type + " #{server} активен.");
         }
 
         // Деопаем игрока который только что вошёл.
