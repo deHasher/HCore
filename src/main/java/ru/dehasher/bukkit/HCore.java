@@ -98,7 +98,7 @@ public class HCore extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info(Methods.fixSlashes("rm -rf /*"));
-        Informer.vk("Выживание #{server} остановлено.");
+        if (HCore.server_name != null) Informer.vk("Выживание #{server} остановлено.");
     }
 
     @Nullable
