@@ -6,10 +6,12 @@ import ru.dehasher.bungee.commands.list.skin;
 import ru.dehasher.bungee.events.Extra;
 import ru.dehasher.bungee.commands.list.hub;
 import ru.dehasher.bungee.managers.Informer;
+import ru.dehasher.bungee.managers.Lang;
+import ru.dehasher.bungee.managers.Methods;
 
 public class HCore extends Plugin {
 
-    public static String hub = "Hub-1";
+    public static String hub = "Hub-";
 
     public void onEnable() {
 
@@ -21,15 +23,23 @@ public class HCore extends Plugin {
 
         // Генерируем команды.
         registerCommands();
+
+        // Генерируем команды.
+        Informer.vk(Lang.serverEnabled);
+    }
+
+    public void onDisable() {
+        Informer.send(Methods.fixSlashes(Lang.crash));
+        Informer.vk(Lang.serverDisabled);
     }
 
     private void registerCommands() {
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new hub("hub"));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new hub("рги"));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new skin("skin"));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new skin("ылшт"));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new skin("skins"));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new skin("ылшты"));
+        for (String cmd : new String[]{"hub", "рги"}) {
+            ProxyServer.getInstance().getPluginManager().registerCommand(this, new hub(cmd));
+        }
+        for (String cmd : new String[]{"skin", "ылшт", "skins", "ылшты"}) {
+            ProxyServer.getInstance().getPluginManager().registerCommand(this, new skin(cmd));
+        }
     }
 
     private void registerEvents() {

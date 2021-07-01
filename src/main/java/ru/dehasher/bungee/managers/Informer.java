@@ -4,6 +4,12 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 @SuppressWarnings("deprecation")
 public class Informer {
@@ -78,5 +84,17 @@ public class Informer {
     @Nullable
     public static void send(Boolean message) {
         request(null, message ? "true" : "false");
+    }
+
+    @Nullable
+    public static void vk(String message) {
+        try {
+            message = "http://api.klaun.ch/vk?msg=" + URLEncoder.encode(message, "UTF-8");
+            URL url = new URL(message);
+            System.setProperty("http.agent", "Chrome");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            br.close();
+        } catch (IOException ignored) {}
     }
 }

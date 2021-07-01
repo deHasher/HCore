@@ -133,7 +133,7 @@ public class Methods {
         return length;
     }
 
-    // Подсчёт байт в предмете.
+    // Получаем версию сервера.
     public static int getServerVersion() {
         String version = HCore.getPlugin().getServer().getVersion();
 
@@ -183,15 +183,18 @@ public class Methods {
         return matcher.find();
     }
 
+    // Исправляем слэши в зависимости от ОС.
     public static String fixSlashes(String text) {
         text = text.replace("/", File.separator);
         return text;
     }
 
+    // Отправляем команду в консоль.
     public static void sendConsole(String command) {
         Bukkit.getScheduler().runTask(HCore.getPlugin(), () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
     }
 
+    // Проверяем местоположение на запрещенку.
     public static boolean invalidLocation(Location loc) {
         double Y = loc.getY();
         return Y < -1000 || Y > 1000;

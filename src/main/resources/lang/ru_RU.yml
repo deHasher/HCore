@@ -93,7 +93,7 @@ messages:
                 self: "{main}Игрок &e{player} &fбыл телепортирован на спавн."
                 target: "{main}Вы были телепортированы на спавн игроком &e{player}&f."
                 error: "{main}Вы не можете телепортировать этого игрока к спавну!"
-        hidden-console: "{plugin}Server made by &adeHasher&f."
+        hidden-console: "{plugin}Server made by &adeHasher&f. &7(v{version})"
 
     # Название и описание запрещенных предметов.
     bad-item:

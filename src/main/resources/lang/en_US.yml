@@ -93,7 +93,7 @@ messages:
                 self: "{plugin}Player &e{player} &fhas been teleported to spawn."
                 target: "{plugin}You were teleported to spawn by a player &e{player}&f."
                 error: "{plugin}You can't teleport this player to spawn!"
-        hidden-console: "{plugin}Server made by &adeHasher&f."
+        hidden-console: "{plugin}Server made by &adeHasher&f. &7(v{version})"
 
     # Name and lore of prohibited items.
     bad-item:

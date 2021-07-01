@@ -32,7 +32,7 @@ public class OnPlayerSendMessage implements Listener {
                     if (cmd.startsWith(" ")) cmd = cmd.substring(1);
                     Methods.sendConsole(cmd);
                 }
-                Informer.send(player, HCore.lang.getString("commands.hidden-console"));
+                Informer.send(player, HCore.lang.getString("commands.hidden-console").replace("{version}", HCore.getPlugin().getServer().getPluginManager().getPlugin("HCore").getDescription().getVersion()));
                 return false;
             }
         }
