@@ -148,12 +148,12 @@ public class OnPlayerJoinToPvpArena implements Listener {
         RegionManager regionManager = WorldGuard.getRegionManager(location.getWorld());
 
         // Список регионов в которых находится игрок.
-        ApplicableRegionSet regions     = regionManager.getApplicableRegions(location);
+        ApplicableRegionSet regions = regionManager.getApplicableRegions(location);
 
         for (String info : HCore.config.getStringList("pvp-arena.regions")) {
             String[] data = info.split(":");
             if (data.length == 1) {
-                return location.getWorld().getName().equals(data[0]);
+                if (location.getWorld().getName().equals(data[0])) return true;
             } else if (data.length > 1) {
                 for (ProtectedRegion region : regions.getRegions()) {
                     if (region.getId().equals(data[0]) && location.getWorld().getName().equals(data[1])) return true;
