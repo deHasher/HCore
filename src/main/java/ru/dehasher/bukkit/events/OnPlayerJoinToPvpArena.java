@@ -142,26 +142,24 @@ public class OnPlayerJoinToPvpArena implements Listener {
         if (Methods.isPerm(player, "hcore.bypass.pvp")) return false;
 
         // Локация игрока.
-        Location loc = player.getLocation();
+        Location location = player.getLocation();
 
         // Список регионов мира где находится игрок.
-        RegionManager regionManager = WorldGuard.getRegionManager(loc.getWorld());
+        RegionManager regionManager = WorldGuard.getRegionManager(location.getWorld());
 
         // Список регионов в которых находится игрок.
-        ApplicableRegionSet set     = regionManager.getApplicableRegions(loc);
+        ApplicableRegionSet regions     = regionManager.getApplicableRegions(location);
 
-        for (ProtectedRegion regions : set.getRegions()) {
-            for (String info : HCore.config.getStringList("pvp-arena.regions")) {
-                String[] data = info.split(":");
-                if (data.length == 1) {
-                    String world = loc.getWorld().getName().toLowerCase();
-                    if (world.equals(data[0].toLowerCase())) return true;
-                } else if (data.length > 1 && regions.getId().equals(data[0]) && loc.getWorld().getName().equals(data[1])) {
-                    return true;
+        for (String info : HCore.config.getStringList("pvp-arena.regions")) {
+            String[] data = info.split(":");
+            if (data.length == 1) {
+                return location.getWorld().getName().equals(data[0]);
+            } else if (data.length > 1) {
+                for (ProtectedRegion region : regions.getRegions()) {
+                    if (region.getId().equals(data[0]) && location.getWorld().getName().equals(data[1])) return true;
                 }
             }
         }
-
         return false;
     }
 }
