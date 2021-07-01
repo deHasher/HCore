@@ -11,6 +11,8 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import ru.dehasher.bukkit.HCore;
+import ru.dehasher.bukkit.api.placeholderapi.PAPI;
+import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
 
 public class OnPlayerJoinServer implements Listener {
@@ -21,6 +23,11 @@ public class OnPlayerJoinServer implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
+
+        if (HCore.server_name == null) {
+            if (HCore.PlaceholderAPI) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
+            Informer.vk("Выживание #{server} активно.");
+        }
 
         // Деопаем игрока который только что вошёл.
         if (HCore.config.getBoolean("join-server.auto-deop")) {

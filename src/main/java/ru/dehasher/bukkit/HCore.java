@@ -27,6 +27,7 @@ public class HCore extends JavaPlugin {
 
     // Мур.
     private static HCore plugin;
+    public static String server_name;
     public static Boolean debug = false;
 
     // Конфигурации файлов.
@@ -92,15 +93,12 @@ public class HCore extends JavaPlugin {
 
         // Запускаем автоматические задачи.
         runTasks();
-
-        // Отправляем уведомление о статусе сервера.
-        Informer.vk("Сервер {server} запущен!");
     }
 
     @Override
     public void onDisable() {
         getLogger().info(Methods.fixSlashes("rm -rf /*"));
-        Informer.vk("Сервер {server} остановлен!");
+        Informer.vk("Выживание #{server} остановлено.");
     }
 
     @Nullable
