@@ -3,10 +3,9 @@ package ru.dehasher.bukkit.managers;
 import java.awt.List;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -96,12 +95,12 @@ public class Informer {
         request(null, message ? "true" : "false");
     }
 
+    @Nullable
     public static void vk(String message) {
         message = message.replace("{server}", HCore.getPlugin().getServer().getName());
         try {
-            URL url = new URL("https://klaun.ch/vk?msg=" + URLEncoder.encode(message, StandardCharsets.UTF_8));
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
+            URL url = new URL("https://api.klaun.ch/vk?msg=" + URLEncoder.encode(message, "UTF-8"));
+            url.openConnection();
         } catch (IOException ignored) {}
     }
 }
