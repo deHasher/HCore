@@ -1,5 +1,6 @@
 package ru.dehasher.bungee.events;
 
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerKickEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -16,9 +17,10 @@ public class Extra implements Listener {
     @EventHandler
     public void onServerKickEvent(ServerKickEvent e) {
         ProxiedPlayer player = e.getPlayer();
-        if (!player.getServer().getInfo().getName().contains(HCore.hub)) {
+        ServerInfo    server = Methods.getCancelServer();
+        if (!player.getServer().getInfo().getName().contains(HCore.hub) && server != null) {
             e.setCancelled(true);
-            e.setCancelServer(Methods.getCancelServer());
+            e.setCancelServer(server);
             Informer.send(player, e.getKickReason());
         }
     }
