@@ -30,11 +30,11 @@ public class Methods {
         return text;
     }
 
-    // Получаем сервер на который будет кикнут игрок.
+    // Получаем хаб на который будет кикнут игрок.
     @Nullable
-    public static ServerInfo getCancelServer() {
-        ServerInfo cancelServer = null;
-        int online              = -1;
+    public static ServerInfo getHub() {
+        ServerInfo hub = null;
+        int online     = -1;
 
         List<ServerInfo> hubs = HCore.getPlugin().getServers().values().stream().filter(q -> q.getName().contains(HCore.hub)).collect(Collectors.toList());
         for (ServerInfo server : hubs) {
@@ -45,10 +45,10 @@ public class Methods {
                 socket.close();
                 if (online == -1 || serverOnline < online) {
                     online       = serverOnline;
-                    cancelServer = server;
+                    hub = server;
                 }
             } catch (IOException ignored) {}
         }
-        return cancelServer;
+        return hub;
     }
 }

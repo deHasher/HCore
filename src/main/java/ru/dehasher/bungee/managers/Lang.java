@@ -3,7 +3,6 @@ package ru.dehasher.bungee.managers;
 public class Lang {
     public static String notPlayer      = "Эта команда доступна только для игроков!";
     public static String alreadyInHub   = "Вы уже находитесь в хабе!";
-    public static String serverNotFound = "Сервера не существует!";
     public static String serverEnabled  = "Сервер Прокси активен.";
     public static String serverDisabled = "Сервер Прокси остановлен.";
     public static String tpInHub        = "Телепортация в хаб...";

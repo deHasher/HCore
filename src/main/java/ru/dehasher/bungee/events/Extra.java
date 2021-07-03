@@ -17,10 +17,10 @@ public class Extra implements Listener {
     @EventHandler
     public void onServerKickEvent(ServerKickEvent e) {
         ProxiedPlayer player = e.getPlayer();
-        ServerInfo    server = Methods.getCancelServer();
-        if (!player.getServer().getInfo().getName().contains(HCore.hub) && server != null) {
+        ServerInfo    hub    = Methods.getHub();
+        if (!player.getServer().getInfo().getName().contains(HCore.hub) && hub != null) {
             e.setCancelled(true);
-            e.setCancelServer(server);
+            e.setCancelServer(hub);
             Informer.send(player, e.getKickReason());
         }
     }
