@@ -5,7 +5,7 @@
 
     <properties>
 
-        <hcore.version.plugin>1.5.1</hcore.version.plugin>
+        <hcore.version.plugin>1.5.2</hcore.version.plugin>
         <hcore.version.main>0.1</hcore.version.main>
         <hcore.version.lang>1.3</hcore.version.lang>
         <hcore.version.config>1.91</hcore.version.config>
