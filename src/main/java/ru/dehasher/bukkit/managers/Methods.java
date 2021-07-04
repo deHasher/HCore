@@ -1,6 +1,7 @@
 package ru.dehasher.bukkit.managers;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -184,9 +185,17 @@ public class Methods {
     }
 
     // Исправляем слэши в зависимости от ОС.
-    public static String fixSlashes(String text) {
-        text = text.replace("/", File.separator);
-        return text;
+    public static String fixSlashes(String input) {
+        return input.replace("/", File.separator);
+    }
+
+    // Исправляем слэши в зависимости от ОС.
+    public static String urlEncode(String input) {
+        try {
+            return URLEncoder.encode(input, "UTF-8");
+        } catch (Exception ex) {
+            return input;
+        }
     }
 
     // Отправляем команду в консоль.

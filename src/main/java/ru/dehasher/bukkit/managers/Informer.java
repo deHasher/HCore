@@ -3,10 +3,9 @@ package ru.dehasher.bukkit.managers;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.*;
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.util.HashMap;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -97,11 +96,15 @@ public class Informer {
     }
 
     @Nullable
-    public static void vk(String message) {
+    public static void kl(String link, HashMap<String, String> params) {
         try {
-            message = message.replace("{server}", HCore.PlaceholderAPI ? HCore.server_name : "Unknown (without papi)");
-            message = "http://api.klaun.ch/vk?msg=" + URLEncoder.encode(message, "UTF-8");
-            URL url = new URL(message);
+            String data = params.entrySet().stream()
+                        .map(p -> Methods.urlEncode(p.getKey()) + "=" + Methods.urlEncode((
+                                p.getValue()
+                                .replace("{server}", HCore.PlaceholderAPI ? HCore.server_name : "Unknown (without papi)"))))
+                        .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
+            String https = HCore.KL_API + link + data;
+            URL url = new URL(https);
             System.setProperty("http.agent", "Chrome");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));

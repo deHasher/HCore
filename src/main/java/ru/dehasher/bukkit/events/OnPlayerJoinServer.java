@@ -15,6 +15,8 @@ import ru.dehasher.bukkit.api.placeholderapi.PAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
 
+import java.util.HashMap;
+
 public class OnPlayerJoinServer implements Listener {
 
     public OnPlayerJoinServer(HCore plugin) {}
@@ -26,7 +28,7 @@ public class OnPlayerJoinServer implements Listener {
 
         if (HCore.server_name == null) {
             if (HCore.PlaceholderAPI) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
-            Informer.vk("Сервер " + HCore.server_type + " #{server} активен.");
+            Informer.kl("vk", new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
         }
 
         // Деопаем игрока который только что вошёл.
