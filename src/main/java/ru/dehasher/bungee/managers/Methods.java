@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class Methods {
         ServerInfo hub = null;
         int online     = -1;
 
-        List<ServerInfo> hubs = HCore.getPlugin().getServers().values().stream().filter(q -> q.getName().contains(HCore.hub)).collect(Collectors.toList());
+        List<ServerInfo> hubs = HCore.getPlugin().getServers().values().stream().filter(q -> q.getName().contains(HCore.HUB)).collect(Collectors.toList());
         for (ServerInfo server : hubs) {
             int serverOnline = HCore.getPlugin().getServers().get(server.getName()).getPlayers().size();
             try {
@@ -50,5 +51,14 @@ public class Methods {
             } catch (IOException ignored) {}
         }
         return hub;
+    }
+
+    // Шифруем строку в url.
+    public static String urlEncode(String input) {
+        try {
+            return URLEncoder.encode(input, "UTF-8");
+        } catch (Exception ex) {
+            return input;
+        }
     }
 }

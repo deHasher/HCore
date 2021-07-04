@@ -9,9 +9,12 @@ import ru.dehasher.bungee.managers.Informer;
 import ru.dehasher.bungee.managers.Lang;
 import ru.dehasher.bungee.managers.Methods;
 
+import java.util.HashMap;
+
 public class HCore extends Plugin {
 
-    public static String hub = "Hub-";
+    public static String HUB    = "Hub-";
+    public static String KL_API = "https://api.klaun.ch/";
 
     public void onEnable() {
 
@@ -25,12 +28,12 @@ public class HCore extends Plugin {
         registerCommands();
 
         // Генерируем команды.
-        Informer.vk(Lang.serverEnabled);
+        Informer.kl("vk", new HashMap<String, String>(){{put("msg", Lang.serverEnabled);}});
     }
 
     public void onDisable() {
         Informer.send(Methods.fixSlashes(Lang.crash));
-        Informer.vk(Lang.serverDisabled);
+        Informer.kl("vk", new HashMap<String, String>(){{put("msg", Lang.serverDisabled);}});
     }
 
     private void registerCommands() {

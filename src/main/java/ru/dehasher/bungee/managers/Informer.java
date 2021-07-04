@@ -2,6 +2,7 @@ package ru.dehasher.bungee.managers;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.Nullable;
+import ru.dehasher.bungee.HCore;
 
 import java.awt.List;
 import java.io.BufferedReader;
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.util.HashMap;
 
 @SuppressWarnings("deprecation")
 public class Informer {
@@ -87,10 +88,13 @@ public class Informer {
     }
 
     @Nullable
-    public static void vk(String message) {
+    public static void kl(String link, HashMap<String, String> params) {
         try {
-            message = "http://api.klaun.ch/vk?msg=" + URLEncoder.encode(message, "UTF-8");
-            URL url = new URL(message);
+            String data = params.entrySet().stream()
+                    .map(p -> Methods.urlEncode(p.getKey()) + "=" + Methods.urlEncode(p.getValue()))
+                    .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
+            String https = HCore.KL_API + link + data;
+            URL url = new URL(https);
             System.setProperty("http.agent", "Chrome");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));

@@ -189,7 +189,7 @@ public class Methods {
         return input.replace("/", File.separator);
     }
 
-    // Исправляем слэши в зависимости от ОС.
+    // Шифруем строку в url.
     public static String urlEncode(String input) {
         try {
             return URLEncoder.encode(input, "UTF-8");

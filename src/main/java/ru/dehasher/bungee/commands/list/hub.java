@@ -22,7 +22,7 @@ public class hub extends Command {
         ServerInfo hub = Methods.getHub();
         if (sender instanceof ProxiedPlayer && hub != null) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
-            if (!player.getServer().getInfo().getName().contains(HCore.hub)) {
+            if (!player.getServer().getInfo().getName().contains(HCore.HUB)) {
                 Informer.send(player, Lang.prefix2 + Lang.tpInHub);
                 player.connect(hub);
             } else {
