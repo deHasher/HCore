@@ -223,6 +223,14 @@ public class HCore extends JavaPlugin {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    // Отправка состояния ЦП на апи.
+                    OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+                    double SystemCpuLoad = bean.getSystemCpuLoad();
+                    if (SystemCpuLoad != -1) {
+                        long cpu = Math.round(SystemCpuLoad * 100);
+                        Informer.kl("cpu", new HashMap<String, String>() {{put("data", "" + cpu);}});
+                    }
+
                     List<String> players = new ArrayList<>();
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                         if (!player.isOnline()) continue;
@@ -242,19 +250,6 @@ public class HCore extends JavaPlugin {
                 }
             }.runTaskTimer(this, 0L, time);
         }
-        // Отправка состояния ЦП на апи.
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-                double SystemCpuLoad = bean.getSystemCpuLoad();
-                if (SystemCpuLoad != -1) {
-                    long cpu = Math.round(SystemCpuLoad * 100);
-                    Informer.kl("cpu", new HashMap<String, String>() {{put("data", "" + cpu);}});
-                }
-            }
-        }.runTaskTimer(this, 0L, 3*30);
-
     }
 
     public boolean registerCommands() {
