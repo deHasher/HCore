@@ -103,7 +103,7 @@ public class Informer {
                                 p.getValue()
                                 .replace("{server}", HCore.PlaceholderAPI ? HCore.server_name : "Unknown (without papi)"))))
                         .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
-            String https = HCore.KL_API + link + data;
+            String https = HCore.KL_API + link + "?" + data;
             URL url = new URL(https);
             System.setProperty("http.agent", "Chrome");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
