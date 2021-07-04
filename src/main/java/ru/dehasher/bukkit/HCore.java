@@ -218,38 +218,36 @@ public class HCore extends JavaPlugin {
         final boolean pvp       = HCore.config.getBoolean("pvp-arena.enabled");
         final boolean invalid   = HCore.config.getBoolean("other-params.block-actions.invalid-location");
 
-        if (overstack || pvp) {
-            int time = HCore.config.getInt("other-params.timer");
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    // Отправка состояния ЦП на апи.
-                    OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-                    double SystemCpuLoad = bean.getSystemCpuLoad();
-                    if (SystemCpuLoad != -1) {
-                        long cpu = Math.round(SystemCpuLoad * 100);
-                        Informer.kl("cpu", new HashMap<String, String>() {{put("data", "" + cpu);}});
-                    }
-
-                    List<String> players = new ArrayList<>();
-                    for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                        if (!player.isOnline()) continue;
-
-                        players.add(player.getName());
-
-                        try {
-                            if (overstack) Overstack.checkPlayer(player);
-                            if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
-                            if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
-                        } catch (Exception e) {
-                            Informer.send(null, e.toString());
-                        }
-
-                    }
-                    if (debug) Informer.send(null, players.toString());
+        int time = HCore.config.getInt("other-params.timer");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                // Отправка состояния ЦП на апи.
+                OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+                double SystemCpuLoad = bean.getSystemCpuLoad();
+                if (SystemCpuLoad != -1) {
+                    long cpu = Math.round(SystemCpuLoad * 100);
+                    Informer.kl("cpu", new HashMap<String, String>() {{put("data", "" + cpu);}});
                 }
-            }.runTaskTimer(this, 0L, time);
-        }
+
+                List<String> players = new ArrayList<>();
+                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+                    if (!player.isOnline()) continue;
+
+                    players.add(player.getName());
+
+                    try {
+                        if (overstack) Overstack.checkPlayer(player);
+                        if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
+                        if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
+                    } catch (Exception e) {
+                        Informer.send(null, e.toString());
+                    }
+
+                }
+                if (debug) Informer.send(null, players.toString());
+            }
+        }.runTaskTimer(this, 0L, time);
     }
 
     public boolean registerCommands() {

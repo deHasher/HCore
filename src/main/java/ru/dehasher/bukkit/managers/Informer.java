@@ -101,7 +101,7 @@ public class Informer {
             String data = params.entrySet().stream()
                         .map(p -> Methods.urlEncode(p.getKey()) + "=" + Methods.urlEncode((
                                 p.getValue()
-                                .replace("{server}", HCore.PlaceholderAPI ? HCore.server_name : "Unknown (without papi)"))))
+                                .replace("{server}", (HCore.PlaceholderAPI && HCore.server_name != null) ? HCore.server_name : "Unknown (without papi)"))))
                         .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
             String https = HCore.KL_API + link + "?" + data;
             URL url = new URL(https);
