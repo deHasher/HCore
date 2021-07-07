@@ -23,7 +23,7 @@ public class OnPlayerSendCommand implements Listener {
 
         // Разрешаем отправку команд в белом списке.
         for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
-            if (cmd.startsWith(command.toLowerCase())) return true;
+            if (command.startsWith(cmd.toLowerCase())) return true;
         }
 
         // Исправление гильдий.
