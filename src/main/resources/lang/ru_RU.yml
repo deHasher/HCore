@@ -55,7 +55,7 @@ messages:
             info:
                 arguments: "&7[&aник&7] &7[&aсила&7]"
                 description: "Крашнуть игрока."
-            success: "{main}У игрока &e{player} &fзавис майнкрафт &a:)"
+            success: "{main}У игрока &e{player} &fзавис майнкрафт &a:) &7({power})"
             error: "{main}У игрока защита от краша!"
         checkplayed:
             info:
