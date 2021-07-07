@@ -19,6 +19,7 @@ public class checkplayed {
             if (length > 0) {
                 Player target = HCore.getPlugin().getServer().getPlayer(args[0]);
                 Informer.send(player, (target == null || !target.hasPlayedBefore()) ? 0 : 1);
+                return true;
             } else {
                 Informer.send(player, info);
             }
