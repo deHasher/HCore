@@ -1,5 +1,6 @@
 package ru.dehasher.bukkit.commands.list;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,7 +18,7 @@ public class checkplayed {
 
         if (Methods.isPerm(player, "hcore.command.checkplayed")) {
             if (length > 0) {
-                Player target = HCore.getPlugin().getServer().getPlayer(args[0]);
+                Player target = Bukkit.getPlayer(args[0]);
                 Informer.send(player, (target.hasPlayedBefore()) ? 1 : 0);
                 return true;
             } else {
