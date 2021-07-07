@@ -57,6 +57,10 @@ messages:
                 description: "Crash the player."
             success: "{main}The player &e{player} &flagging &a:)"
             error: "{main}The player has crash protection!"
+        checkplayed:
+            info:
+                arguments: "&7[&anick&7]"
+                description: "Did the player log in to the server or not."
         free:
             info:
                 arguments: ""

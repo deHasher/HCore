@@ -34,6 +34,8 @@ settings:
                         - ызфмт
                 setspawn:
                     aliases: []
+                checkplayed:
+                    aliases: []
                 hreload:
                     aliases: []
                 crash:

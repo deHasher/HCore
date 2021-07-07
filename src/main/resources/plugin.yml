@@ -36,6 +36,7 @@ permissions:
       - hcore.command.crash
       - hcore.command.crash.exempt
       - hcore.command.prefix
+      - hcore.command.checkplayed
   hcore.bypass.*:
     default: op
     description: Позволяет обходить установленные плагином ограничения.

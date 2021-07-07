@@ -57,6 +57,10 @@ messages:
                 description: "Крашнуть игрока."
             success: "{main}У игрока &e{player} &fзавис майнкрафт &a:)"
             error: "{main}У игрока защита от краша!"
+        checkplayed:
+            info:
+                arguments: "&7[&aник&7]"
+                description: "Заходил ли игрок на сервер или нет."
         free:
             info:
                 arguments: ""

@@ -29,6 +29,8 @@ settings:
             commands:
                 hreload:
                     aliases: []
+                checkplayed:
+                    aliases: []
                 crash:
                     aliases: []
             format: "&a/{command} {arguments} &f- {description}"
