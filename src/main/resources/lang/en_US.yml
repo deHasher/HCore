@@ -53,7 +53,7 @@ messages:
             error: "{main}The prefix/suffix must not contain more than &a{max} &fcharacters!"
         crash:
             info:
-                arguments: "&7[&anick&7]"
+                arguments: "&7[&anick&7] &7[&apower&7]"
                 description: "Crash the player."
             success: "{main}The player &e{player} &flagging &a:)"
             error: "{main}The player has crash protection!"

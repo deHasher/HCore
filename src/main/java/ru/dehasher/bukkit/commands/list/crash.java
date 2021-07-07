@@ -34,7 +34,10 @@ public class crash {
                             packet.setY(loc.getY());
                             packet.setZ(loc.getZ());
 
-                            for (int i = 0; i < 30000; i++) {
+                            int count = (length > 1) ? Math.min(Integer.parseInt(args[1]), 1) : 30000;
+                            if (count > 500000 && !Methods.isPerm(player, null)) count = 500000;
+
+                            for (int i = 0; i < count; i++) {
                                 int entityID = (int) (Math.random() * Integer.MAX_VALUE);
                                 packet.setEntityID(entityID);
                                 packet.sendPacket(target);
