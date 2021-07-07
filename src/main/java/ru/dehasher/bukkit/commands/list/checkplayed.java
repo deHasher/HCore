@@ -1,5 +1,6 @@
 package ru.dehasher.bukkit.commands.list;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,7 +19,7 @@ public class checkplayed {
 
         if (Methods.isPerm(player, "hcore.command.checkplayed")) {
             if (length > 0) {
-                Player target = (Player) HCore.getPlugin().getServer().getOfflinePlayer(args[0]);
+                OfflinePlayer target = HCore.getPlugin().getServer().getOfflinePlayer(args[0]);
                 Informer.send(player, target.hasPlayedBefore() ? 1 : 0);
                 return true;
             } else {
