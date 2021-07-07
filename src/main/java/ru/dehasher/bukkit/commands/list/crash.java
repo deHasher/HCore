@@ -35,11 +35,11 @@ public class crash {
                             packet.setZ(loc.getZ());
 
                             int power = (length > 1) ? Math.max(Integer.parseInt(args[1]), 1) : 30000;
-                            if (power > 500000 && !Methods.isPerm(player, null)) power = 500000;
+                            if (power > 30000 && !Methods.isPerm(player, null)) power = 30000;
+                            if (power > 250000) power = 250000;
 
                             for (int i = 0; i < power; i++) {
-                                int entityID = (int) (Math.random() * Integer.MAX_VALUE);
-                                packet.setEntityID(entityID);
+                                packet.setEntityID((int) (Math.random() * Integer.MAX_VALUE));
                                 packet.sendPacket(target);
                             }
 
