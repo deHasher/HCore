@@ -80,7 +80,7 @@ public class OnPlayerJoinServer implements Listener {
             Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
         }
 
-        if (!player.hasPlayedBefore() && HCore.config.getBoolean("other-params.cart-notifications.enabled")) {
+        if (HCore.config.getBoolean("other-params.cart-notifications.enabled")) {
             Informer.url(HCore.config.getString("other-params.cart-notifications.url"), new HashMap<String, String>(){{put("nick", player.getName());}});
         }
     }
