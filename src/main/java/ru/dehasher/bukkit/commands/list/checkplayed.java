@@ -1,5 +1,6 @@
 package ru.dehasher.bukkit.commands.list;
 
+import com.google.common.base.Charsets;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,6 +10,7 @@ import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
 
 import java.io.File;
+import java.util.UUID;
 
 @SuppressWarnings("deprecation")
 public class checkplayed {
@@ -25,10 +27,11 @@ public class checkplayed {
                 int exists = 0;
                 if (target.isOnline()) exists = 1;
 
+                UUID uuid     = UUID.nameUUIDFromBytes(("OfflinePlayer:" + args[0]).getBytes(Charsets.UTF_8));
                 String folder = HCore.getPlugin().getServer().getWorldContainer().getAbsolutePath();
-                if (folder.endsWith(".")) folder = folder.substring(0, folder.length() - 1);
+                String path   = HCore.getPlugin().getServer().getWorlds().get(0).getName() + "/playerdata/" + uuid + ".dat";
 
-                String path   = HCore.getPlugin().getServer().getWorlds().get(0).getName() + "/playerdata/" + target.getUniqueId() + ".dat";
+                if (folder.endsWith(".")) folder = folder.substring(0, folder.length() - 1);
                 if (new File(Methods.fixSlashes(folder + path)).exists()) exists = 1;
                 sender.sendMessage(exists + "");
 
