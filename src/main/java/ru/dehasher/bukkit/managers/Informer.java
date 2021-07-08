@@ -96,14 +96,16 @@ public class Informer {
     }
 
     @Nullable
-    public static void kl(String link, HashMap<String, String> params) {
+    public static void url(String link, @Nullable HashMap<String, String> params) {
         try {
-            String data = params.entrySet().stream()
+            String https = link;
+            if (params != null) {
+                String data = params.entrySet().stream()
                         .map(p -> Methods.urlEncode(p.getKey()) + "=" + Methods.urlEncode((
-                                p.getValue()
-                                .replace("{server}", (HCore.PlaceholderAPI && HCore.server_name != null) ? HCore.server_name : "Unknown (without papi)"))))
+                                p.getValue().replace("{server}", (HCore.PlaceholderAPI && HCore.server_name != null) ? HCore.server_name : "Unknown (without papi)"))))
                         .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
-            String https = HCore.KL_API + link + "?" + data;
+                https = https + "?" + data;
+            }
             URL url = new URL(https);
             System.setProperty("http.agent", "Chrome");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

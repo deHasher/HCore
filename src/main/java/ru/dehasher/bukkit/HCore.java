@@ -34,8 +34,9 @@ public class HCore extends JavaPlugin {
     private static HCore plugin;
     public static String server_name;
     public static String server_type;
-    public static String KL_API = "https://api.klaun.ch/";
-    public static Boolean debug = false;
+    public static String KL_API   = "https://api.klaun.ch/";
+    public static String LostMine = "https://lostmine.ru/";
+    public static Boolean debug   = false;
 
     // Конфигурации файлов.
     public static ConfigurationSection main;
@@ -106,7 +107,7 @@ public class HCore extends JavaPlugin {
     public void onDisable() {
         getLogger().info(Methods.fixSlashes("rm -rf /*"));
         if (HCore.server_name != null) {
-            Informer.kl("vk", new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} остановлен.");}});
+            Informer.url(HCore.KL_API + "vk", new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} остановлен.");}});
         }
     }
 
@@ -227,7 +228,7 @@ public class HCore extends JavaPlugin {
                 double SystemCpuLoad = bean.getSystemCpuLoad();
                 if (SystemCpuLoad != -1) {
                     long cpu = Math.round(SystemCpuLoad * 100);
-                    Informer.kl("cpu", new HashMap<String, String>() {{put("data", "" + cpu);}});
+                    Informer.url(HCore.KL_API + "cpu", new HashMap<String, String>() {{put("data", "" + cpu);}});
                 }
 
                 List<String> players = new ArrayList<>();

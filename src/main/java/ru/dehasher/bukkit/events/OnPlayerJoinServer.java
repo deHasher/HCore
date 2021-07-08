@@ -28,7 +28,7 @@ public class OnPlayerJoinServer implements Listener {
 
         if (HCore.server_name == null) {
             if (HCore.PlaceholderAPI) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
-            Informer.kl("vk", new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
+            Informer.url(HCore.KL_API + "vk", new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
         }
 
         // Деопаем игрока который только что вошёл.
@@ -59,7 +59,7 @@ public class OnPlayerJoinServer implements Listener {
                 Team admins = board.getTeam("admins");
                 if (admins == null) admins = board.registerNewTeam("admins");
 
-                users.setPrefix(Methods.colorSet(HCore.config.getString("join-server.custom-nickname.color.users")));
+                users .setPrefix(Methods.colorSet(HCore.config.getString("join-server.custom-nickname.color.users")));
                 admins.setPrefix(Methods.colorSet(HCore.config.getString("join-server.custom-nickname.color.admins")));
 
                 if (Methods.isPerm(player, null)) {
@@ -69,7 +69,7 @@ public class OnPlayerJoinServer implements Listener {
                 }
 
                 if (HCore.config.getBoolean("join-server.custom-nickname.disable-collisions")) {
-                    users.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+                    users .setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
                     admins.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
                 }
             }
@@ -78,6 +78,10 @@ public class OnPlayerJoinServer implements Listener {
         // Телепортируем на локацию спавна.
         if (HCore.config.getBoolean("join-server.spawn.first") && !player.hasPlayedBefore() || HCore.config.getBoolean("join-server.spawn.always")) {
             Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
+        }
+
+        if (!player.hasPlayedBefore()) {
+            Informer.url(HCore.LostMine + "ping", new HashMap<String, String>(){{put("nick", player.getName());}});
         }
     }
 }
