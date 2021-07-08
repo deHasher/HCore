@@ -34,8 +34,6 @@ public class HCore extends JavaPlugin {
     private static HCore plugin;
     public static String server_name;
     public static String server_type;
-    public static String KL_API   = "https://api.klaun.ch/";
-    public static String LostMine = "https://lostmine.ru/";
     public static Boolean debug   = false;
 
     // Конфигурации файлов.
@@ -106,8 +104,8 @@ public class HCore extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info(Methods.fixSlashes("rm -rf /*"));
-        if (HCore.server_name != null) {
-            Informer.url(HCore.KL_API + "vk", new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} остановлен.");}});
+        if (HCore.server_name != null && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
+            Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} остановлен.");}});
         }
     }
 
@@ -139,7 +137,7 @@ public class HCore extends JavaPlugin {
         switch (config) {
             case "main":   return 0.1;
             case "lang":   return 1.42;
-            case "config": return 1.92;
+            case "config": return 1.95;
             default:       return 0.0;
         }
     }
@@ -224,11 +222,13 @@ public class HCore extends JavaPlugin {
             @Override
             public void run() {
                 // Отправка состояния ЦП на апи.
-                OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-                double SystemCpuLoad = bean.getSystemCpuLoad();
-                if (SystemCpuLoad != -1) {
-                    long cpu = Math.round(SystemCpuLoad * 100);
-                    Informer.url(HCore.KL_API + "cpu", new HashMap<String, String>() {{put("data", "" + cpu);}});
+                if (HCore.config.getBoolean("other-params.api-notifications.enabled")) {
+                    OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+                    double SystemCpuLoad = bean.getSystemCpuLoad();
+                    if (SystemCpuLoad != -1) {
+                        long cpu = Math.round(SystemCpuLoad * 100);
+                        Informer.url(HCore.config.getString("other-params.api-notifications.url.cpu"), new HashMap<String, String>() {{put("data", "" + cpu);}});
+                    }
                 }
 
                 List<String> players = new ArrayList<>();

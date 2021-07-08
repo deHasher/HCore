@@ -26,9 +26,9 @@ public class OnPlayerJoinServer implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
-        if (HCore.server_name == null) {
+        if (HCore.server_name == null && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
             if (HCore.PlaceholderAPI) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
-            Informer.url(HCore.KL_API + "vk", new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
+            Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
         }
 
         // Деопаем игрока который только что вошёл.
@@ -80,8 +80,8 @@ public class OnPlayerJoinServer implements Listener {
             Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
         }
 
-        if (!player.hasPlayedBefore()) {
-            Informer.url(HCore.LostMine + "ping", new HashMap<String, String>(){{put("nick", player.getName());}});
+        if (!player.hasPlayedBefore() && HCore.config.getBoolean("other-params.cart-notifications.enabled")) {
+            Informer.url(HCore.config.getString("other-params.cart-notifications.url"), new HashMap<String, String>(){{put("nick", player.getName());}});
         }
     }
 }

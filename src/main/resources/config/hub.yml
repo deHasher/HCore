@@ -491,6 +491,19 @@ settings:
         # Возможность писать на табличках используя цветовые теги &1 &2 &3 и т.д.
         colored-signs: true
 
+        # Отправка на API $_GET['msg'] и $_GET['data'] уведомления о том, что включился или выключился сервер.
+        # Для работы необходим PlaceholderAPI.
+        api-notifications:
+            enabled: true
+            url:
+                status: "https://api.klaun.ch/vk"
+                cpu: "https://api.klaun.ch/cpu"
+
+        # Отправка в магазин сервера $_GET['nick'] уведомления о том, что игрок впервые зашёл на сервер.
+        cart-notification:
+            enabled: false
+            url: "https://lostmine.ru/ping"
+
         # Права hcore.bypass.* перестанут работать.
         # Рекомендуется держать включённым на серверах авторизации и хаба.
         disable-bypass-permissions: true
