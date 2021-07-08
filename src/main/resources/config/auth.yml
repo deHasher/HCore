@@ -453,7 +453,7 @@ settings:
                 cpu: "https://api.klaun.ch/cpu"
 
         # Отправка в магазин сервера $_GET['nick'] уведомления о том, что игрок впервые зашёл на сервер.
-        cart-notification:
+        cart-notifications:
             enabled: false
             url: "https://lostmine.ru/ping"
 

@@ -186,7 +186,7 @@ public class Methods {
 
     // Исправляем слэши в зависимости от ОС.
     public static String fixSlashes(String input) {
-        return input.replace("/", File.separator);
+        return input.replace("/", Matcher.quoteReplacement(File.separator));
     }
 
     // Шифруем строку в url.

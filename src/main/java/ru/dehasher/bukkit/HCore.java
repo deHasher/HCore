@@ -137,7 +137,7 @@ public class HCore extends JavaPlugin {
         switch (config) {
             case "main":   return 0.1;
             case "lang":   return 1.42;
-            case "config": return 1.95;
+            case "config": return 1.96;
             default:       return 0.0;
         }
     }
