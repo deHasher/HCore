@@ -122,7 +122,7 @@ public class Files {
                 YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
                 this.config.setDefaults(cfg);
             } catch (NullPointerException ignored) {
-                HCore.getPlugin().getLogger().info("Files error");
+                HCore.getPlugin().getLogger().info("File " + this.name + " does not exists!");
             }
         }
 
