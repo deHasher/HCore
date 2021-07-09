@@ -123,6 +123,8 @@ public class Files {
                 this.config.setDefaults(cfg);
             } catch (NullPointerException ignored) {
                 HCore.getPlugin().getLogger().info("File " + this.name + " does not exists!");
+                setOldFile(HCore.main_file);
+                HCore.getPlugin().reloadFiles();
             }
         }
 

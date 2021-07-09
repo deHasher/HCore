@@ -15,7 +15,7 @@ import ru.dehasher.bukkit.HCore;
 
 public class Informer {
 
-    private static void request(Player player, String message) {
+    private static void request(Player player, @Nullable String message) {
         if (HCore.lang != null) {
             ConfigurationSection placeholders = HCore.lang.getConfigurationSection("placeholders");
             if (placeholders != null) {
