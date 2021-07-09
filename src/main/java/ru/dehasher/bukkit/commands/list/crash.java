@@ -9,6 +9,7 @@ import ru.dehasher.bukkit.HCore;
 import ru.dehasher.bukkit.api.protocollib.WrapperPlayServerSpawnEntityLiving;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 public class crash {
     public static boolean send(CommandSender sender, String command, String[] args) {
@@ -25,7 +26,7 @@ public class crash {
                     Informer.send(player, HCore.lang.getString("errors.player-not-found"));
                 } else {
                     if (!Methods.isPerm(target, "hcore.command.crash.exempt")) {
-                        if (Methods.checkPlugin("ProtocolLib")) {
+                        if (Methods.checkPlugin(Plugins.ProtocolLib)) {
                             Location loc = target.getLocation();
                             WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
 

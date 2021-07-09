@@ -22,6 +22,7 @@ import ru.dehasher.bukkit.api.essentials.EAPI;
 import ru.dehasher.bukkit.api.gadgetsmenu.GMAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 public class OnPlayerJoinToPvpArena implements Listener {
 
@@ -29,7 +30,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
     public OnPlayerJoinToPvpArena(HCore plugin) {
         WorldGuard = WorldGuardPlugin.inst();
-        if (Methods.checkPlugin("Essentials")) {
+        if (Methods.checkPlugin(Plugins.Essentials)) {
             Bukkit.getPluginManager().registerEvents(new EAPI(), HCore.getPlugin());
         }
 
@@ -51,8 +52,8 @@ public class OnPlayerJoinToPvpArena implements Listener {
                 }
             }
 
-            if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin("Essentials")) EAPI.offGodMode(player);
-            if (HCore.config.getBoolean("pvp-arena.block.gadgets") && Methods.checkPlugin("GadgetsMenu")) GMAPI.getPlugin(player).unequipGadget();
+            if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin(Plugins.Essentials)) EAPI.offGodMode(player);
+            if (HCore.config.getBoolean("pvp-arena.block.gadgets") && Methods.checkPlugin(Plugins.GadgetsMenu)) GMAPI.getPlugin(player).unequipGadget();
 
             if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
                 ItemStack[] inv = player.getInventory().getContents();

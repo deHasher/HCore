@@ -14,12 +14,13 @@ import org.bukkit.material.SpawnEgg;
 import ru.dehasher.bukkit.HCore;
 import ru.dehasher.bukkit.api.protocollib.PLAPI;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 @SuppressWarnings("deprecation")
 public class Extra implements Listener {
 
     public Extra(HCore plugin) {
-        if (Methods.checkPlugin("ProtocolLib")) PLAPI.endPortalSound();
+        if (Methods.checkPlugin(Plugins.ProtocolLib)) PLAPI.endPortalSound();
     }
 
     // Когда игрок пытается телепортироваться через /gm 3.

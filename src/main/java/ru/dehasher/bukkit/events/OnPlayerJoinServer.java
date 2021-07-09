@@ -14,6 +14,7 @@ import ru.dehasher.bukkit.HCore;
 import ru.dehasher.bukkit.api.placeholderapi.PAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 import java.util.HashMap;
 
@@ -27,7 +28,7 @@ public class OnPlayerJoinServer implements Listener {
         Player player = e.getPlayer();
 
         if (HCore.server_name == null && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
-            if (Methods.checkPlugin("PlacehoderAPI")) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
+            if (Methods.checkPlugin(Plugins.PlaceholderAPI)) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
             Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
         }
 

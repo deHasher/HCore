@@ -10,6 +10,7 @@ import ru.dehasher.bukkit.HCore;
 import ru.dehasher.bukkit.api.guilds.GAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 public class OnPlayerSendCommand implements Listener {
 
@@ -27,7 +28,7 @@ public class OnPlayerSendCommand implements Listener {
         }
 
         // Исправление гильдий.
-        if (HCore.config.getBoolean("guilds-fix.enabled") && Methods.checkPlugin("Guilds")) {
+        if (HCore.config.getBoolean("guilds-fix.enabled") && Methods.checkPlugin(Plugins.Guilds)) {
             for (String guild : HCore.config.getString("guilds-fix.commands").split("\\|")) {
                 if (command.substring(1).equals(guild)) {
                     e.setCancelled(true);

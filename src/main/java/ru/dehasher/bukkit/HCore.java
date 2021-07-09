@@ -25,6 +25,7 @@ import ru.dehasher.bukkit.exploits.*;
 import ru.dehasher.bukkit.managers.Files;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 public class HCore extends JavaPlugin {
 
@@ -181,7 +182,7 @@ public class HCore extends JavaPlugin {
 
                     try {
                         if (overstack) Overstack.checkPlayer(player);
-                        if (pvp && Methods.checkPlugin("WorldGuard") && Methods.checkPlugin("WorldEdit")) OnPlayerJoinToPvpArena.checkPlayer(player);
+                        if (pvp && Methods.checkPlugin(Plugins.WorldGuard) && Methods.checkPlugin(Plugins.WorldEdit)) OnPlayerJoinToPvpArena.checkPlayer(player);
                         if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
                     } catch (Exception e) {
                         Informer.send(null, e.toString());
@@ -234,7 +235,7 @@ public class HCore extends JavaPlugin {
         if (HCore.config.getBoolean("cooldown-on-use-spawnegg.enabled")) {
             Bukkit.getPluginManager().registerEvents(new OnPlayerUseSpawnegg(this), this);
         }
-        if (HCore.config.getBoolean("pvp-arena.enabled") && Methods.checkPlugin("WorldGuard") && Methods.checkPlugin("WorldEdit")) {
+        if (HCore.config.getBoolean("pvp-arena.enabled") && Methods.checkPlugin(Plugins.WorldGuard) && Methods.checkPlugin(Plugins.WorldEdit)) {
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoinToPvpArena(this), this);
         }
         if (HCore.config.getBoolean("other-params.disable-events.enabled")) {

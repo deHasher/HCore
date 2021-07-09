@@ -34,7 +34,7 @@ public class Methods {
 
     // Заменяем плейсхолдеры.
     public static String replacePlaceholders(Player player, String message) {
-        if (Methods.checkPlugin("PlacehoderAPI")) {
+        if (Methods.checkPlugin(Plugins.PlaceholderAPI)) {
             message = PlaceholderAPI.setPlaceholders(player, message);
         }
         return message;

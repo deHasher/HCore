@@ -9,6 +9,7 @@ import ru.dehasher.bukkit.api.luckperms.LPAPI;
 import ru.dehasher.bukkit.api.tab.TAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 public class prefix {
     public static boolean send(CommandSender sender, String command, String[] args) {
@@ -33,7 +34,7 @@ public class prefix {
 
                 if (target != null && target.isOnline()) {
                     if (type.equals("clear")) {
-                        if (Methods.checkPlugin("LuckPerms")) {
+                        if (Methods.checkPlugin(Plugins.LuckPerms)) {
                             LPAPI.reset(target, "prefix");
                             LPAPI.reset(target, "suffix");
                         } else {
@@ -42,7 +43,7 @@ public class prefix {
                             );
                             return false;
                         }
-                        if (Methods.checkPlugin("TAB")) {
+                        if (Methods.checkPlugin(Plugins.TAB)) {
                             TAPI.setPrefix(target, "");
                             TAPI.setSuffix(target, "");
                         } else {
