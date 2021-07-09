@@ -38,9 +38,6 @@ settings:
                     aliases: []
                 crash:
                     aliases: []
-                clearchat:
-                    aliases:
-                        - сдуфксрфе
             format: "&a/{command} {arguments} &f- {description}"
 
         # Список разрешённых команд которые будут отправлены в любом случае игнорируя все проверки.
