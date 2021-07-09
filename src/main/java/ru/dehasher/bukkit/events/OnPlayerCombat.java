@@ -11,11 +11,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import ru.dehasher.bukkit.HCore;
 import ru.dehasher.bukkit.api.protocollib.PLAPI;
+import ru.dehasher.bukkit.managers.Methods;
 
 public class OnPlayerCombat implements Listener {
 
     public OnPlayerCombat(HCore plugin) {
-        if (HCore.ProtocolLib) PLAPI.fakeDamageAnimation();
+        if (Methods.checkPlugin("ProtocolLib")) PLAPI.fakeDamageAnimation();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

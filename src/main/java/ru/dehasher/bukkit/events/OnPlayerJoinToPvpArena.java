@@ -29,7 +29,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
     public OnPlayerJoinToPvpArena(HCore plugin) {
         WorldGuard = WorldGuardPlugin.inst();
-        if (HCore.Essentials) {
+        if (Methods.checkPlugin("Essentials")) {
             Bukkit.getPluginManager().registerEvents(new EAPI(), HCore.getPlugin());
         }
 
@@ -51,8 +51,8 @@ public class OnPlayerJoinToPvpArena implements Listener {
                 }
             }
 
-            if (HCore.config.getBoolean("pvp-arena.block.godmode") && HCore.Essentials) EAPI.offGodMode(player);
-            if (HCore.config.getBoolean("pvp-arena.block.gadgets") && HCore.GadgetsMenu) GMAPI.getPlugin(player).unequipGadget();
+            if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin("Essentials")) EAPI.offGodMode(player);
+            if (HCore.config.getBoolean("pvp-arena.block.gadgets") && Methods.checkPlugin("GadgetsMenu")) GMAPI.getPlugin(player).unequipGadget();
 
             if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
                 ItemStack[] inv = player.getInventory().getContents();

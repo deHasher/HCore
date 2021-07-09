@@ -27,7 +27,7 @@ public class OnPlayerSendCommand implements Listener {
         }
 
         // Исправление гильдий.
-        if (HCore.config.getBoolean("guilds-fix.enabled") && HCore.Guilds) {
+        if (HCore.config.getBoolean("guilds-fix.enabled") && Methods.checkPlugin("Guilds")) {
             for (String guild : HCore.config.getString("guilds-fix.commands").split("\\|")) {
                 if (command.substring(1).equals(guild)) {
                     e.setCancelled(true);

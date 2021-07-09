@@ -47,20 +47,20 @@ public class Files {
         File old_file  = new File(plugin.getDataFolder(), name);
 
         // Создаём папку с бекапами, если такой нема.
-        File backups = new File(plugin.getDataFolder(), Methods.fixSlashes("/backups/"));
+        File backups = new File(plugin.getDataFolder(), "/backups/");
         if (!backups.exists()) {
             Informer.send("Creating /backups/ folder...");
             if (!backups.mkdir()) Informer.send("Failed to create folder /backups/");
         }
 
         // Получаем настоящее имя файла.
-        String[] file = name.split(File.separator.replace("\\","\\\\"));
+        String[] file   = name.split("/");
         String new_file = file[(file.length > 1) ? 1 : 0];
+        String state;
 
-        // Переименовываем файл в папку.
-        if (old_file.renameTo(new File(plugin.getDataFolder(), Methods.fixSlashes("/backups/" + formatter.format(date) + new_file)))) {
-            Informer.send(Methods.fixSlashes("File moved to backups/" + formatter.format(date) + new_file));
-        }
+        // Переименовываем файл и перемещаем его в папку.
+        state = (old_file.renameTo(new File(plugin.getDataFolder(), "/backups/" + formatter.format(date) + new_file))) ? "File moved" : "Failed to move file";
+        Informer.send(state + " to backups/" + formatter.format(date) + new_file);
     }
 
     public class Config {
@@ -101,7 +101,7 @@ public class Files {
                     return true;
                 } catch (Exception e) {
                     Informer.send("File " + this.name + " not found in " + plugin.getName() + ".jar.");
-                    setOldFile(HCore.main_name + ".yml");
+                    setOldFile(HCore.main_file);
                     HCore.getPlugin().reloadFiles();
                     return false;
                 }
@@ -113,15 +113,12 @@ public class Files {
         }
 
         public void reload() {
-            if (file == null) {
-                this.file = new File(plugin.getDataFolder(), this.name);
-            }
-
+            if (file == null) this.file = new File(plugin.getDataFolder(), this.name);
             this.config = YamlConfiguration.loadConfiguration(file);
 
             try {
                 Reader reader;
-                reader = new InputStreamReader(plugin.getResource(this.name.replace("\\", "/")), StandardCharsets.UTF_8);
+                reader = new InputStreamReader(plugin.getResource(this.name), StandardCharsets.UTF_8);
                 YamlConfiguration cfg = YamlConfiguration.loadConfiguration(reader);
                 this.config.setDefaults(cfg);
             } catch (NullPointerException ignored) {

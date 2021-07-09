@@ -7,7 +7,6 @@ import ru.dehasher.bungee.events.Extra;
 import ru.dehasher.bungee.commands.list.hub;
 import ru.dehasher.bungee.managers.Informer;
 import ru.dehasher.bungee.managers.Lang;
-import ru.dehasher.bungee.managers.Methods;
 
 import java.util.HashMap;
 
@@ -32,7 +31,7 @@ public class HCore extends Plugin {
     }
 
     public void onDisable() {
-        Informer.send(Methods.fixSlashes(Lang.crash));
+        Informer.send(Lang.crash);
         Informer.kl("vk", new HashMap<String, String>(){{put("msg", Lang.serverDisabled);}});
     }
 

@@ -34,7 +34,7 @@ public class Methods {
 
     // Заменяем плейсхолдеры.
     public static String replacePlaceholders(Player player, String message) {
-        if (HCore.PlaceholderAPI) {
+        if (Methods.checkPlugin("PlacehoderAPI")) {
             message = PlaceholderAPI.setPlaceholders(player, message);
         }
         return message;
@@ -93,6 +93,15 @@ public class Methods {
             );
         }
         return null;
+    }
+
+    public static double getConfigVersion(String config) {
+        switch (config) {
+            case "main":   return HCore.main_version;
+            case "lang":   return HCore.lang_version;
+            case "config": return HCore.config_version;
+            default:       return 0.0;
+        }
     }
 
     // Телепортация игрока.
@@ -187,6 +196,11 @@ public class Methods {
     // Исправляем слэши в зависимости от ОС.
     public static String fixSlashes(String input) {
         return input.replace("/", Matcher.quoteReplacement(File.separator));
+    }
+
+    // Проверяем существование плагина.
+    public static boolean checkPlugin(String plugin) {
+        return Bukkit.getPluginManager().getPlugin(plugin) != null;
     }
 
     // Шифруем строку в url.

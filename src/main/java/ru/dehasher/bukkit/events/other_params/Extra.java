@@ -19,7 +19,7 @@ import ru.dehasher.bukkit.managers.Methods;
 public class Extra implements Listener {
 
     public Extra(HCore plugin) {
-        if (HCore.ProtocolLib) PLAPI.endPortalSound();
+        if (Methods.checkPlugin("ProtocolLib")) PLAPI.endPortalSound();
     }
 
     // Когда игрок пытается телепортироваться через /gm 3.

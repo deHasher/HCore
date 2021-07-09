@@ -33,7 +33,7 @@ public class prefix {
 
                 if (target != null && target.isOnline()) {
                     if (type.equals("clear")) {
-                        if (HCore.LuckPerms) {
+                        if (Methods.checkPlugin("LuckPerms")) {
                             LPAPI.reset(target, "prefix");
                             LPAPI.reset(target, "suffix");
                         } else {
@@ -42,7 +42,7 @@ public class prefix {
                             );
                             return false;
                         }
-                        if (HCore.TAB) {
+                        if (Methods.checkPlugin("TAB")) {
                             TAPI.setPrefix(target, "");
                             TAPI.setSuffix(target, "");
                         } else {
@@ -86,7 +86,7 @@ public class prefix {
                             }
 
                             if (type.equals("chat")) {
-                                if (HCore.LuckPerms) {
+                                if (Methods.checkPlugin("LuckPerms")) {
                                     LPAPI.setPrefix(target, prefix);
                                     LPAPI.setSuffix(target, suffix);
                                     Informer.send(player, HCore.lang.getString("commands.prefix.success.self")
@@ -108,7 +108,7 @@ public class prefix {
                                     );
                                 }
                             } else {
-                                if (HCore.TAB) {
+                                if (Methods.checkPlugin("TAB")) {
                                     TAPI.setPrefix(target, prefix);
                                     TAPI.setSuffix(target, suffix);
                                     Informer.send(player, HCore.lang.getString("commands.prefix.success.self")

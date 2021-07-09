@@ -27,7 +27,7 @@ public class OnPlayerJoinServer implements Listener {
         Player player = e.getPlayer();
 
         if (HCore.server_name == null && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
-            if (HCore.PlaceholderAPI) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
+            if (Methods.checkPlugin("PlacehoderAPI")) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
             Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
         }
 

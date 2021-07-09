@@ -24,12 +24,6 @@ public class Methods {
         return ChatColor.stripColor(colorSet(message));
     }
 
-    // Исправляем слэши в зависимости от ОС.
-    public static String fixSlashes(String text) {
-        text = text.replace("/", File.separator);
-        return text;
-    }
-
     // Получаем хаб на который будет кикнут игрок.
     @Nullable
     public static ServerInfo getHub() {

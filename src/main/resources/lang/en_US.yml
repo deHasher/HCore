@@ -4,7 +4,7 @@ version: ${hcore.version.lang}
 # All messages support PlaceholderAPI placeholders!
 # https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
 messages:
-    # Имя консоли
+    # Console name.
     console-name: "CONSOLE"
 
     # Placeholders.

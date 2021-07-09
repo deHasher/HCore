@@ -25,7 +25,7 @@ public class crash {
                     Informer.send(player, HCore.lang.getString("errors.player-not-found"));
                 } else {
                     if (!Methods.isPerm(target, "hcore.command.crash.exempt")) {
-                        if (HCore.ProtocolLib) {
+                        if (Methods.checkPlugin("ProtocolLib")) {
                             Location loc = target.getLocation();
                             WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
 

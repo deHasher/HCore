@@ -31,7 +31,7 @@ public class setspawn {
                             HCore.spawn.set(spawn + ".yaw", loc.getYaw());
                             HCore.spawn.set(spawn + ".pitch", loc.getPitch());
 
-                            HCore.getPlugin().file_manager.getConfig(HCore.spawn_name + ".yml").save();
+                            HCore.getPlugin().file_manager.getConfig(HCore.spawn_file).save();
                             HCore.getPlugin().reloadFiles();
 
                             String message = HCore.lang.getString("commands.setspawn." + spawn);

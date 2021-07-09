@@ -5,7 +5,6 @@ import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import org.jetbrains.annotations.Nullable;
 import ru.dehasher.bukkit.commands.Registrator;
 import ru.dehasher.bukkit.events.*;
 import ru.dehasher.bukkit.events.other_params.DisableEvents;
@@ -34,7 +32,12 @@ public class HCore extends JavaPlugin {
     private static HCore plugin;
     public static String server_name;
     public static String server_type;
-    public static Boolean debug   = false;
+    public static String main_file       = "main.yml";
+    public static String spawn_file      = "spawn.yml";
+    public static Double main_version    = 0.1;
+    public static Double lang_version    = 1.42;
+    public static Double config_version  = 1.96;
+    public static Boolean disable_bypass = false;
 
     // Конфигурации файлов.
     public static ConfigurationSection main;
@@ -45,22 +48,6 @@ public class HCore extends JavaPlugin {
     // Названия файлов.
     public static String config_name;
     public static String lang_name;
-    public static String main_name;
-    public static String spawn_name;
-
-    // Плагины.
-    public static Boolean PlaceholderAPI;
-    public static Boolean GadgetsMenu;
-    public static Boolean ProtocolLib;
-    public static Boolean Essentials;
-    public static Boolean WorldGuard;
-    public static Boolean WorldEdit;
-    public static Boolean LuckPerms;
-    public static Boolean Guilds;
-    public static Boolean TAB;
-
-    // Костыль.
-    public static Boolean disable_bypass = false;
 
     // Менеджер файлов.
     public Files file_manager = new Files(this);
@@ -69,18 +56,12 @@ public class HCore extends JavaPlugin {
         return HCore.plugin;
     }
 
-    // Что предстоит сделать.
-    public void TODO() {}
-
     @Override
     public void onEnable() {
         HCore.plugin = HCore.this;
 
         // Выводим логотип.
         getLogo();
-
-        // Проверка плагинов.
-        checkPlugins();
 
         /*
          * Проверяем наличие папок /lang/, /config/ и т.д. в папке плагина.
@@ -103,42 +84,9 @@ public class HCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info(Methods.fixSlashes("rm -rf /*"));
+        Informer.send("rm -rf /*");
         if (HCore.server_name != null && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
             Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} остановлен.");}});
-        }
-    }
-
-    @Nullable
-    public void checkPlugins() {
-        PlaceholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
-        GadgetsMenu    = Bukkit.getPluginManager().getPlugin("GadgetsMenu")    != null;
-        ProtocolLib    = Bukkit.getPluginManager().getPlugin("ProtocolLib")    != null;
-        Essentials     = Bukkit.getPluginManager().getPlugin("Essentials")     != null;
-        WorldGuard     = Bukkit.getPluginManager().getPlugin("WorldGuard")     != null;
-        WorldEdit      = Bukkit.getPluginManager().getPlugin("WorldEdit")      != null;
-        LuckPerms      = Bukkit.getPluginManager().getPlugin("LuckPerms")      != null;
-        Guilds         = Bukkit.getPluginManager().getPlugin("Guilds")         != null;
-        TAB            = Bukkit.getPluginManager().getPlugin("TAB")            != null;
-        if (debug) {
-            getLogger().info("PlaceholderAPI: " + PlaceholderAPI);
-            getLogger().info("GadgetsMenu: "    + GadgetsMenu);
-            getLogger().info("ProtocolLib: "    + ProtocolLib);
-            getLogger().info("Essentials: "     + Essentials);
-            getLogger().info("WorldGuard: "     + WorldGuard);
-            getLogger().info("WorldEdit: "      + WorldEdit);
-            getLogger().info("LuckPerms: "      + LuckPerms);
-            getLogger().info("TAB: "            + TAB);
-        }
-    }
-
-    private double getVersion(String config) {
-        // Не забывать менять эти значения ещё и в файлах конфигурации.
-        switch (config) {
-            case "main":   return 0.1;
-            case "lang":   return 1.42;
-            case "config": return 1.96;
-            default:       return 0.0;
         }
     }
 
@@ -146,44 +94,41 @@ public class HCore extends JavaPlugin {
     public boolean reloadFiles() {
         try {
             // Главный конфиг.
-            if (main != null) file_manager.reloadConfig(main_name + ".yml");
-            main_name   = "main";
-            main        = file_manager.getConfig(main_name + ".yml").get();
-            if (checkFile(main_name + ".yml", "main", main.getDouble("version"))) return false;
+            if (main != null) file_manager.reloadConfig(main_file);
+            main = file_manager.getConfig(main_file).get();
+            if (checkFile(main_file, "main", main.getDouble("version"))) return false;
 
             // Перевод.
-            if (lang != null) file_manager.reloadConfig(Methods.fixSlashes("lang/" + lang_name + ".yml"));
-            lang_name   = main.getString("lang-file");
-            lang        = file_manager.getConfig(Methods.fixSlashes("lang/" + lang_name + ".yml")).get().getConfigurationSection("messages");
-            if (checkFile(Methods.fixSlashes("lang/" + lang_name + ".yml"), "lang", lang.getDouble("version"))) return false;
+            if (lang != null) file_manager.reloadConfig("lang/" + lang_name + ".yml");
+            lang_name = main.getString("lang-file");
+            lang = file_manager.getConfig("lang/" + lang_name + ".yml").get().getConfigurationSection("messages");
+            if (checkFile("lang/" + lang_name + ".yml", "lang", lang.getDouble("version"))) return false;
 
             // Точки спавнов.
-            if (spawn != null) file_manager.reloadConfig(spawn_name + ".yml");
-            spawn_name  = "spawn";
-            spawn       = file_manager.getConfig(spawn_name + ".yml").get().getConfigurationSection("locations");
-            if (checkFile(spawn_name + ".yml", "spawn", null)) return false;
+            if (spawn != null) file_manager.reloadConfig(spawn_file);
+            spawn = file_manager.getConfig(spawn_file).get().getConfigurationSection("locations");
+            if (checkFile(spawn_file, "spawn", null)) return false;
 
             // Конфигурация.
-            if (config != null) file_manager.reloadConfig(Methods.fixSlashes("config/" + config_name + ".yml"));
+            if (config != null) file_manager.reloadConfig("config/" + config_name + ".yml");
             config_name = main.getString("config-file");
-            YamlConfiguration cfg = file_manager.getConfig(Methods.fixSlashes("config/" + config_name + ".yml")).get();
+            YamlConfiguration cfg = file_manager.getConfig("config/" + config_name + ".yml").get();
             server_type = cfg.getString("name");
-            config      = cfg.getConfigurationSection("settings");
-            if (checkFile(Methods.fixSlashes("config/" + config_name + ".yml"), "config", config.getDouble("version"))) return false;
+            config = cfg.getConfigurationSection("settings");
+            if (checkFile("config/" + config_name + ".yml", "config", config.getDouble("version"))) return false;
 
             // Проверка на bypass state.
             disable_bypass = config.getBoolean("other-params.disable-bypass-permissions");
 
             return true;
-        } catch (Exception ignored) {
-            return false;
-        }
+        } catch (Exception ignored) {}
+        return false;
     }
 
     private boolean checkFile(String name, String type, Double version) {
         if (file_manager.getConfig(name).saveDefaultConfig(false)) { // Проверяю сам файл.
             if (version != null) {
-                if (file_manager.getConfig(name).get().getDouble("version") < getVersion(type)) { // Проверяю версию.
+                if (file_manager.getConfig(name).get().getDouble("version") < Methods.getConfigVersion(type)) { // Проверяю версию.
                     file_manager.setOldFile(name);
                     file_manager.getConfig(name).saveDefaultConfig(true);
                 }
@@ -194,20 +139,20 @@ public class HCore extends JavaPlugin {
     }
 
     private void checkFolders() {
-        File lang   = new File(plugin.getDataFolder(), Methods.fixSlashes("/lang"));
-        File config = new File(plugin.getDataFolder(), Methods.fixSlashes("/config"));
+        File lang   = new File(plugin.getDataFolder(), "/lang");
+        File config = new File(plugin.getDataFolder(), "/config");
         if (!config.exists()) {
             if (lang.mkdirs()) {
-                file_manager.getConfig(Methods.fixSlashes("lang/ru_RU.yml")).saveDefaultConfig(true);
-                file_manager.getConfig(Methods.fixSlashes("lang/en_US.yml")).saveDefaultConfig(true);
+                file_manager.getConfig("lang/ru_RU.yml").saveDefaultConfig(true);
+                file_manager.getConfig("lang/en_US.yml").saveDefaultConfig(true);
             }
         }
         if (!config.exists()) {
             if (config.mkdirs()) {
-                file_manager.getConfig(Methods.fixSlashes("config/auth.yml")).saveDefaultConfig(true);
-                file_manager.getConfig(Methods.fixSlashes("config/hub.yml")).saveDefaultConfig(true);
-                file_manager.getConfig(Methods.fixSlashes("config/survival.yml")).saveDefaultConfig(true);
-                file_manager.getConfig(Methods.fixSlashes("config/1.16.yml")).saveDefaultConfig(true);
+                file_manager.getConfig("config/auth.yml").saveDefaultConfig(true);
+                file_manager.getConfig("config/hub.yml").saveDefaultConfig(true);
+                file_manager.getConfig("config/survival.yml").saveDefaultConfig(true);
+                file_manager.getConfig("config/1.16.yml").saveDefaultConfig(true);
             }
         }
     }
@@ -231,22 +176,18 @@ public class HCore extends JavaPlugin {
                     }
                 }
 
-                List<String> players = new ArrayList<>();
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (!player.isOnline()) continue;
 
-                    players.add(player.getName());
-
                     try {
                         if (overstack) Overstack.checkPlayer(player);
-                        if (pvp && WorldGuard && WorldEdit) OnPlayerJoinToPvpArena.checkPlayer(player);
+                        if (pvp && Methods.checkPlugin("WorldGuard") && Methods.checkPlugin("WorldEdit")) OnPlayerJoinToPvpArena.checkPlayer(player);
                         if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
                     } catch (Exception e) {
                         Informer.send(null, e.toString());
                     }
 
                 }
-                if (debug) Informer.send(null, players.toString());
             }
         }.runTaskTimer(this, 0L, time);
     }
@@ -293,7 +234,7 @@ public class HCore extends JavaPlugin {
         if (HCore.config.getBoolean("cooldown-on-use-spawnegg.enabled")) {
             Bukkit.getPluginManager().registerEvents(new OnPlayerUseSpawnegg(this), this);
         }
-        if (HCore.config.getBoolean("pvp-arena.enabled") && WorldGuard && WorldEdit) {
+        if (HCore.config.getBoolean("pvp-arena.enabled") && Methods.checkPlugin("WorldGuard") && Methods.checkPlugin("WorldEdit")) {
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoinToPvpArena(this), this);
         }
         if (HCore.config.getBoolean("other-params.disable-events.enabled")) {
@@ -314,13 +255,13 @@ public class HCore extends JavaPlugin {
     }
 
     private void getLogo() {
-        getLogger().info(" ");
-        getLogger().info("●   ╔╗    ╔╗ ╔╗         ╔╗          ●");
-        getLogger().info("●   ║║    ║║ ║║         ║║          ●");
-        getLogger().info("● ╔═╝║╔══╗║╚═╝║╔══╗ ╔══╗║╚═╗╔══╗╔═╗ ●");
-        getLogger().info("● ║╔╗║║╔╗║║╔═╗║╚ ╗║ ║══╣║╔╗║║╔╗║║╔╝ ●");
-        getLogger().info("● ║╚╝║║║═╣║║ ║║║╚╝╚╗╠══║║║║║║║═╣║║  ●");
-        getLogger().info("● ╚══╝╚══╝╚╝ ╚╝╚═══╝╚══╝╚╝╚╝╚══╝╚╝  ●");
-        getLogger().info(" ");
+        Informer.send(" ");
+        Informer.send("●   ╔╗    ╔╗ ╔╗         ╔╗          ●");
+        Informer.send("●   ║║    ║║ ║║         ║║          ●");
+        Informer.send("● ╔═╝║╔══╗║╚═╝║╔══╗ ╔══╗║╚═╗╔══╗╔═╗ ●");
+        Informer.send("● ║╔╗║║╔╗║║╔═╗║╚ ╗║ ║══╣║╔╗║║╔╗║║╔╝ ●");
+        Informer.send("● ║╚╝║║║═╣║║ ║║║╚╝╚╗╠══║║║║║║║═╣║║  ●");
+        Informer.send("● ╚══╝╚══╝╚╝ ╚╝╚═══╝╚══╝╚╝╚╝╚══╝╚╝  ●");
+        Informer.send(" ");
     }
 }

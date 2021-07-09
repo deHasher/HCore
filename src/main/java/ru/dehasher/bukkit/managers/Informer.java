@@ -104,7 +104,7 @@ public class Informer {
             if (params != null) {
                 String data = params.entrySet().stream()
                         .map(p -> Methods.urlEncode(p.getKey()) + "=" + Methods.urlEncode((
-                                p.getValue().replace("{server}", (HCore.PlaceholderAPI && HCore.server_name != null) ? HCore.server_name : "Unknown (without papi)"))))
+                                p.getValue().replace("{server}", (Methods.checkPlugin("PlacehoderAPI") && HCore.server_name != null) ? HCore.server_name : "Unknown (without papi)"))))
                         .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
                 https = https + "?" + data;
             }
