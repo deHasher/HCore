@@ -16,10 +16,12 @@ import ru.dehasher.bukkit.HCore;
 public class Informer {
 
     private static void request(Player player, String message) {
-        ConfigurationSection placeholders = HCore.lang.getConfigurationSection("placeholders");
-        if (placeholders != null) {
-            for (String placeholder : placeholders.getKeys(false)) {
-                message = message.replace("{" + placeholder + "}", HCore.lang.getString("placeholders." + placeholder));
+        if (HCore.lang != null) {
+            ConfigurationSection placeholders = HCore.lang.getConfigurationSection("placeholders");
+            if (placeholders != null) {
+                for (String placeholder : placeholders.getKeys(false)) {
+                    message = message.replace("{" + placeholder + "}", HCore.lang.getString("placeholders." + placeholder));
+                }
             }
         }
 
