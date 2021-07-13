@@ -5,10 +5,10 @@
 
     <properties>
 
-        <hcore.version.plugin>1.7.0</hcore.version.plugin>
+        <hcore.version.plugin>1.7.1</hcore.version.plugin>
         <hcore.version.main>0.1</hcore.version.main>
         <hcore.version.lang>1.42</hcore.version.lang>
-        <hcore.version.config>1.96</hcore.version.config>
+        <hcore.version.config>1.97</hcore.version.config>
         <hcore.url>https://dehasher.ru/</hcore.url>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -74,8 +74,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.NEZNAMY</groupId>
-            <artifactId>TAB-API</artifactId>
-            <version>2.8.10</version>
+            <artifactId>TAB</artifactId>
+            <version>2.9.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

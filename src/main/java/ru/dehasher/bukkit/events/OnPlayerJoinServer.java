@@ -32,6 +32,10 @@ public class OnPlayerJoinServer implements Listener {
             Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
         }
 
+        if (HCore.config.getBoolean("other-params.cart-notifications.enabled")) {
+            Informer.url(HCore.config.getString("other-params.cart-notifications.url"), new HashMap<String, String>(){{put("nick", player.getName());}});
+        }
+
         // Деопаем игрока который только что вошёл.
         if (HCore.config.getBoolean("join-server.auto-deop")) {
             if (player.isOp()) {
@@ -79,10 +83,6 @@ public class OnPlayerJoinServer implements Listener {
         // Телепортируем на локацию спавна.
         if (HCore.config.getBoolean("join-server.spawn.first") && !player.hasPlayedBefore() || HCore.config.getBoolean("join-server.spawn.always")) {
             Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
-        }
-
-        if (HCore.config.getBoolean("other-params.cart-notifications.enabled")) {
-            Informer.url(HCore.config.getString("other-params.cart-notifications.url"), new HashMap<String, String>(){{put("nick", player.getName());}});
         }
     }
 }

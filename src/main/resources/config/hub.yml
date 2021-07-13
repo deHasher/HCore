@@ -349,6 +349,7 @@ settings:
             godmode: true # Необходим Essentials.
             gadgets: true # Необходим GadgetsMenu.
             commands: true
+            vanish: true
             gamemodes:
                 - CREATIVE
                 - ADVENTURE

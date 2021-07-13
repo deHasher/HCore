@@ -37,7 +37,7 @@ public class HCore extends JavaPlugin {
     public static String spawn_file      = "spawn.yml";
     public static Double main_version    = 0.1;
     public static Double lang_version    = 1.42;
-    public static Double config_version  = 1.96;
+    public static Double config_version  = 1.97;
     public static Boolean disable_bypass = false;
 
     // Конфигурации файлов.

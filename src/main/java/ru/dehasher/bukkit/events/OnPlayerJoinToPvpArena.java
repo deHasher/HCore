@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerGameModeChangeEvent;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffectType;
 import ru.dehasher.bukkit.HCore;
 import ru.dehasher.bukkit.api.essentials.EAPI;
 import ru.dehasher.bukkit.api.gadgetsmenu.GMAPI;
@@ -54,6 +55,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
             if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin(Plugins.Essentials)) EAPI.offGodMode(player);
             if (HCore.config.getBoolean("pvp-arena.block.gadgets") && Methods.checkPlugin(Plugins.GadgetsMenu)) GMAPI.getPlugin(player).unequipGadget();
+            if (HCore.config.getBoolean("pvp-arena.block.vanish")  && player.hasPotionEffect(PotionEffectType.INVISIBILITY)) player.removePotionEffect(PotionEffectType.INVISIBILITY);
 
             if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
                 ItemStack[] inv = player.getInventory().getContents();

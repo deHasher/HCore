@@ -111,8 +111,8 @@ public class Informer {
             URL url = new URL(https);
             System.setProperty("http.agent", "Chrome");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(1500);
+            connection.setReadTimeout(1500);
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             br.close();
         } catch (IOException ignored) {}
