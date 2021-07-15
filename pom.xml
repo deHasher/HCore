@@ -19,7 +19,7 @@
     </properties>
 
     <artifactId>HCore</artifactId>
-    <groupId>ru.dehasher.hcore</groupId>
+    <groupId>ru.dehasher.HCore</groupId>
     <version>${hcore.version.plugin}</version>
     <url>${hcore.url}</url>
 
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>4.6.0</version>
+            <version>4.7.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

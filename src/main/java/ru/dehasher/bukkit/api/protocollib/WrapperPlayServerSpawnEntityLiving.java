@@ -282,6 +282,7 @@ public class WrapperPlayServerSpawnEntityLiving extends AbstractPacket {
      *
      * @return The current Metadata
      */
+    @Deprecated
     public WrappedDataWatcher getMetadata() {
         return handle.getDataWatcherModifier().read(0);
     }
@@ -291,6 +292,7 @@ public class WrapperPlayServerSpawnEntityLiving extends AbstractPacket {
      *
      * @param value - new value.
      */
+    @Deprecated
     public void setMetadata(WrappedDataWatcher value) {
         handle.getDataWatcherModifier().write(0, value);
     }
