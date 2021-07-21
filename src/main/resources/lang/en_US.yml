@@ -55,7 +55,7 @@ messages:
             info:
                 arguments: "&7[&anick&7] &7[&apower&7]"
                 description: "Crash the player."
-            success: "{main}The player &e{player} &flagging &a:) &7({power})"
+            success: "{main}The player &e{player} &flagging &a:)"
             error: "{main}The player has crash protection!"
         checkplayed:
             info:

