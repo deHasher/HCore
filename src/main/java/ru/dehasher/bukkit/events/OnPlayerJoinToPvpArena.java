@@ -99,27 +99,28 @@ public class OnPlayerJoinToPvpArena implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
 
-        String[] command = e.getMessage().split(" ");
-        Player player    = e.getPlayer();
+        String command    = e.getMessage();
+        String[] commands = command.split(" ");
+        Player player     = e.getPlayer();
 
         if (Methods.isPerm(player, "hcore.bypass.pvp")) return;
 
-        // Блокируем команды которые вводит игрок.
+        // Блокируем команды, которые вводит игрок.
         if (HCore.config.getBoolean("pvp-arena.block.commands")) {
             if (cancelAction(player)) {
                 for (String cmd : HCore.config.getStringList("pvp-arena.whitelist-commands")) {
-                    if (cmd.equals(e.getMessage().toLowerCase())) return;
+                    if (command.startsWith(cmd.toLowerCase())) return;
                 }
                 Informer.send(player, HCore.lang.getString("errors.pvp-arena.commands-disabled"));
                 e.setCancelled(true);
             }
         }
 
-        // Блокируем команды которые вводят другие игроки и которые относятся к игроку на пвп арене.
-        for (String cmd : command) {
+        // Блокируем команды, которые вводят другие игроки и относятся к игроку на пвп арене.
+        for (String cmd : commands) {
 
             // Скипаем название команды.
-            if (cmd.equals(command[0])) continue;
+            if (cmd.equals(commands[0])) continue;
 
             // Скипаем если в кусочке команды всё состоит из цифр.
             if (cmd.matches("-?(0|[1-9]\\d*)")) continue;
@@ -131,7 +132,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
             if (target != null && target.isOnline()) {
                 if (cancelAction(target)) {
                     for (String whitelist : HCore.config.getStringList("pvp-arena.whitelist-other-commands")) {
-                        if (e.getMessage().toLowerCase().startsWith(whitelist.toLowerCase())) return;
+                        if (command.startsWith(whitelist.toLowerCase())) return;
                     }
                     Informer.send(player, HCore.lang.getString("errors.pvp-arena.player-in-pvp"));
                     e.setCancelled(true);
@@ -140,14 +141,14 @@ public class OnPlayerJoinToPvpArena implements Listener {
         }
     }
 
-    // Проверка где находится игрок и можно ли его трогать.
+    // Проверка, где находится игрок и можно ли его трогать.
     public static boolean cancelAction(Player player) {
         if (Methods.isPerm(player, "hcore.bypass.pvp")) return false;
 
         // Локация игрока.
         Location location = player.getLocation();
 
-        // Список регионов мира где находится игрок.
+        // Список регионов мира, где находится игрок.
         RegionManager regionManager = WorldGuard.getRegionManager(location.getWorld());
 
         // Список регионов в которых находится игрок.
