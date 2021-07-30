@@ -448,7 +448,6 @@ settings:
             enabled: true
             url:
                 status: "https://api.klaun.ch/vk"
-                cpu: "https://api.klaun.ch/cpu"
 
         # Отправка в магазин сервера $_GET['nick'] уведомления о том, что игрок впервые зашёл на сервер.
         cart-notifications:

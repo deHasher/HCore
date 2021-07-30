@@ -37,7 +37,7 @@ public class HCore extends JavaPlugin {
     public static String spawn_file      = "spawn.yml";
     public static Double main_version    = 0.1;
     public static Double lang_version    = 1.43;
-    public static Double config_version  = 1.97;
+    public static Double config_version  = 1.98;
     public static Boolean disable_bypass = false;
 
     // Конфигурации файлов.
@@ -167,16 +167,6 @@ public class HCore extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                // Отправка состояния ЦП на апи.
-                if (HCore.config.getBoolean("other-params.api-notifications.enabled")) {
-                    OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-                    double SystemCpuLoad = bean.getSystemCpuLoad();
-                    if (SystemCpuLoad != -1) {
-                        long cpu = Math.round(SystemCpuLoad * 100);
-                        Informer.url(HCore.config.getString("other-params.api-notifications.url.cpu"), new HashMap<String, String>() {{put("data", "" + cpu);}});
-                    }
-                }
-
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     if (!player.isOnline()) continue;
 
