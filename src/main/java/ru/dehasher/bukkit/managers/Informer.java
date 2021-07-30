@@ -25,7 +25,7 @@ public class Informer {
             }
         }
 
-        if (message == null || message.equals("") || message.isEmpty()) message = HCore.lang.getString("errors.very-bad-error");
+        if (message == null || message.isEmpty()) message = HCore.lang.getString("errors.very-bad-error");
 
         message = Methods.colorSet(message);
 
@@ -111,8 +111,8 @@ public class Informer {
             URL url = new URL(https);
             System.setProperty("http.agent", "Chrome");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(1500);
-            connection.setReadTimeout(1500);
+            connection.setConnectTimeout(750);
+            connection.setReadTimeout(750);
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             br.close();
         } catch (IOException ignored) {}
