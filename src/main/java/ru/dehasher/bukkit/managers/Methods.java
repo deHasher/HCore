@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -221,5 +222,16 @@ public class Methods {
     public static boolean invalidLocation(Location loc) {
         double Y = loc.getY();
         return Y < -1000 || Y > 1000;
+    }
+
+    // Генерируем нормальный url.
+    public static String httpBuildQuery(String link, @Nullable HashMap<String, String> params) {
+        if (params != null) {
+            String data = params.entrySet().stream()
+                    .map(p -> Methods.urlEncode(p.getKey()) + "=" + Methods.urlEncode((p.getValue())))
+                    .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
+            link = link + "?" + data;
+        }
+        return link;
     }
 }

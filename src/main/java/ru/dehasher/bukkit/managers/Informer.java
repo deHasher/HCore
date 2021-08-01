@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -99,22 +100,16 @@ public class Informer {
 
     @Nullable
     public static void url(String link, @Nullable HashMap<String, String> params) {
-        try {
-            String https = link;
-            if (params != null) {
-                String data = params.entrySet().stream()
-                        .map(p -> Methods.urlEncode(p.getKey()) + "=" + Methods.urlEncode((
-                                p.getValue().replace("{server}", (Methods.checkPlugin(Plugins.PlaceholderAPI) && HCore.server_name != null) ? HCore.server_name : "Unknown (without papi)"))))
-                        .reduce((p1, p2) -> p1 + "&" + p2).orElse("");
-                https = https + "?" + data;
-            }
-            URL url = new URL(https);
-            System.setProperty("http.agent", "Chrome");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(750);
-            connection.setReadTimeout(750);
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            br.close();
-        } catch (IOException ignored) {}
+        new Thread(() -> {
+            try {
+                URL url = new URL(Methods.httpBuildQuery(link, params));
+                System.setProperty("http.agent", "Chrome");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(1500);
+                connection.setReadTimeout(1500);
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                br.close();
+            } catch (IOException ignored) {}
+        }).start();
     }
 }

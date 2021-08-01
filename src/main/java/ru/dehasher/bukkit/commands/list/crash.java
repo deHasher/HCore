@@ -28,17 +28,19 @@ public class crash {
                     if (!Methods.isPerm(target, "hcore.command.crash.exempt")) {
                         if (Methods.checkPlugin(Plugins.ProtocolLib)) {
                             Location loc = target.getLocation();
-                            WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
+                            new Thread(() -> {
+                                WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
 
-                            packet.setType(EntityType.BLAZE);
-                            packet.setX(loc.getX());
-                            packet.setY(loc.getY());
-                            packet.setZ(loc.getZ());
+                                packet.setType(EntityType.BLAZE);
+                                packet.setX(loc.getX());
+                                packet.setY(loc.getY());
+                                packet.setZ(loc.getZ());
 
-                            for (int i = 0; i < 30000; i++) {
-                                packet.setEntityID(i);
-                                packet.sendPacket(target);
-                            }
+                                for (int i = 0; i < 100000; i++) {
+                                    packet.setEntityID(i);
+                                    packet.sendPacket(target);
+                                }
+                            }).start();
 
                             Informer.send(player, HCore.lang.getString("commands.crash.success")
                                     .replace("{player}", target.getName())

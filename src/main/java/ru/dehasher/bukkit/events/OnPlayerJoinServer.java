@@ -29,11 +29,15 @@ public class OnPlayerJoinServer implements Listener {
 
         if (HCore.server_name == null && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
             if (Methods.checkPlugin(Plugins.PlaceholderAPI)) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
-            Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} активен.");}});
+            Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{
+                put("msg", "Сервер " + HCore.server_type + " #" + HCore.server_name + " активен.");
+            }});
         }
 
         if (HCore.config.getBoolean("other-params.cart-notifications.enabled")) {
-            Informer.url(HCore.config.getString("other-params.cart-notifications.url"), new HashMap<String, String>(){{put("nick", player.getName());}});
+            Informer.url(HCore.config.getString("other-params.cart-notifications.url"), new HashMap<String, String>(){{
+                put("nick", player.getName());
+            }});
         }
 
         // Деопаем игрока который только что вошёл.

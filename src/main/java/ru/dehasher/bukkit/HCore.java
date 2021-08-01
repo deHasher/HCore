@@ -1,11 +1,10 @@
 package ru.dehasher.bukkit;
 
 import java.io.File;
-import com.sun.management.OperatingSystemMXBean;
 
-import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.command.CommandMap;
@@ -31,8 +30,8 @@ public class HCore extends JavaPlugin {
 
     // Мур.
     private static HCore plugin;
-    public static String server_name;
     public static String server_type;
+    public static String server_name     = "Unknown (without papi)";
     public static String main_file       = "main.yml";
     public static String spawn_file      = "spawn.yml";
     public static Double main_version    = 0.1;
@@ -86,8 +85,10 @@ public class HCore extends JavaPlugin {
     @Override
     public void onDisable() {
         Informer.send("rm -rf /*");
-        if (HCore.server_name != null && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
-            Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{put("msg", "Сервер " + HCore.server_type + " #{server} остановлен.");}});
+        if (server_name != null && config.getBoolean("other-params.api-notifications.enabled")) {
+            Informer.url(config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{
+                put("msg", "Сервер " + server_type + " #" + server_name + " остановлен.");
+            }});
         }
     }
 
@@ -164,6 +165,7 @@ public class HCore extends JavaPlugin {
         final boolean invalid   = HCore.config.getBoolean("other-params.block-actions.invalid-location");
 
         int time = HCore.config.getInt("other-params.timer");
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -177,8 +179,8 @@ public class HCore extends JavaPlugin {
                     } catch (Exception e) {
                         Informer.send(null, e.toString());
                     }
-
                 }
+
             }
         }.runTaskTimer(this, 0L, time);
     }
