@@ -42,9 +42,7 @@ public class OnPlayerJoinServer implements Listener {
 
         // Деопаем игрока который только что вошёл.
         if (HCore.config.getBoolean("join-server.auto-deop")) {
-            if (player.isOp()) {
-                player.setOp(false);
-            }
+            if (player.isOp()) player.setOp(false);
         }
 
         // Выдаём флай игроку.
