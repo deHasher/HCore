@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;

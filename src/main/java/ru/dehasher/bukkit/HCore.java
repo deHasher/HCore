@@ -4,7 +4,6 @@ import java.io.File;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.command.CommandMap;
@@ -31,7 +30,7 @@ public class HCore extends JavaPlugin {
     // Мур.
     private static HCore plugin;
     public static String server_type;
-    public static String server_name     = "Unknown (without papi)";
+    public static String server_name     = "Unknown";
     public static String main_file       = "main.yml";
     public static String spawn_file      = "spawn.yml";
     public static Double main_version    = 0.1;
