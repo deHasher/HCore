@@ -7,8 +7,8 @@
 
         <hcore.version.plugin>1.8</hcore.version.plugin>
         <hcore.version.main>0.2</hcore.version.main>
-        <hcore.version.lang>1.5</hcore.version.lang>
-        <hcore.version.config>2.0</hcore.version.config>
+        <hcore.version.lang>1.51</hcore.version.lang>
+        <hcore.version.config>2.01</hcore.version.config>
         <hcore.url>https://dehasher.ru/</hcore.url>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

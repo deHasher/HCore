@@ -27,19 +27,6 @@ settings:
             # Их можно удалять.
             # Чтобы удалить все команды используй commands: []
             commands:
-                guild:
-                    aliases:
-                        - g
-                        - п
-                        - c
-                        - с
-                        - guilds
-                        - clan
-                        - сдфт
-                        - clans
-                        - сдфты
-                        - пгшдв
-                        - пгшдвы
                 hreload:
                     aliases: []
                 checkplayed:

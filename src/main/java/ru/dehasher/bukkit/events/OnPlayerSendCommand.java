@@ -7,9 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import ru.dehasher.bukkit.HCore;
+import ru.dehasher.bukkit.api.guilds.GAPI;
 import ru.dehasher.bukkit.managers.ChatFilter;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Plugins;
 
 public class OnPlayerSendCommand implements Listener {
 
@@ -46,6 +48,20 @@ public class OnPlayerSendCommand implements Listener {
         // Разрешаем отправку команд в белом списке.
         for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
             if (command.startsWith(cmd.toLowerCase())) return true;
+        }
+
+        // Костыль для гильдий!
+        if (Methods.checkPlugin(Plugins.Guilds)) {
+            for (String guild : HCore.lang.getString("guild.commands").split("\\|")) {
+                if (command.substring(1).equals(guild)) {
+                    String playerRole = Methods.colorClear(GAPI.getRole(player)).toLowerCase();
+                    Informer.send(player, HCore.config.getString("guild.prefix"));
+                    for (String role : HCore.config.getConfigurationSection("guild.roles").getKeys(false)) {
+                        Informer.send(player, HCore.config.getString("guild.roles." + role));
+                        if (role.equals(playerRole)) return true;
+                    }
+                }
+            }
         }
 
         // Блокируем ему команды через двоеточие.

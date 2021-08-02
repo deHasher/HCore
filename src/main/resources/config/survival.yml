@@ -35,19 +35,6 @@ settings:
                     aliases: []
                 crash:
                     aliases: []
-                guild:
-                    aliases:
-                        - g
-                        - п
-                        - c
-                        - с
-                        - guilds
-                        - clan
-                        - сдфт
-                        - clans
-                        - сдфты
-                        - пгшдв
-                        - пгшдвы
                 spawn:
                     aliases:
                         - spavn
