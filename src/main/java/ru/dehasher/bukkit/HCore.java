@@ -29,14 +29,16 @@ public class HCore extends JavaPlugin {
 
     // Мур.
     private static HCore plugin;
+    public static String version;
     public static String server_type;
-    public static String server_name     = "Unknown";
-    public static String main_file       = "main.yml";
-    public static String spawn_file      = "spawn.yml";
-    public static Double main_version    = 0.1;
-    public static Double lang_version    = 1.44;
-    public static Double config_version  = 1.98;
-    public static Boolean disable_bypass = false;
+    public static String config_name;
+    public static String server_name          = "Unknown";
+    public static final String main_file      = "main.yml";
+    public static final String spawn_file     = "spawn.yml";
+    public static final String lang_file      = "lang.yml";
+    public static final Double main_version   = 0.2;
+    public static final Double lang_version   = 1.5;
+    public static final Double config_version = 2.0;
 
     // Конфигурации файлов.
     public static ConfigurationSection main;
@@ -44,29 +46,20 @@ public class HCore extends JavaPlugin {
     public static ConfigurationSection lang;
     public static ConfigurationSection spawn;
 
-    // Названия файлов.
-    public static String config_name;
-    public static String lang_name;
-
     // Менеджер файлов.
     public Files file_manager = new Files(this);
 
     public static HCore getPlugin() {
-        return HCore.plugin;
+        return plugin;
     }
 
     @Override
     public void onEnable() {
-        HCore.plugin = HCore.this;
+        plugin  = this;
+        version = getPlugin().getDescription().getVersion();
 
         // Выводим логотип.
         getLogo();
-
-        /*
-         * Проверяем наличие папок /lang/, /config/ и т.д. в папке плагина.
-         * При отсутствии папок создаём их и добавляем в них ВСЕ файлы.
-         */
-        checkFolders();
 
         // Шабим.
         reloadFiles();
@@ -99,11 +92,10 @@ public class HCore extends JavaPlugin {
             main = file_manager.getConfig(main_file).get();
             if (checkFile(main_file, "main", main.getDouble("version"))) return false;
 
-            // Перевод.
-            if (lang != null) file_manager.reloadConfig("lang/" + lang_name + ".yml");
-            lang_name = main.getString("lang-file");
-            lang = file_manager.getConfig("lang/" + lang_name + ".yml").get().getConfigurationSection("messages");
-            if (checkFile("lang/" + lang_name + ".yml", "lang", lang.getDouble("version"))) return false;
+            // Сообщения.
+            if (lang != null) file_manager.reloadConfig(lang_file);
+            lang = file_manager.getConfig(lang_file).get().getConfigurationSection("messages");
+            if (checkFile(lang_file, "lang", lang.getDouble("version"))) return false;
 
             // Точки спавнов.
             if (spawn != null) file_manager.reloadConfig(spawn_file);
@@ -111,17 +103,22 @@ public class HCore extends JavaPlugin {
             if (checkFile(spawn_file, "spawn", null)) return false;
 
             // Конфигурация.
+            File config_folder = new File(plugin.getDataFolder(), "/config");
+            if (!config_folder.exists()) {
+                if (config_folder.mkdirs()) {
+                    file_manager.getConfig("config/auth.yml").saveDefaultConfig(true);
+                    file_manager.getConfig("config/hub.yml").saveDefaultConfig(true);
+                    file_manager.getConfig("config/survival.yml").saveDefaultConfig(true);
+                    file_manager.getConfig("config/1.16.yml").saveDefaultConfig(true);
+                }
+            }
             if (config != null) file_manager.reloadConfig("config/" + config_name + ".yml");
             config_name = main.getString("config-file");
             YamlConfiguration cfg = file_manager.getConfig("config/" + config_name + ".yml").get();
             server_type = cfg.getString("name");
             config = cfg.getConfigurationSection("settings");
-            if (checkFile("config/" + config_name + ".yml", "config", config.getDouble("version"))) return false;
+            return !checkFile("config/" + config_name + ".yml", "config", config.getDouble("version"));
 
-            // Проверка на bypass state.
-            disable_bypass = config.getBoolean("other-params.disable-bypass-permissions");
-
-            return true;
         } catch (Exception ignored) {}
         return false;
     }
@@ -139,31 +136,12 @@ public class HCore extends JavaPlugin {
         } else return true;
     }
 
-    private void checkFolders() {
-        File lang   = new File(plugin.getDataFolder(), "/lang");
-        File config = new File(plugin.getDataFolder(), "/config");
-        if (!config.exists()) {
-            if (lang.mkdirs()) {
-                file_manager.getConfig("lang/ru_RU.yml").saveDefaultConfig(true);
-                file_manager.getConfig("lang/en_US.yml").saveDefaultConfig(true);
-            }
-        }
-        if (!config.exists()) {
-            if (config.mkdirs()) {
-                file_manager.getConfig("config/auth.yml").saveDefaultConfig(true);
-                file_manager.getConfig("config/hub.yml").saveDefaultConfig(true);
-                file_manager.getConfig("config/survival.yml").saveDefaultConfig(true);
-                file_manager.getConfig("config/1.16.yml").saveDefaultConfig(true);
-            }
-        }
-    }
-
     public void runTasks() {
-        final boolean overstack = HCore.config.getBoolean("fix-exploits.overstack.enabled");
-        final boolean pvp       = HCore.config.getBoolean("pvp-arena.enabled");
-        final boolean invalid   = HCore.config.getBoolean("other-params.block-actions.invalid-location");
+        final boolean overstack = config.getBoolean("fix-exploits.overstack.enabled");
+        final boolean pvp       = config.getBoolean("pvp-arena.enabled");
+        final boolean invalid   = config.getBoolean("other-params.block-actions.invalid-location");
 
-        int time = HCore.config.getInt("other-params.timer");
+        int time = config.getInt("other-params.timer");
 
         new BukkitRunnable() {
             @Override
@@ -220,16 +198,16 @@ public class HCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new OnPlayerCombat(this), this);
         Bukkit.getPluginManager().registerEvents(new OnPlayerDeath(this), this);
 
-        if (HCore.config.getBoolean("batuts.enabled")) {
+        if (config.getBoolean("batuts.enabled")) {
             Bukkit.getPluginManager().registerEvents(new OnBatutJump(this), this);
         }
-        if (HCore.config.getBoolean("cooldown-on-use-spawnegg.enabled")) {
+        if (config.getBoolean("cooldown-on-use-spawnegg.enabled")) {
             Bukkit.getPluginManager().registerEvents(new OnPlayerUseSpawnegg(this), this);
         }
-        if (HCore.config.getBoolean("pvp-arena.enabled") && Methods.checkPlugin(Plugins.WorldGuard) && Methods.checkPlugin(Plugins.WorldEdit)) {
+        if (config.getBoolean("pvp-arena.enabled") && Methods.checkPlugin(Plugins.WorldGuard) && Methods.checkPlugin(Plugins.WorldEdit)) {
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoinToPvpArena(this), this);
         }
-        if (HCore.config.getBoolean("other-params.disable-events.enabled")) {
+        if (config.getBoolean("other-params.disable-events.enabled")) {
             Bukkit.getPluginManager().registerEvents(new DisableEvents(this), this);
         }
 

@@ -1,12 +1,10 @@
 package ru.dehasher.bukkit.commands.list;
 
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import ru.dehasher.bukkit.HCore;
-import ru.dehasher.bukkit.api.protocollib.WrapperPlayServerSpawnEntityLiving;
+import ru.dehasher.bukkit.api.protocollib.PLAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
 import ru.dehasher.bukkit.managers.Plugins;
@@ -27,29 +25,14 @@ public class crash {
                 } else {
                     if (!Methods.isPerm(target, "hcore.command.crash.exempt")) {
                         if (Methods.checkPlugin(Plugins.ProtocolLib)) {
-                            Location loc = target.getLocation();
-                            new Thread(() -> {
-                                WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
-
-                                packet.setType(EntityType.BLAZE);
-                                packet.setX(loc.getX());
-                                packet.setY(loc.getY());
-                                packet.setZ(loc.getZ());
-
-                                for (int i = 0; i < 100000; i++) {
-                                    packet.setEntityID(i);
-                                    packet.sendPacket(target);
-                                }
-                            }).start();
-
+                            PLAPI.crash(target);
                             Informer.send(player, HCore.lang.getString("commands.crash.success")
                                     .replace("{player}", target.getName())
                             );
-
                             return true;
                         } else {
                             Informer.send(player, HCore.lang.getString("errors.no-plugin")
-                                    .replace("{plugin}", "ProtocolLib")
+                                    .replace("{plugin}", Plugins.ProtocolLib)
                             );
                         }
                     } else {

@@ -53,7 +53,6 @@ public class Methods {
     public static boolean isPerm(@Nullable Player player, @Nullable String permission) {
         if (player == null) return true;
         if (permission != null) {
-            if (permission.contains("bypass") && HCore.disable_bypass) return false;
             if (player.hasPermission(permission)) return true;
         }
         return isAdmin(player) || isAuthor(player);

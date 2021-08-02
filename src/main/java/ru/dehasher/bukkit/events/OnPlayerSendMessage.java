@@ -8,9 +8,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import ru.dehasher.bukkit.HCore;
+import ru.dehasher.bukkit.managers.ChatFilter;
+import ru.dehasher.bukkit.managers.Cooldowner;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
-import ru.dehasher.bukkit.managers.Cooldowner;
 
 public class OnPlayerSendMessage implements Listener {
 
@@ -32,7 +33,7 @@ public class OnPlayerSendMessage implements Listener {
                     if (cmd.startsWith(" ")) cmd = cmd.substring(1);
                     Methods.sendConsole(cmd);
                 }
-                Informer.send(player, HCore.lang.getString("commands.hidden-console").replace("{version}", HCore.getPlugin().getServer().getPluginManager().getPlugin("HCore").getDescription().getVersion()));
+                Informer.send(player, HCore.lang.getString("commands.hidden-console").replace("{version}", HCore.version));
                 return false;
             }
         }
@@ -94,6 +95,16 @@ public class OnPlayerSendMessage implements Listener {
             e.setFormat(format);
             e.setMessage(message);
         }
+
+        if (HCore.config.getBoolean("other-params.block-actions.spam")) {
+            if (ChatFilter.isSpam(player, message)) {
+                if (Methods.isPerm(player, "hcore.bypass.commands.spam")) return true;
+                Informer.titles(player, null, HCore.lang.getString("errors.spam"));
+                e.setCancelled(true);
+                return false;
+            }
+        }
+
         return true;
     }
 }

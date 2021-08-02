@@ -16,6 +16,7 @@ softdepend:
   - LuckPerms
   - TAB
   - GadgetsMenu
+  - TitleManager
 
 permissions:
   hcore.*:
@@ -58,6 +59,7 @@ permissions:
     description: Позволяет обходить установленные плагином ограничения.
     children:
       - hcore.bypass.commands.all     # Позволяет отправлять команды, при disable-commands: true.
+      - hcore.bypass.commands.spam    # Позволяет отправлять команды, при block-actions.spam: true.
       - hcore.bypass.commands.colon   # Позволяет отправлять команды, при disable-colon: true.
   hcore.health.group:
     default: op

