@@ -60,6 +60,7 @@ public class OnPlayerSendCommand implements Listener {
                         Informer.send(player, HCore.lang.getString("guild.roles." + role));
                         if (role.equals(playerRole)) return true;
                     }
+                    e.setCancelled(true);
                 }
             }
         }
