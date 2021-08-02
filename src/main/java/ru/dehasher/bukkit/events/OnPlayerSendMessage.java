@@ -45,6 +45,17 @@ public class OnPlayerSendMessage implements Listener {
             return false;
         }
 
+        // Проверка на спам.
+        if (HCore.config.getBoolean("other-params.block-actions.spam")) {
+            if (!Methods.isPerm(player, "hcore.bypass.commands.spam")) {
+                if (ChatFilter.isSpam(player, message)) {
+                    Informer.titles(player, null, HCore.lang.getString("errors.spam"));
+                    e.setCancelled(true);
+                    return false;
+                }
+            }
+        }
+
         // КД на чатикс.
         if (HCore.config.getBoolean("send-message.cooldown.enabled")) {
             if (!Methods.isPerm(player, "hcore.bypass.cooldown.message")) {
@@ -63,10 +74,12 @@ public class OnPlayerSendMessage implements Listener {
 
         // Если в сообщении пользователя обнаружена реклама.
         if (HCore.config.getBoolean("fix-advertisement.checks.messages")) {
-            if (Methods.isAdv(message) && !Methods.isPerm(player, "hcore.bypass.advertisement")) {
-                e.setCancelled(true);
-                Informer.send(player, HCore.lang.getString("errors.advertisement.messages"));
-                return false;
+            if (!Methods.isPerm(player, "hcore.bypass.advertisement")) {
+                if (Methods.isAdv(message)) {
+                    e.setCancelled(true);
+                    Informer.send(player, HCore.lang.getString("errors.advertisement.messages"));
+                    return false;
+                }
             }
         }
 
@@ -94,15 +107,6 @@ public class OnPlayerSendMessage implements Listener {
 
             e.setFormat(format);
             e.setMessage(message);
-        }
-
-        if (HCore.config.getBoolean("other-params.block-actions.spam")) {
-            if (ChatFilter.isSpam(player, message)) {
-                if (Methods.isPerm(player, "hcore.bypass.commands.spam")) return true;
-                Informer.titles(player, null, HCore.lang.getString("errors.spam"));
-                e.setCancelled(true);
-                return false;
-            }
         }
 
         return true;

@@ -21,9 +21,15 @@ public class OnPlayerSendCommand implements Listener {
         Player player  = e.getPlayer();
         String command = e.getMessage();
 
-        // Разрешаем отправку команд в белом списке.
-        for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
-            if (command.startsWith(cmd.toLowerCase())) return true;
+        // Проверка на спам.
+        if (HCore.config.getBoolean("other-params.block-actions.spam")) {
+            if (!Methods.isPerm(player, "hcore.bypass.commands.spam")) {
+                if (ChatFilter.isSpam(player, command)) {
+                    Informer.titles(player, null, HCore.lang.getString("errors.spam"));
+                    e.setCancelled(true);
+                    return false;
+                }
+            }
         }
 
         // Проверяем команду на рекламу.
@@ -35,6 +41,11 @@ public class OnPlayerSendCommand implements Listener {
                     return false;
                 }
             }
+        }
+
+        // Разрешаем отправку команд в белом списке.
+        for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
+            if (command.startsWith(cmd.toLowerCase())) return true;
         }
 
         // Блокируем ему команды через двоеточие.
@@ -50,16 +61,8 @@ public class OnPlayerSendCommand implements Listener {
 
         // Блокируем абсолютно все команды, кроме разрешённых.
         if (HCore.config.getBoolean("send-command.disable-commands")) {
-            if (Methods.isPerm(player, "hcore.bypass.commands.all")) return true;
-            Informer.send(player, HCore.lang.getString("errors.commands-disabled"));
-            e.setCancelled(true);
-            return false;
-        }
-
-        if (HCore.config.getBoolean("other-params.block-actions.spam")) {
-            if (ChatFilter.isSpam(player, command)) {
-                if (Methods.isPerm(player, "hcore.bypass.commands.spam")) return true;
-                Informer.titles(player, null, HCore.lang.getString("errors.spam"));
+            if (!Methods.isPerm(player, "hcore.bypass.commands.all")) {
+                Informer.send(player, HCore.lang.getString("errors.commands-disabled"));
                 e.setCancelled(true);
                 return false;
             }
