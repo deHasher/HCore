@@ -54,13 +54,13 @@ public class OnPlayerSendCommand implements Listener {
         if (Methods.checkPlugin(Plugins.Guilds)) {
             for (String guild : HCore.lang.getString("guild.commands").split("\\|")) {
                 if (command.substring(1).equals(guild)) {
+                    e.setCancelled(true);
                     String playerRole = Methods.colorClear(GAPI.getRole(player)).toLowerCase();
                     Informer.send(player, HCore.lang.getString("guild.prefix"));
                     for (String role : HCore.lang.getConfigurationSection("guild.roles").getKeys(false)) {
                         Informer.send(player, HCore.lang.getString("guild.roles." + role));
                         if (role.equals(playerRole)) return true;
                     }
-                    e.setCancelled(true);
                 }
             }
         }

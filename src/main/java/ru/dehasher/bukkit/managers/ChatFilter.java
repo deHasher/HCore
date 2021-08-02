@@ -23,7 +23,7 @@ public class ChatFilter {
         byte b = 0;
         for (Map.Entry<Long, String> entry : messageLog.getMessages().entrySet()) {
             double d = similarity(input, entry.getValue());
-            if (d > 0.8D) {
+            if (d > 0.7D) {
                 b++;
             }
         }
