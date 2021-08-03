@@ -11,8 +11,9 @@ public class ChatFilter {
 
     private static final HashMap<UUID, MessageLog> spam = new HashMap<>();
 
-    public static boolean isSpam(Player player, String input) {
+    public static boolean isSpam(Player player, String input, boolean command) {
         MessageLog messageLog = spam.get(player.getUniqueId());
+        double percent = command ? 0.95D : 0.7D;
         if (messageLog == null) {
             messageLog = new MessageLog();
             messageLog.addMessage(input);
@@ -23,9 +24,7 @@ public class ChatFilter {
         byte b = 0;
         for (Map.Entry<Long, String> entry : messageLog.getMessages().entrySet()) {
             double d = similarity(input, entry.getValue());
-            if (d > 0.7D) {
-                b++;
-            }
+            if (d > percent) b++;
         }
 
         if (b >= 2) return true;
