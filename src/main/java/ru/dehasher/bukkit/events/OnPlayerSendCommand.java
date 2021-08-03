@@ -23,17 +23,6 @@ public class OnPlayerSendCommand implements Listener {
         Player player  = e.getPlayer();
         String command = e.getMessage();
 
-        // Проверка на спам.
-        if (HCore.config.getBoolean("other-params.block-actions.spam")) {
-            if (!Methods.isPerm(player, "hcore.bypass.commands.spam")) {
-                if (ChatFilter.isSpam(player, command, true)) {
-                    Informer.titles(player, null, HCore.lang.getString("errors.spam"));
-                    e.setCancelled(true);
-                    return false;
-                }
-            }
-        }
-
         // Проверяем команду на рекламу.
         if (HCore.config.getBoolean("fix-advertisement.checks.commands")) {
             if (!Methods.isPerm(player, "hcore.bypass.advertisement")) {
