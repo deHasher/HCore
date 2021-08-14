@@ -27,6 +27,11 @@ public class OnPlayerJoinServer implements Listener {
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player player = e.getPlayer();
 
+        // Телепортируем на локацию спавна.
+        if (HCore.config.getBoolean("join-server.spawn.first") && !player.hasPlayedBefore() || HCore.config.getBoolean("join-server.spawn.always")) {
+            Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
+        }
+
         if (HCore.server_name.equals("Unknown") && HCore.config.getBoolean("other-params.api-notifications.enabled")) {
             if (Methods.checkPlugin(Plugins.PlaceholderAPI)) HCore.server_name = PAPI.setPlaceholders(player, "%server_name%");
             Informer.url(HCore.config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{
@@ -35,9 +40,7 @@ public class OnPlayerJoinServer implements Listener {
         }
 
         if (HCore.config.getBoolean("other-params.cart-notifications.enabled")) {
-            Informer.url(HCore.config.getString("other-params.cart-notifications.url"), new HashMap<String, String>(){{
-                put("nick", player.getName());
-            }});
+            HCore.ping.add(player.getName());
         }
 
         // Деопаем игрока который только что вошёл.
@@ -80,11 +83,6 @@ public class OnPlayerJoinServer implements Listener {
                     admins.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
                 }
             }
-        }
-
-        // Телепортируем на локацию спавна.
-        if (HCore.config.getBoolean("join-server.spawn.first") && !player.hasPlayedBefore() || HCore.config.getBoolean("join-server.spawn.always")) {
-            Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
         }
     }
 }

@@ -4,6 +4,7 @@ import java.io.File;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.command.CommandMap;
@@ -33,12 +34,13 @@ public class HCore extends JavaPlugin {
     public static String server_type;
     public static String config_name;
     public static String server_name          = "Unknown";
+    public static HashSet<String> ping        = new HashSet<>();
     public static final String main_file      = "main.yml";
     public static final String spawn_file     = "spawn.yml";
     public static final String lang_file      = "lang.yml";
     public static final Double main_version   = 0.2;
     public static final Double lang_version   = 1.51;
-    public static final Double config_version = 2.01;
+    public static final Double config_version = 2.02;
 
     // Конфигурации файлов.
     public static ConfigurationSection main;
@@ -138,8 +140,9 @@ public class HCore extends JavaPlugin {
 
     public void runTasks() {
         final boolean overstack = config.getBoolean("fix-exploits.overstack.enabled");
-        final boolean pvp       = config.getBoolean("pvp-arena.enabled");
         final boolean invalid   = config.getBoolean("other-params.block-actions.invalid-location");
+        final boolean pinger    = config.getBoolean("other-params.cart-notifications.enabled");
+        final boolean pvp       = config.getBoolean("pvp-arena.enabled");
 
         int time = config.getInt("other-params.timer");
 
@@ -153,6 +156,14 @@ public class HCore extends JavaPlugin {
                         if (overstack) Overstack.checkPlayer(player);
                         if (pvp && Methods.checkPlugin(Plugins.WorldGuard) && Methods.checkPlugin(Plugins.WorldEdit)) OnPlayerJoinToPvpArena.checkPlayer(player);
                         if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
+                        if (pinger && !ping.isEmpty()) {
+                            for (String nick : ping) {
+                                Informer.url(config.getString("other-params.cart-notifications.url"), new HashMap<String, String>() {{
+                                    put("nick", nick);
+                                }});
+                                ping.remove(nick);
+                            }
+                        }
                     } catch (Exception e) {
                         Informer.send(null, e.toString());
                     }
@@ -171,7 +182,7 @@ public class HCore extends JavaPlugin {
 
             ConfigurationSection commands = config.getConfigurationSection("send-command.plugin.commands");
             if (commands != null) {
-                for (String command : commands.getKeys(false)){
+                for (String command : commands.getKeys(false)) {
                     ConfigurationSection info = commands.getConfigurationSection(command);
                     List<String> aliases      = info.getStringList("aliases");
                     commandMap.register(command, new Registrator(command, aliases));

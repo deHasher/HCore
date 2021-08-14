@@ -4,7 +4,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import ru.dehasher.bukkit.commands.list.*;
 import ru.dehasher.bukkit.managers.Informer;
+import ru.dehasher.bukkit.managers.Methods;
+import ru.dehasher.bukkit.managers.Rusificator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Registrator extends BukkitCommand {
@@ -14,9 +17,18 @@ public class Registrator extends BukkitCommand {
 
         this.setPermission(null);
 
-        if (!aliases.isEmpty()) {
-            this.setAliases(aliases);
+        List<String> rus = new ArrayList<>();
+
+        if (aliases.isEmpty()) {
+            rus.add(Rusificator.replace(name));
+        } else {
+            for (String alias : aliases) {
+                if (!Methods.isCyrillic(alias)) rus.add(Rusificator.replace(alias));
+            }
         }
+
+        aliases.addAll(rus);
+        this.setAliases(aliases);
     }
 
     @Override

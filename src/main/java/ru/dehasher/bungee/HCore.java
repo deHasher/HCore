@@ -3,7 +3,6 @@ package ru.dehasher.bungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import ru.dehasher.bungee.commands.list.skin;
-import ru.dehasher.bungee.events.Extra;
 import ru.dehasher.bungee.commands.list.hub;
 import ru.dehasher.bungee.managers.Informer;
 import ru.dehasher.bungee.managers.Lang;
@@ -19,9 +18,6 @@ public class HCore extends Plugin {
 
         // Выводим логотип.
         getLogo();
-
-        // Регистрируем все эвенты.
-        registerEvents();
 
         // Генерируем команды.
         registerCommands();
@@ -42,10 +38,6 @@ public class HCore extends Plugin {
         for (String cmd : new String[]{"skin", "ылшт", "skins", "ылшты"}) {
             ProxyServer.getInstance().getPluginManager().registerCommand(this, new skin(cmd));
         }
-    }
-
-    private void registerEvents() {
-        ProxyServer.getInstance().getPluginManager().registerListener(this, new Extra(this));
     }
 
     public static ProxyServer getPlugin() {

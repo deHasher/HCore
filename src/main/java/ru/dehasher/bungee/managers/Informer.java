@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class Informer {
 
     private static void request(ProxiedPlayer player, String message) {
-        if (message == null || message.equals("") || message.isEmpty()) message = ":P";
+        if (message == null || message.isEmpty()) message = ":P";
 
         message = Methods.colorSet(message);
 

@@ -26,6 +26,8 @@ settings:
         plugin:
             # Их можно удалять.
             # Чтобы удалить все команды используй commands: []
+            # Кстати! Все команды (и их алиасы) автоматически переводятся на русскую раскладку ^^
+            # Пример: spawn => ызфцт будет работать :D
             commands:
                 setspawn:
                     aliases: []
@@ -38,27 +40,20 @@ settings:
                 spawn:
                     aliases:
                         - spavn
-                        - ызфцт
-                        - ызфмт
                 clearchat:
-                    aliases:
-                        - сдуфксрфе
+                    aliases: []
                 prefix:
                     data:
                         # Максимальный лимит символов в строке.
                         max-limit: 16
-                    aliases:
-                        - зкуашч
+                    aliases: []
                 free:
                     data:
                         # Команда которая будет выполняться от имени консоли при получении ключа.
                         command: "/crazycrates give virtual Free 1 {player}"
                     aliases:
-                        - акуу
                         - freecase
                         - casefree
-                        - акуусфыу
-                        - сфыуакуу
             format: "&a/{command} {arguments} &f- {description}"
 
 
@@ -136,6 +131,7 @@ settings:
           - "github.com"
           - "klauncher.ru"
           - "klaun.ch"
+          - "discord.gg"
 
     # ▀██▀▀▀▀█                   ▀██           ██    ▄          
     #  ██  ▄    ▄▄▄ ▄▄▄ ▄▄▄ ▄▄▄   ██    ▄▄▄   ▄▄▄  ▄██▄   ▄▄▄▄  
@@ -362,8 +358,6 @@ settings:
         whitelist-commands:
             - "/spawn"
             - "/spavn"
-            - "/ызфцт"
-            - "/ызфмт"
             - "/warp выход-с-пвп"
             - "/message"
             - "/msg"
@@ -374,46 +368,28 @@ settings:
             - "/w"
             - "/whisper"
 
-        # Список разрешённых команд которые можно вводить другим игрокам
-        # направленные на игрока который находится на пвп арене.
-        whitelist-other-commands:
-            - "/ban"
-            - "/mute"
+        # Список запрещённых команд которые нельзя вводить другим игрокам,
+        # направленные на игрока, который находится на пвп арене.
+        blacklist-other-commands:
+            - "/god"
+            - "/heal"
             - "/warn"
-            - "/ифт"
-            - "/ьгеу"
-            - "/цфкт"
-            - "/spawnmob"
-            - "/enchant"
-            - "/утсрфте"
-            - "/ызфцтьщи"
-            - "/message"
-            - "/msg"
-            - "/tell"
-            - "/t"
-            - "/pm"
-            - "/m"
-            - "/w"
-            - "/whisper"
-
-        # Список аргументов у команд которые могут вводить игроки когда ник какого-то
-        # игрока совпадает с аргументом.
-        whitelist-other-arguments:
-            - "all"
-            - "hand"
-            - "day"
-            - "night"
-            - "walk"
-            - "fly"
-            - "add"
-            - "msg"
-            - "message"
-            - "i"
-            - "inspect"
-            - "clear"
-            - "p"
-            - "chat"
-            - "tab"
+            - "/ext"
+            - "/invsee"
+            - "/lifttroll"
+            - "/slaptroll"
+            - "/healtroll"
+            - "/starvetroll"
+            - "/pumpkintroll"
+            - "/burntroll"
+            - "/demotroll"
+            - "/hacktroll"
+            - "/stoptroll"
+            - "/bantroll"
+            - "/fallingcowtroll"
+            - "/speed"
+            - "/jail"
+            - "/tm"
 
     #   ▄▄█▀▀▀▄█                    ▀██                ▄
     # ▄█▀     ▀    ▄▄▄   ▄▄ ▄▄ ▄▄    ██ ▄▄▄   ▄▄▄▄   ▄██▄

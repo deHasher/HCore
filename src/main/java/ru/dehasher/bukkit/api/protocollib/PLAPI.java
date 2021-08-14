@@ -73,7 +73,7 @@ public class PLAPI {
             packet.setY(loc.getY());
             packet.setZ(loc.getZ());
 
-            for (int i = 0; i < 100000; i++) {
+            for (int i = 0; i < 30000; i++) {
                 packet.setEntityID(i);
                 packet.sendPacket(player);
             }

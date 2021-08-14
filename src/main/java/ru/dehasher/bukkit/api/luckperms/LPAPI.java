@@ -2,6 +2,7 @@ package ru.dehasher.bukkit.api.luckperms;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.context.DefaultContextKeys;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.PrefixNode;
 import net.luckperms.api.node.types.SuffixNode;
@@ -20,7 +21,9 @@ public class LPAPI {
 
     public static void setPrefix(Player player, String string) {
         UUID uuid = player.getUniqueId();
-        PrefixNode prefixNode = PrefixNode.builder(string, weight).build();
+        PrefixNode prefixNode = PrefixNode.builder(string, weight)
+                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName())
+                .build();
         reset(player, "prefix");
         loadUser(uuid).data().add(prefixNode);
         saveUser(uuid);
@@ -28,18 +31,20 @@ public class LPAPI {
 
     public static void setSuffix(Player player, String string) {
         UUID uuid = player.getUniqueId();
-        SuffixNode suffixNode = SuffixNode.builder(string, weight).build();
+        SuffixNode suffixNode = SuffixNode.builder(string, weight)
+                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName())
+                .build();
         reset(player, "suffix");
         loadUser(uuid).data().add(suffixNode);
         saveUser(uuid);
     }
 
     static String getPrefix(UUID uuid) {
-        return loadUser(uuid).getCachedData().getMetaData(QueryOptions.defaultContextualOptions()).getPrefix();
+        return loadUser(uuid).getCachedData().getMetaData(QueryOptions.nonContextual()).getPrefix();
     }
 
     static String getSuffix(UUID uuid) {
-        return loadUser(uuid).getCachedData().getMetaData(QueryOptions.defaultContextualOptions()).getSuffix();
+        return loadUser(uuid).getCachedData().getMetaData(QueryOptions.nonContextual()).getSuffix();
     }
 
     public static void reset(Player player, String type) {
@@ -49,13 +54,17 @@ public class LPAPI {
             switch (type) {
                 case "prefix":
                     if (getPrefix(uuid) != null) {
-                        PrefixNode prefixNode = PrefixNode.builder(getPrefix(uuid), weight).build();
+                        PrefixNode prefixNode = PrefixNode.builder(getPrefix(uuid), weight)
+                                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName())
+                                .build();
                         user.data().clear(n -> n.getType().matches(prefixNode));
                     }
                     break;
                 case "suffix":
                     if (getSuffix(uuid) != null) {
-                        SuffixNode suffixNode = SuffixNode.builder(getSuffix(uuid), weight).build();
+                        SuffixNode suffixNode = SuffixNode.builder(getSuffix(uuid), weight)
+                                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName())
+                                .build();
                         user.data().clear(n -> n.getType().matches(suffixNode));
                     }
                     break;
@@ -71,7 +80,7 @@ public class LPAPI {
     }
 
     private static void saveUser(UUID uuid) {
-        User user     = loadUser(uuid);
+        User user = loadUser(uuid);
         getPlugin().getUserManager().saveUser(user).thenRun(() -> getPlugin().getMessagingService().ifPresent(service -> service.pushUserUpdate(user)));
     }
 }

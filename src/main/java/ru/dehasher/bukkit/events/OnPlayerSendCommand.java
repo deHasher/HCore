@@ -8,10 +8,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import ru.dehasher.bukkit.HCore;
 import ru.dehasher.bukkit.api.guilds.GAPI;
-import ru.dehasher.bukkit.managers.ChatFilter;
-import ru.dehasher.bukkit.managers.Informer;
-import ru.dehasher.bukkit.managers.Methods;
-import ru.dehasher.bukkit.managers.Plugins;
+import ru.dehasher.bukkit.managers.*;
 
 public class OnPlayerSendCommand implements Listener {
 
@@ -21,7 +18,7 @@ public class OnPlayerSendCommand implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public boolean onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
         Player player  = e.getPlayer();
-        String command = e.getMessage();
+        String command = e.getMessage().toLowerCase();
 
         // Проверяем команду на рекламу.
         if (HCore.config.getBoolean("fix-advertisement.checks.commands")) {
@@ -36,7 +33,10 @@ public class OnPlayerSendCommand implements Listener {
 
         // Разрешаем отправку команд в белом списке.
         for (String cmd : HCore.config.getStringList("send-command.whitelist")) {
-            if (command.startsWith(cmd.toLowerCase())) return true;
+            if (
+                command.startsWith(cmd.toLowerCase()) ||
+                (!Methods.isCyrillic(cmd) && command.startsWith(Rusificator.replace(cmd.toLowerCase())))
+            ) return true;
         }
 
         // Костыль для гильдий!

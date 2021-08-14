@@ -1,5 +1,6 @@
 package ru.dehasher.bukkit.events.other_params;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -10,7 +11,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import ru.dehasher.bukkit.HCore;
-import ru.dehasher.bukkit.managers.Methods;
 
 @SuppressWarnings("deprecation")
 public class HideMessages implements Listener {
@@ -43,7 +43,7 @@ public class HideMessages implements Listener {
         if (!HCore.config.getBoolean("other-params.hide-messages.advancements")) return;
 
         for (World world : HCore.getPlugin().getServer().getWorlds()) {
-            if (Methods.getServerVersion() > 12) {
+            if (Double.parseDouble(Bukkit.getBukkitVersion().substring(0, 4)) > 1.12) {
                 world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
             } else {
                 world.setGameRuleValue("announceAdvancements", "false");

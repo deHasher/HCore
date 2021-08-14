@@ -24,6 +24,7 @@ import ru.dehasher.bukkit.api.gadgetsmenu.GMAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
 import ru.dehasher.bukkit.managers.Plugins;
+import ru.dehasher.bukkit.managers.Rusificator;
 
 public class OnPlayerJoinToPvpArena implements Listener {
 
@@ -99,43 +100,44 @@ public class OnPlayerJoinToPvpArena implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerCommandPreprocessEvent(PlayerCommandPreprocessEvent e) {
 
-        String command    = e.getMessage();
+        String command    = e.getMessage().toLowerCase();
         String[] commands = command.split(" ");
         Player player     = e.getPlayer();
 
         if (Methods.isPerm(player, "hcore.bypass.pvp")) return;
 
         // Блокируем команды, которые вводит игрок.
-        if (HCore.config.getBoolean("pvp-arena.block.commands")) {
-            if (cancelAction(player)) {
-                for (String cmd : HCore.config.getStringList("pvp-arena.whitelist-commands")) {
-                    if (command.startsWith(cmd.toLowerCase())) return;
-                }
-                Informer.send(player, HCore.lang.getString("errors.pvp-arena.commands-disabled"));
-                e.setCancelled(true);
+        if (HCore.config.getBoolean("pvp-arena.block.commands") && cancelAction(player)) {
+            for (String cmd : HCore.config.getStringList("pvp-arena.whitelist-commands")) {
+                if (
+                    command.startsWith(cmd.toLowerCase()) ||
+                    (!Methods.isCyrillic(command) && command.startsWith(Rusificator.replace(cmd.toLowerCase())))
+                ) return;
             }
+            Informer.send(player, HCore.lang.getString("errors.pvp-arena.commands-disabled"));
+            e.setCancelled(true);
         }
 
         // Блокируем команды, которые вводят другие игроки и относятся к игроку на пвп арене.
-        for (String cmd : commands) {
+        for (String user : commands) {
 
             // Скипаем название команды.
-            if (cmd.equals(commands[0])) continue;
+            if (user.equals(commands[0])) continue;
 
             // Скипаем если в кусочке команды всё состоит из цифр.
-            if (cmd.matches("-?(0|[1-9]\\d*)")) continue;
+            if (user.matches("-?(0|[1-9]\\d*)")) continue;
 
-            // Скипаем аргументы команды.
-            if (HCore.config.getStringList("pvp-arena.whitelist-other-arguments").contains(cmd)) continue;
+            Player target = HCore.getPlugin().getServer().getPlayer(user);
 
-            Player target = HCore.getPlugin().getServer().getPlayer(cmd);
-            if (target != null && target.isOnline()) {
-                if (cancelAction(target)) {
-                    for (String whitelist : HCore.config.getStringList("pvp-arena.whitelist-other-commands")) {
-                        if (command.startsWith(whitelist.toLowerCase())) return;
+            if (target != null && target.isOnline() && cancelAction(target)) {
+                for (String cmd : HCore.config.getStringList("pvp-arena.blacklist-other-commands")) {
+                    if (
+                        command.startsWith(cmd.toLowerCase()) ||
+                        (!Methods.isCyrillic(command) && command.startsWith(Rusificator.replace(cmd.toLowerCase())))
+                    ) {
+                        Informer.send(player, HCore.lang.getString("errors.pvp-arena.player-in-pvp"));
+                        e.setCancelled(true);
                     }
-                    Informer.send(player, HCore.lang.getString("errors.pvp-arena.player-in-pvp"));
-                    e.setCancelled(true);
                 }
             }
         }
