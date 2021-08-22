@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -100,17 +101,20 @@ public class Informer {
 
     @Nullable
     public static void url(String link, @Nullable HashMap<String, String> params) {
-        new Thread(() -> {
-            try {
-                URL url = new URL(Methods.httpBuildQuery(link, params));
-                System.setProperty("http.agent", "Chrome");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(1500);
-                connection.setReadTimeout(1500);
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                br.close();
-            } catch (IOException ignored) {}
-        }).start();
+        try {
+            URL url = new URL(Methods.httpBuildQuery(link, params));
+            System.setProperty("http.agent", "Chrome");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(1500);
+            connection.setReadTimeout(1500);
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            br.close();
+        } catch (IOException ignored) {}
+    }
+
+    @Nullable
+    public static void url(String link, String key, @Nullable HashSet<String> params) {
+        url(link + "?" + key + "=" + String.join("&" + key + "=", params), null);
     }
 
     @Nullable

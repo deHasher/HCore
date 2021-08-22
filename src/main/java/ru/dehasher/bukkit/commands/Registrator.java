@@ -19,13 +19,13 @@ public class Registrator extends BukkitCommand {
 
         List<String> rus = new ArrayList<>();
 
-        if (aliases.isEmpty()) {
-            rus.add(Rusificator.replace(name));
-        } else {
+        if (!aliases.isEmpty()) {
             for (String alias : aliases) {
                 if (!Methods.isCyrillic(alias)) rus.add(Rusificator.replace(alias));
             }
         }
+
+        rus.add(Rusificator.replace(name));
 
         aliases.addAll(rus);
         this.setAliases(aliases);

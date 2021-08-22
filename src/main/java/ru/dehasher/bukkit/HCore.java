@@ -40,7 +40,7 @@ public class HCore extends JavaPlugin {
     public static final String lang_file      = "lang.yml";
     public static final Double main_version   = 0.2;
     public static final Double lang_version   = 1.51;
-    public static final Double config_version = 2.02;
+    public static final Double config_version = 2.04;
 
     // Конфигурации файлов.
     public static ConfigurationSection main;
@@ -157,12 +157,8 @@ public class HCore extends JavaPlugin {
                         if (pvp && Methods.checkPlugin(Plugins.WorldGuard) && Methods.checkPlugin(Plugins.WorldEdit)) OnPlayerJoinToPvpArena.checkPlayer(player);
                         if (invalid && Methods.invalidLocation(player.getLocation())) Methods.teleportPlayer(player, Methods.getSpawnLocation("overworld"));
                         if (pinger && !ping.isEmpty()) {
-                            for (String nick : ping) {
-                                Informer.url(config.getString("other-params.cart-notifications.url"), new HashMap<String, String>() {{
-                                    put("nick", nick);
-                                }});
-                                ping.remove(nick);
-                            }
+                            Informer.url(config.getString("other-params.cart-notifications.url"), "nick[]", ping);
+                            ping.clear();
                         }
                     } catch (Exception e) {
                         Informer.send(null, e.toString());
@@ -231,8 +227,8 @@ public class HCore extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new Overstack(this), this);
         Bukkit.getPluginManager().registerEvents(new ChunkBan(this), this);
 
-        // Вручную вызываем ивенты при запуске плагина.
-        HideMessages.disableAchievements();
+        // Устанавливаем игровые правила.
+        Extra.gameruleSetup();
     }
 
     private void getLogo() {

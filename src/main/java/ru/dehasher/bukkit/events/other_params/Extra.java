@@ -2,6 +2,8 @@ package ru.dehasher.bukkit.events.other_params;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -78,6 +80,18 @@ public class Extra implements Listener {
         // Устанавливаем максимальный уровень еды.
         if (HCore.config.getBoolean("other-params.disable-events.FoodLevelChangeEvent")) {
             player.setFoodLevel(20);
+        }
+    }
+
+    public static void gameruleSetup() {
+        for (World world : HCore.getPlugin().getServer().getWorlds()) {
+            if (HCore.config.getBoolean("other-params.hide-messages.advancements")) {
+                if (Double.parseDouble(Bukkit.getBukkitVersion().substring(0, 4)) > 1.12) {
+                    world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+                } else {
+                    world.setGameRuleValue("announceAdvancements", "false");
+                }
+            }
         }
     }
 }
