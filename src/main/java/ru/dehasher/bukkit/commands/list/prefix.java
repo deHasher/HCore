@@ -74,6 +74,9 @@ public class prefix {
                                 }
                             }
 
+                            String prefixSpace = Methods.colorClear(prefix).length() > 0 ? " " : "";
+                            String suffixSpace = Methods.colorClear(suffix).length() > 0 ? " " : "";
+
                             if (Methods.colorClear(prefix).length() > max_chars) {
                                 Informer.send(player, HCore.lang.getString("commands.prefix.error")
                                         .replace("{max}", "" + max_chars));
@@ -88,50 +91,34 @@ public class prefix {
 
                             if (type.equals("chat")) {
                                 if (Methods.checkPlugin("LuckPerms")) {
-                                    LPAPI.setPrefix(target, prefix);
-                                    LPAPI.setSuffix(target, suffix);
-                                    Informer.send(player, HCore.lang.getString("commands.prefix.success.self")
-                                            .replace("{type}", HCore.lang.getString("commands.prefix.types.chat"))
-                                            .replace("{player}", target.getName())
-                                            .replace("{prefix}", prefix + target.getName() + suffix)
-                                    );
-                                    if (target != player) {
-                                        Informer.send(target, HCore.lang.getString("commands.prefix.success.target")
-                                                .replace("{type}", HCore.lang.getString("commands.prefix.types.chat"))
-                                                .replace("{player}", playerName)
-                                                .replace("{prefix}", prefix + target.getName() + suffix)
-                                        );
-                                    }
-                                    return true;
+                                    LPAPI.setPrefix(target, prefix + prefixSpace);
+                                    LPAPI.setSuffix(target, suffixSpace + suffix);
                                 } else {
-                                    Informer.send(player, HCore.lang.getString("errors.no-plugin")
-                                            .replace("{plugin}", "LuckPerms")
-                                    );
+                                    Informer.send(player, HCore.lang.getString("errors.no-plugin").replace("{plugin}", "LuckPerms"));
+                                    return false;
                                 }
                             } else {
                                 if (Methods.checkPlugin("TAB")) {
-                                    TAPI.setPrefix(target, prefix);
-                                    TAPI.setSuffix(target, suffix);
-                                    Informer.send(player, HCore.lang.getString("commands.prefix.success.self")
-                                            .replace("{type}", HCore.lang.getString("commands.prefix.types.tab"))
-                                            .replace("{player}", target.getName())
-                                            .replace("{prefix}", prefix + target.getName() + suffix)
-                                    );
-                                    if (target != player) {
-                                        Informer.send(target, HCore.lang.getString("commands.prefix.success.target")
-                                                .replace("{type}", HCore.lang.getString("commands.prefix.types.tab"))
-                                                .replace("{player}", playerName)
-                                                .replace("{prefix}", prefix + target.getName() + suffix)
-                                        );
-                                    }
-                                    return true;
+                                    TAPI.setPrefix(target, prefix + prefixSpace);
+                                    TAPI.setSuffix(target, suffixSpace + suffix);
                                 } else {
-                                    Informer.send(player, HCore.lang.getString("errors.no-plugin")
-                                            .replace("{plugin}", "TAB")
-                                    );
+                                    Informer.send(player, HCore.lang.getString("errors.no-plugin").replace("{plugin}", "TAB"));
+                                    return false;
                                 }
                             }
-                            return false;
+                            Informer.send(player, HCore.lang.getString("commands.prefix.success.self")
+                                .replace("{type}", HCore.lang.getString("commands.prefix.types." + type))
+                                .replace("{player}", target.getName())
+                                .replace("{prefix}", prefix + prefixSpace + target.getName() + suffixSpace + suffix)
+                            );
+                            if (target != player) {
+                                Informer.send(target, HCore.lang.getString("commands.prefix.success.target")
+                                    .replace("{type}", HCore.lang.getString("commands.prefix.types." + type))
+                                    .replace("{player}", playerName)
+                                    .replace("{prefix}", prefix + prefixSpace + target.getName() + suffixSpace + suffix)
+                                );
+                            }
+                            return true;
                         }
                     }
                     Informer.send(player, info);

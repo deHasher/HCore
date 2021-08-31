@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.ConfigurationSection;
@@ -79,7 +80,7 @@ public class HCore extends JavaPlugin {
     @Override
     public void onDisable() {
         Informer.send("rm -rf /*");
-        if (server_name != null && config.getBoolean("other-params.api-notifications.enabled")) {
+        if (!server_name.equals("Unknown") && config.getBoolean("other-params.api-notifications.enabled")) {
             Informer.url(config.getString("other-params.api-notifications.url.status"), new HashMap<String, String>(){{
                 put("msg", "Сервер " + server_type + " #" + server_name + " остановлен.");
             }});
