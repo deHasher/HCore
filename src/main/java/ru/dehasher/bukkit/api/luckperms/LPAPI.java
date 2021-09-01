@@ -2,10 +2,10 @@ package ru.dehasher.bukkit.api.luckperms;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.context.DefaultContextKeys;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.PrefixNode;
 import net.luckperms.api.node.types.SuffixNode;
+import net.luckperms.api.query.QueryOptions;
 import org.bukkit.entity.Player;
 import ru.dehasher.bukkit.managers.Informer;
 
@@ -23,8 +23,7 @@ public class LPAPI {
 
     public static void setPrefix(Player player, String string) {
         UUID uuid = player.getUniqueId();
-        PrefixNode prefixNode = PrefixNode.builder(string, weight)
-                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName()).build();
+        PrefixNode prefixNode = PrefixNode.builder(string, weight).build();
 
         // Чтобы блять не баговалось сука!
         if (string.equals(getPrefix(uuid))) return;
@@ -47,11 +46,11 @@ public class LPAPI {
     }
 
     static String getPrefix(UUID uuid) {
-        return loadUser(uuid).getCachedData().getMetaData().getPrefix();
+        return loadUser(uuid).getCachedData().getMetaData(QueryOptions.defaultContextualOptions()).getPrefix();
     }
 
     static String getSuffix(UUID uuid) {
-        return loadUser(uuid).getCachedData().getMetaData().getSuffix();
+        return loadUser(uuid).getCachedData().getMetaData(QueryOptions.defaultContextualOptions()).getSuffix();
     }
 
     public static void reset(Player player, String type) {
