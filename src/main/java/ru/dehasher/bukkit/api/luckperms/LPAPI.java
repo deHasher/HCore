@@ -11,6 +11,9 @@ import ru.dehasher.bukkit.managers.Informer;
 
 import java.util.UUID;
 
+// Вообще эта залупа работает через жопу и ставит преф только в контексте server=global.
+// Автор хуесос, либо я долбоеб. Мне похуй, я заебался эту хуйню дебажить.
+// А вики для ботанов и там читать дохуя.
 public class LPAPI {
     private static final int weight = 1000;
 
@@ -23,6 +26,7 @@ public class LPAPI {
         PrefixNode prefixNode = PrefixNode.builder(string, weight)
                 .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName()).build();
 
+        // Чтобы блять не баговалось сука!
         if (string.equals(getPrefix(uuid))) return;
 
         reset(player, "prefix");
@@ -32,9 +36,9 @@ public class LPAPI {
 
     public static void setSuffix(Player player, String string) {
         UUID uuid = player.getUniqueId();
-        SuffixNode suffixNode = SuffixNode.builder(string, weight)
-                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName()).build();
+        SuffixNode suffixNode = SuffixNode.builder(string, weight).build();
 
+        // Чтобы блять не баговалось сука!
         if (string.equals(getSuffix(uuid))) return;
 
         reset(player, "suffix");
@@ -57,16 +61,14 @@ public class LPAPI {
             switch (type) {
                 case "prefix":
                     if (getPrefix(uuid) != null) {
-                        PrefixNode prefixNode = PrefixNode.builder(getPrefix(uuid), weight)
-                                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName()).build();
+                        PrefixNode prefixNode = PrefixNode.builder(getPrefix(uuid), weight).build();
                         user.data().clear(n -> n.getType().matches(prefixNode));
                         saveUser(uuid);
                     }
                     break;
                 case "suffix":
                     if (getSuffix(uuid) != null) {
-                        SuffixNode suffixNode = SuffixNode.builder(getSuffix(uuid), weight)
-                                .withContext(DefaultContextKeys.SERVER_KEY, getPlugin().getServerName()).build();
+                        SuffixNode suffixNode = SuffixNode.builder(getSuffix(uuid), weight).build();
                         user.data().clear(n -> n.getType().matches(suffixNode));
                         saveUser(uuid);
                     }
