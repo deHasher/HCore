@@ -74,8 +74,8 @@ public class prefix {
                                 }
                             }
 
-                            String prefixSpace = Methods.colorClear(prefix).length() > 0 ? " " : "";
-                            String suffixSpace = Methods.colorClear(suffix).length() > 0 ? " " : "";
+                            String prefixSpace = (Methods.colorClear(prefix).length() > 0 && !Methods.colorClear(prefix).endsWith(" "))   ? " " : "";
+                            String suffixSpace = (Methods.colorClear(suffix).length() > 0 && !Methods.colorClear(suffix).startsWith(" ")) ? " " : "";
 
                             if (Methods.colorClear(prefix).length() > max_chars) {
                                 Informer.send(player, HCore.lang.getString("commands.prefix.error")
