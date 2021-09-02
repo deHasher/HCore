@@ -12,16 +12,17 @@ public class hreload {
         Player player = null;
         if (sender instanceof Player) player = (Player) sender;
 
-        if (Methods.isPerm(player, "hcore.command.hreload")) {
-            if (HCore.getPlugin().reloadFiles() && HCore.getPlugin().registerCommands()) {
-                Informer.send(player, HCore.lang.getString("commands.hreload.success"));
-                return true;
-            } else {
-                Informer.send(player, HCore.lang.getString("commands.hreload.error"));
-            }
-        } else {
+        if (!Methods.isPerm(player, "hcore.command.hreload")) {
             Informer.send(player, HCore.lang.getString("errors.no-perm"));
+            return false;
         }
-        return false;
+
+        if (HCore.getPlugin().reloadFiles() && HCore.getPlugin().registerCommands()) {
+            Informer.send(player, HCore.lang.getString("commands.hreload.success"));
+            return true;
+        } else {
+            Informer.send(player, HCore.lang.getString("commands.hreload.error"));
+            return false;
+        }
     }
 }

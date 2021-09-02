@@ -21,46 +21,45 @@ public class PLAPI {
 
     // Убираем звук создания портала в ЭНД.
     public static void endPortalSound() {
-        ProtocolLib  = ProtocolLibrary.getProtocolManager();
-        if (HCore.config.getBoolean("other-params.block-actions.end-portal-sound")) {
-            ProtocolLib.addPacketListener(new PacketAdapter(HCore.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.WORLD_EVENT) {
-                @Override
-                public void onPacketSending(PacketEvent e) {
-                    WrapperPlayServerWorldEvent packet = new WrapperPlayServerWorldEvent(e.getPacket());
-                    if (packet.getEffectId() == 1038) packet.setDisableRelativeVolume(false);
-                }
-            });
-        }
+        ProtocolLib = ProtocolLibrary.getProtocolManager();
+        if (!HCore.config.getBoolean("other-params.block-actions.end-portal-sound")) return;
+
+        ProtocolLib.addPacketListener(new PacketAdapter(HCore.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Server.WORLD_EVENT) {
+            @Override
+            public void onPacketSending(PacketEvent e) {
+                WrapperPlayServerWorldEvent packet = new WrapperPlayServerWorldEvent(e.getPacket());
+                if (packet.getEffectId() == 1038) packet.setDisableRelativeVolume(false);
+            }
+        });
     }
 
     // Делаем фейк анимации ударов.
     public static void fakeDamageAnimation() {
-        ProtocolLib  = ProtocolLibrary.getProtocolManager();
-        if (HCore.config.getBoolean("combat.fake-damage-animation")) {
-            ProtocolLib.addPacketListener(new PacketAdapter(HCore.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Client.USE_ENTITY) {
-                @Override
-                public void onPacketReceiving(PacketEvent e) {
-                    try {
-                        Entity entity = e.getPacket().getEntityModifier(e.getPlayer().getWorld()).read(0);
-                        if (entity instanceof Player) {
-                            WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
+        ProtocolLib = ProtocolLibrary.getProtocolManager();
+        if (!HCore.config.getBoolean("combat.fake-damage-animation")) return;
 
-                            Player target = (Player) entity;
-                            Player player = e.getPlayer();
+        ProtocolLib.addPacketListener(new PacketAdapter(HCore.getPlugin(), ListenerPriority.HIGHEST, PacketType.Play.Client.USE_ENTITY) {
+            @Override
+            public void onPacketReceiving(PacketEvent e) {
+                try {
+                    Entity entity = e.getPacket().getEntityModifier(e.getPlayer().getWorld()).read(0);
+                    if (!(entity instanceof Player)) return;
+                    WrapperPlayClientUseEntity checker = new WrapperPlayClientUseEntity(e.getPacket());
 
-                            if (player.getGameMode() == GameMode.SPECTATOR) return;
+                    Player target = (Player) entity;
+                    Player player = e.getPlayer();
 
-                            if (checker.getType().name().equals("ATTACK")) {
-                                WrapperPlayServerEntityStatus attack = new WrapperPlayServerEntityStatus();
-                                attack.setEntityID(target.getEntityId());
-                                attack.setEntityStatus((byte) 2);
-                                attack.sendPacket(player);
-                            }
-                        }
-                    } catch (Exception ignored) {}
-                }
-            });
-        }
+                    if (player.getGameMode() == GameMode.SPECTATOR) return;
+
+                    if (checker.getType().name().equals("ATTACK")) {
+                        WrapperPlayServerEntityStatus attack = new WrapperPlayServerEntityStatus();
+                        attack.setEntityID(target.getEntityId());
+                        attack.setEntityStatus((byte) 2);
+                        attack.sendPacket(player);
+                    }
+                } catch (Exception ignored) {}
+            }
+        });
     }
 
     public static void crash(Player player) {

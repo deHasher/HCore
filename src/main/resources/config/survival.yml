@@ -213,7 +213,7 @@ settings:
             shulker:
                 limit-bytes: 14000
                 block-books: true
-                block-nested: false
+                block-nested: true
 
     #    ▀██▀          ██                  ▄█▀▀▀▄█                                           
     #     ██    ▄▄▄   ▄▄▄  ▄▄ ▄▄▄          ██▄▄  ▀    ▄▄▄▄  ▄▄▄ ▄▄  ▄▄▄▄ ▄▄▄   ▄▄▄▄  ▄▄▄ ▄▄  
@@ -225,17 +225,6 @@ settings:
     # Подключение игрока к серверу.
     join-server:
 
-        # Изменение цвета ников.
-        custom-nickname:
-            enabled: false
-            color:
-                users: "&a"
-                admins: "&c"
-            disable-collisions: false
-
-        # Всегда устанавливать максимальное количество хп.
-        always-set-max-hp: false
-
         # Телепортация к спавну при заходе на сервер.
         spawn:
 
@@ -246,10 +235,10 @@ settings:
             always: false
 
         # Деопать всех игроков (и ленивых админов) которые не снимают с себя опку после того, как выходят с сервера.
-        auto-deop: true
+        deop: true
 
         # Флай при заходе на сервер.
-        auto-fly: false
+        fly: false
 
     # ▀██▀▀█▄             ▄              ▄          
     #  ██   ██   ▄▄▄▄   ▄██▄  ▄▄▄ ▄▄▄  ▄██▄   ▄▄▄▄  

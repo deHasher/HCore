@@ -21,27 +21,28 @@ public class checkplayed {
 
         if (sender instanceof Player) player = (Player) sender;
 
-        if (Methods.isPerm(player, "hcore.command.checkplayed")) {
-            if (length > 0) {
-                OfflinePlayer target = HCore.getPlugin().getServer().getOfflinePlayer(args[0]);
-                int exists = 0;
-                if (target.isOnline()) exists = 1;
-
-                UUID uuid     = UUID.nameUUIDFromBytes(("OfflinePlayer:" + args[0]).getBytes(Charsets.UTF_8));
-                String folder = HCore.getPlugin().getServer().getWorldContainer().getAbsolutePath();
-                String path   = HCore.getPlugin().getServer().getWorlds().get(0).getName() + "/playerdata/" + uuid + ".dat";
-
-                if (folder.endsWith(".")) folder = folder.substring(0, folder.length() - 1);
-                if (new File(Methods.fixSlashes(folder + path)).exists()) exists = 1;
-                sender.sendMessage(exists + "");
-
-                return true;
-            } else {
-                Informer.send(player, info);
-            }
-        } else {
+        if (!Methods.isPerm(player, "hcore.command.checkplayed")) {
             Informer.send(player, HCore.lang.getString("errors.no-perm"));
+            return false;
         }
-        return false;
+
+        if (length == 0) {
+            Informer.send(player, info);
+            return false;
+        }
+
+        OfflinePlayer target = HCore.getPlugin().getServer().getOfflinePlayer(args[0]);
+        int exists = 0;
+        if (target.isOnline()) exists = 1;
+
+        UUID uuid     = UUID.nameUUIDFromBytes(("OfflinePlayer:" + args[0]).getBytes(Charsets.UTF_8));
+        String folder = HCore.getPlugin().getServer().getWorldContainer().getAbsolutePath();
+        String path   = HCore.getPlugin().getServer().getWorlds().get(0).getName() + "/playerdata/" + uuid + ".dat";
+
+        if (folder.endsWith(".")) folder = folder.substring(0, folder.length() - 1);
+        if (new File(Methods.fixSlashes(folder + path)).exists()) exists = 1;
+        sender.sendMessage(exists + "");
+
+        return true;
     }
 }

@@ -17,33 +17,31 @@ public class crash {
 
         if (sender instanceof Player) player = (Player) sender;
 
-        if (Methods.isPerm(player, "hcore.command.crash")) {
-            if (length > 0) {
-                Player target = HCore.getPlugin().getServer().getPlayer(args[0]);
-                if (target == null || !target.isOnline()) {
-                    Informer.send(player, HCore.lang.getString("errors.player-not-found"));
+        if (!Methods.isPerm(player, "hcore.command.crash")) {
+            Informer.send(player, HCore.lang.getString("errors.no-perm"));
+            return false;
+        }
+
+        if (length == 0) {
+            Informer.send(player, info);
+            return false;
+        }
+
+        Player target = HCore.getPlugin().getServer().getPlayer(args[0]);
+        if (target == null || !target.isOnline()) {
+            Informer.send(player, HCore.lang.getString("errors.player-not-found"));
+        } else {
+            if (!Methods.isPerm(target, "hcore.command.crash.exempt")) {
+                if (Methods.checkPlugin(Plugins.ProtocolLib)) {
+                    PLAPI.crash(target);
+                    Informer.send(player, HCore.lang.getString("commands.crash.success").replace("{player}", target.getName()));
+                    return true;
                 } else {
-                    if (!Methods.isPerm(target, "hcore.command.crash.exempt")) {
-                        if (Methods.checkPlugin(Plugins.ProtocolLib)) {
-                            PLAPI.crash(target);
-                            Informer.send(player, HCore.lang.getString("commands.crash.success")
-                                    .replace("{player}", target.getName())
-                            );
-                            return true;
-                        } else {
-                            Informer.send(player, HCore.lang.getString("errors.no-plugin")
-                                    .replace("{plugin}", Plugins.ProtocolLib)
-                            );
-                        }
-                    } else {
-                        Informer.send(player, HCore.lang.getString("commands.crash.error"));
-                    }
+                    Informer.send(player, HCore.lang.getString("errors.no-plugin").replace("{plugin}", Plugins.ProtocolLib));
                 }
             } else {
-                Informer.send(player, info);
+                Informer.send(player, HCore.lang.getString("commands.crash.error"));
             }
-        } else {
-            Informer.send(player, HCore.lang.getString("errors.no-perm"));
         }
         return false;
     }

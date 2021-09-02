@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 
 import org.bukkit.command.CommandMap;
 import org.bukkit.configuration.ConfigurationSection;
@@ -41,7 +40,7 @@ public class HCore extends JavaPlugin {
     public static final String lang_file      = "lang.yml";
     public static final Double main_version   = 0.2;
     public static final Double lang_version   = 1.51;
-    public static final Double config_version = 2.04;
+    public static final Double config_version = 2.05;
 
     // Конфигурации файлов.
     public static ConfigurationSection main;

@@ -16,7 +16,6 @@ public class spawn {
 
         if (sender instanceof Player) player = (Player) sender;
 
-        // Если аргументов нет.
         if (length == 0 || length == 1 && (player != null && player.getName().equals(args[0]))) {
             if (player == null) {
                 Informer.send(info);
@@ -29,17 +28,12 @@ public class spawn {
                     Informer.send(player, HCore.lang.getString("errors.no-perm"));
                 }
             }
-        } else { // Если аргументы есть.
+        } else {
             Player target = HCore.getPlugin().getServer().getPlayer(args[0]);
             if (target == null || !target.isOnline()) {
                 Informer.send(player, HCore.lang.getString("errors.player-not-found"));
             } else {
-                // Задаём имя того, кто тепнул на спавн чела.
-                if (player == null) {
-                    player_name = "" + HCore.lang.getString("console-name");
-                } else {
-                    player_name = player.getName();
-                }
+                player_name = (player == null) ? HCore.lang.getString("console-name") : player.getName();
                 if (Methods.isPerm(player, "hcore.command.spawn.others")) {
                     if (Methods.isPerm(target, "hcore.command.spawn.exempt")) {
                         Informer.send(player, HCore.lang.getString("commands.spawn.other.error"));

@@ -35,51 +35,49 @@ public class OnPlayerJoinToPvpArena implements Listener {
         if (Methods.checkPlugin(Plugins.Essentials)) {
             Bukkit.getPluginManager().registerEvents(new EAPI(), HCore.getPlugin());
         }
-
     }
 
     // Постоянная проверка игрока.
     public static void checkPlayer(Player player) {
-        if (cancelAction(player)) {
-            for (String gamemode : HCore.config.getStringList("pvp-arena.block.gamemodes")) {
-                if (player.getGameMode() == GameMode.valueOf(gamemode)) {
-                    player.setGameMode(GameMode.SURVIVAL);
-                }
+        if (!cancelAction(player)) return;
+
+        for (String gamemode : HCore.config.getStringList("pvp-arena.block.gamemodes")) {
+            if (player.getGameMode() == GameMode.valueOf(gamemode)) {
+                player.setGameMode(GameMode.SURVIVAL);
             }
+        }
 
-            if (HCore.config.getBoolean("pvp-arena.block.fly")) {
-                if (player.getAllowFlight() && player.getGameMode() != GameMode.SPECTATOR) {
-                    player.setAllowFlight(false);
-                    player.setFlying(false);
-                }
+        if (HCore.config.getBoolean("pvp-arena.block.fly")) {
+            if (player.getAllowFlight() && player.getGameMode() != GameMode.SPECTATOR) {
+                player.setAllowFlight(false);
+                player.setFlying(false);
             }
+        }
 
-            if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin(Plugins.Essentials)) EAPI.offGodMode(player);
-            if (HCore.config.getBoolean("pvp-arena.block.gadgets") && Methods.checkPlugin(Plugins.GadgetsMenu)) GMAPI.getPlugin(player).unequipGadget();
-            if (HCore.config.getBoolean("pvp-arena.block.vanish")  && player.hasPotionEffect(PotionEffectType.INVISIBILITY)) player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin(Plugins.Essentials)) EAPI.offGodMode(player);
+        if (HCore.config.getBoolean("pvp-arena.block.gadgets") && Methods.checkPlugin(Plugins.GadgetsMenu)) GMAPI.getPlugin(player).unequipGadget();
+        if (HCore.config.getBoolean("pvp-arena.block.vanish")  && player.hasPotionEffect(PotionEffectType.INVISIBILITY)) player.removePotionEffect(PotionEffectType.INVISIBILITY);
 
-            if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
-                ItemStack[] inv = player.getInventory().getContents();
-                for (int slot = 0; slot < inv.length; slot++) {
-                    ItemStack s = inv[slot];
+        if (HCore.config.getBoolean("pvp-arena.clear-custom-items.enabled")) {
+            ItemStack[] inv = player.getInventory().getContents();
+            for (int slot = 0; slot < inv.length; slot++) {
+                ItemStack s = inv[slot];
 
-                    if (s == null) continue;
-                    if (s.getType().name().equals("AIR")) continue;
+                if (s == null) continue;
+                if (s.getType().name().equals("AIR")) continue;
 
-                    if (!s.hasItemMeta()) continue;
-                    ItemMeta item_meta = s.getItemMeta();
+                if (!s.hasItemMeta()) continue;
+                ItemMeta item_meta = s.getItemMeta();
 
-                    if (!item_meta.hasDisplayName()) continue;
-                    String item_name = item_meta.getDisplayName();
+                if (!item_meta.hasDisplayName()) continue;
+                String item_name = item_meta.getDisplayName();
 
-                    for (String item : HCore.config.getStringList("pvp-arena.clear-custom-items.item-names")) {
-                        if (item_name.equals(Methods.colorSet(item))) {
-                            player.getInventory().setItem(slot, null);
-                        }
+                for (String item : HCore.config.getStringList("pvp-arena.clear-custom-items.item-names")) {
+                    if (item_name.equals(Methods.colorSet(item))) {
+                        player.getInventory().setItem(slot, null);
                     }
                 }
             }
-
         }
     }
 
@@ -87,12 +85,10 @@ public class OnPlayerJoinToPvpArena implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerGameModeChangeEvent(PlayerGameModeChangeEvent e) {
         Player player = e.getPlayer();
-        if (cancelAction(player)) {
-            for (String gamemode : HCore.config.getStringList("pvp-arena.block.gamemodes")) {
-                if (e.getNewGameMode() == GameMode.valueOf(gamemode)) {
-                    e.setCancelled(true);
-                }
-            }
+        if (!cancelAction(player)) return;
+
+        for (String gamemode : HCore.config.getStringList("pvp-arena.block.gamemodes")) {
+            if (e.getNewGameMode() == GameMode.valueOf(gamemode)) e.setCancelled(true);
         }
     }
 
@@ -131,10 +127,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
             if (target != null && target.isOnline() && cancelAction(target)) {
                 for (String cmd : HCore.config.getStringList("pvp-arena.blacklist-other-commands")) {
-                    if (
-                        command.startsWith(cmd.toLowerCase()) ||
-                        (!Methods.isCyrillic(command) && command.startsWith(Rusificator.replace(cmd.toLowerCase())))
-                    ) {
+                    if (command.startsWith(cmd.toLowerCase()) || (!Methods.isCyrillic(command) && command.startsWith(Rusificator.replace(cmd.toLowerCase())))) {
                         Informer.send(player, HCore.lang.getString("errors.pvp-arena.player-in-pvp"));
                         e.setCancelled(true);
                     }

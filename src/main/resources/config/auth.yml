@@ -134,12 +134,12 @@ settings:
         swap: true
 
         # Исправление чанк бана.
-        chunk-ban: true
+        chunk-ban: false
 
         # Блокировка открытия инвенторя и ввода команд во время сна.
         bed:
-            disable-inventory: true
-            disable-commands: true
+            disable-inventory: false
+            disable-commands: false
 
         # Обработка телепортаций через порталы.
         portal-teleporting:
@@ -184,17 +184,6 @@ settings:
     # Подключение игрока к серверу.
     join-server:
 
-        # Изменение цвета ников.
-        custom-nickname:
-            enabled: true
-            color:
-                users: "&a"
-                admins: "&c"
-            disable-collisions: true
-
-        # Всегда устанавливать максимальное количество хп.
-        always-set-max-hp: true
-
         # Телепортация к спавну при заходе на сервер.
         spawn:
 
@@ -205,10 +194,10 @@ settings:
             always: true
 
         # Деопать всех игроков (и ленивых админов) которые не снимают с себя опку после того, как выходят с сервера.
-        auto-deop: true
+        deop: true
 
         # Флай при заходе на сервер.
-        auto-fly: false
+        fly: false
 
     # ▀██▀▀█▄             ▄              ▄          
     #  ██   ██   ▄▄▄▄   ▄██▄  ▄▄▄ ▄▄▄  ▄██▄   ▄▄▄▄  

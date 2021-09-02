@@ -69,6 +69,7 @@ public class ChatFilter {
         }
         return array[input2.length()];
     }
+
     public static class MessageLog {
         private final HashMap<Long, String> messages = new HashMap<>();
 
@@ -84,8 +85,9 @@ public class ChatFilter {
                     list.add(entry.getKey());
                 }
             }
-            for (Long long_ : list) {
-                messages.remove(long_);
+
+            for (Long word : list) {
+                messages.remove(word);
             }
         }
 

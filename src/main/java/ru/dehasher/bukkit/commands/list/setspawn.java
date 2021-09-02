@@ -16,42 +16,44 @@ public class setspawn {
 
         if (sender instanceof Player) player = (Player) sender;
 
-        if (player != null) {
-            if (Methods.isPerm(player, "hcore.command.setspawn")) {
-                if (length > 0) {
-                    String spawn = args[0].toLowerCase();
-                    Location loc = player.getLocation();
-                    switch (spawn) {
-                        case "overworld":
-                        case "nether":
-                            HCore.spawn.set(spawn + ".world", loc.getWorld().getName());
-                            HCore.spawn.set(spawn + ".x", loc.getX());
-                            HCore.spawn.set(spawn + ".y", loc.getY());
-                            HCore.spawn.set(spawn + ".z", loc.getZ());
-                            HCore.spawn.set(spawn + ".yaw", loc.getYaw());
-                            HCore.spawn.set(spawn + ".pitch", loc.getPitch());
-
-                            HCore.getPlugin().file_manager.getConfig(HCore.spawn_file).save();
-                            HCore.getPlugin().reloadFiles();
-
-                            String message = HCore.lang.getString("commands.setspawn." + spawn);
-
-                            message = message.replace("{x}", Methods.round(loc.getX(), 2));
-                            message = message.replace("{y}", Methods.round(loc.getY(), 2));
-                            message = message.replace("{z}", Methods.round(loc.getZ(), 2));
-                            message = message.replace("{world}", loc.getWorld().getName());
-
-                            Informer.send(player, message);
-                            return true;
-                    }
-                }
-                Informer.send(player, info);
-            } else {
-                Informer.send(player, HCore.lang.getString("errors.no-perm"));
-            }
-        } else {
+        if (player == null) {
             Informer.send(HCore.lang.getString("errors.only-player"));
+            return false;
         }
+
+        if (!Methods.isPerm(player, "hcore.command.setspawn")) {
+            Informer.send(player, HCore.lang.getString("errors.no-perm"));
+            return false;
+        }
+
+        if (length > 0) {
+            String spawn = args[0].toLowerCase();
+            Location loc = player.getLocation();
+            switch (spawn) {
+                case "overworld":
+                case "nether":
+                    HCore.spawn.set(spawn + ".world", loc.getWorld().getName());
+                    HCore.spawn.set(spawn + ".x", loc.getX());
+                    HCore.spawn.set(spawn + ".y", loc.getY());
+                    HCore.spawn.set(spawn + ".z", loc.getZ());
+                    HCore.spawn.set(spawn + ".yaw", loc.getYaw());
+                    HCore.spawn.set(spawn + ".pitch", loc.getPitch());
+
+                    HCore.getPlugin().file_manager.getConfig(HCore.spawn_file).save();
+                    HCore.getPlugin().reloadFiles();
+
+                    String message = HCore.lang.getString("commands.setspawn." + spawn);
+
+                    message = message.replace("{x}", Methods.round(loc.getX(), 2));
+                    message = message.replace("{y}", Methods.round(loc.getY(), 2));
+                    message = message.replace("{z}", Methods.round(loc.getZ(), 2));
+                    message = message.replace("{world}", loc.getWorld().getName());
+
+                    Informer.send(player, message);
+                    return true;
+            }
+        }
+        Informer.send(player, info);
         return false;
     }
 }

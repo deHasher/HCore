@@ -15,10 +15,7 @@ public class clearchat {
 
         if (player != null) {
             if (Methods.isPerm(player, "hcore.command.clearchat")) {
-
-                for (int i = 0; i < 100; i++) {
-                    Informer.send(player, "\n");
-                }
+                for (int i = 0; i < 100; i++) Informer.send(player, "\n");
                 Informer.send(player, HCore.lang.getString("commands.clearchat.success"));
                 player.playSound(player.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 500.0f, 1.0f);
                 return true;
