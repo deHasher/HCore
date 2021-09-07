@@ -5,7 +5,6 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -19,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 import ru.dehasher.bukkit.HCore;
-import ru.dehasher.bukkit.api.essentials.EAPI;
 import ru.dehasher.bukkit.api.gadgetsmenu.GMAPI;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
@@ -32,9 +30,6 @@ public class OnPlayerJoinToPvpArena implements Listener {
 
     public OnPlayerJoinToPvpArena(HCore plugin) {
         WorldGuard = WorldGuardPlugin.inst();
-        if (Methods.checkPlugin(Plugins.Essentials)) {
-            Bukkit.getPluginManager().registerEvents(new EAPI(), HCore.getPlugin());
-        }
     }
 
     // Постоянная проверка игрока.
@@ -54,7 +49,7 @@ public class OnPlayerJoinToPvpArena implements Listener {
             }
         }
 
-        if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin(Plugins.Essentials)) EAPI.offGodMode(player);
+//        if (HCore.config.getBoolean("pvp-arena.block.godmode") && Methods.checkPlugin(Plugins.Essentials)) CMIAPI.offGodMode(player);
         if (HCore.config.getBoolean("pvp-arena.block.gadgets") && Methods.checkPlugin(Plugins.GadgetsMenu)) GMAPI.getPlugin(player).unequipGadget();
         if (HCore.config.getBoolean("pvp-arena.block.vanish")  && player.hasPotionEffect(PotionEffectType.INVISIBILITY)) player.removePotionEffect(PotionEffectType.INVISIBILITY);
 

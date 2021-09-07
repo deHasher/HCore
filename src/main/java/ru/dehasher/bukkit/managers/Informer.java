@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.Nullable;
 import ru.dehasher.bukkit.HCore;
-import ru.dehasher.bukkit.api.titlemanager.TMAPI;
 
 public class Informer {
 
@@ -115,14 +114,5 @@ public class Informer {
     @Nullable
     public static void url(String link, String key, @Nullable HashSet<String> params) {
         url(link + "?" + key + "=" + String.join("&" + key + "=", params), null);
-    }
-
-    @Nullable
-    public static void titles(Player player, @Nullable String input1, @Nullable String input2) {
-        if (Methods.checkPlugin(Plugins.TitleManager)) {
-            if (input1 == null || input1.equals("")) input1 = "§f";
-            if (input2 == null || input2.equals("")) input2 = "§f";
-            TMAPI.getPlugin().sendTitles(player, Methods.colorSet(input1), Methods.colorSet(input2));
-        }
     }
 }

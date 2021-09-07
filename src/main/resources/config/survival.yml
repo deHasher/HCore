@@ -29,18 +29,11 @@ settings:
             # Кстати! Все команды (и их алиасы) автоматически переводятся на русскую раскладку ^^
             # Пример: spawn => ызфцт будет работать :D
             commands:
-                setspawn:
-                    aliases: []
                 checkplayed:
                     aliases: []
                 hreload:
                     aliases: []
                 crash:
-                    aliases: []
-                spawn:
-                    aliases:
-                        - spavn
-                clearchat:
                     aliases: []
                 prefix:
                     data:
@@ -78,21 +71,9 @@ settings:
             cmd: "#"
 
         # Отключить возможность писать в чат.
-        disable-messages: false
-
-        # Задержка на сообщения.
-        cooldown:
+        disable-messages:
             enabled: false
-
-            # Время в секундах.
-            time: 2
-        
-        # Модификация сообщений. (пока что малофункциональна)
-        modify:
-            enabled: false
-
-            # Поддерживаются заполнители из файла с переводом.
-            format: "{main}&a{player}&c ➥&f {message}"
+            message: ""
 
     #     █         ▀██                             ▄    ██                                               ▄   
     #    ███      ▄▄ ██  ▄▄▄▄ ▄▄▄   ▄▄▄▄  ▄▄▄ ▄▄  ▄██▄  ▄▄▄   ▄▄▄▄    ▄▄▄▄  ▄▄ ▄▄ ▄▄     ▄▄▄▄  ▄▄ ▄▄▄   ▄██▄  
@@ -114,8 +95,6 @@ settings:
         checks:
             items: true
             signs: true
-            messages: true
-            commands: true
 
         # Список разрешённых сайтов.
         # Указывать только домены.
@@ -229,7 +208,7 @@ settings:
         spawn:
 
             # Телепортировать игрока на спавн при первом заходе на сервер.
-            first: true
+            first: false
 
             # Телепортировать игрока на спавн каждый раз когда он заходит на сервер.
             always: false
@@ -451,9 +430,6 @@ settings:
 
             # Запрещать игроку находиться выше 1000 и ниже -1000 координаты по Y.
             invalid-location: true
-
-            # Запрещать игроку спамить одинаковыми командами и сообщениями.
-            spam: true
 
         # Скрытие сообщений о подключениях, ачивках и т.д. игроков.
         hide-messages:

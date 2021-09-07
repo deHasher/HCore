@@ -48,7 +48,6 @@ permissions:
       - hcore.bypass.overstack        # Позволяет использовать оверстак предметы.
       - hcore.bypass.events           # Позволяет обходить выключенные эвенты.
       - hcore.bypass.pvp              # Позволяет обходить флаги пвп-арены.
-      - hcore.bypass.spam             # Спамить в чат.
   hcore.bypass.cooldown.*:
     default: op
     description: Позволяет обходить установленные плагином ограничения.

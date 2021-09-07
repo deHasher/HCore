@@ -5,10 +5,10 @@
 
     <properties>
 
-        <hcore.version.plugin>1.91</hcore.version.plugin>
+        <hcore.version.plugin>2.0</hcore.version.plugin>
         <hcore.version.main>0.2</hcore.version.main>
-        <hcore.version.lang>1.51</hcore.version.lang>
-        <hcore.version.config>2.05</hcore.version.config>
+        <hcore.version.lang>1.6</hcore.version.lang>
+        <hcore.version.config>2.1</hcore.version.config>
         <hcore.url>https://dehasher.ru/</hcore.url>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,12 +34,6 @@
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
             <version>1.17-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.ess3</groupId>
-            <artifactId>EssentialsX</artifactId>
-            <version>2.18.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -79,11 +73,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.guilds-plugin</groupId>
-            <artifactId>Guilds</artifactId>
-            <version>3.5.3.9</version>
-        </dependency>
-        <dependency>
             <groupId>io.puharesource.mc</groupId>
             <artifactId>TitleManager</artifactId>
             <version>2.2.0</version>
@@ -105,10 +94,6 @@
         <repository>
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-        <repository>
-            <id>essentialsx</id>
-            <url>https://repo.essentialsx.net/snapshots/</url>
         </repository>
         <repository>
             <id>placeholderapi</id>

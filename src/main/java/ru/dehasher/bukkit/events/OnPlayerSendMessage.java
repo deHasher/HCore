@@ -1,6 +1,5 @@
 package ru.dehasher.bukkit.events;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,8 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import ru.dehasher.bukkit.HCore;
-import ru.dehasher.bukkit.managers.ChatFilter;
-import ru.dehasher.bukkit.managers.Cooldowner;
 import ru.dehasher.bukkit.managers.Informer;
 import ru.dehasher.bukkit.managers.Methods;
 
@@ -22,6 +19,7 @@ public class OnPlayerSendMessage implements Listener {
     public boolean onAsyncPlayerChatEvent(AsyncPlayerChatEvent e) {
         Player player  = e.getPlayer();
         String message = e.getMessage().replace("%", "%%");
+        String format  = e.getFormat();
 
         // Проверяем прописал ли игрок секретную команду.
         if (HCore.config.getBoolean("send-message.hidden-console.enabled")) {
@@ -38,75 +36,24 @@ public class OnPlayerSendMessage implements Listener {
             }
         }
 
-        // Проверяем включен ли чат в настройках.
-        if (HCore.config.getBoolean("send-message.disable-messages")) {
-            e.setCancelled(true);
-            Informer.send(player, HCore.lang.getString("errors.chat-disabled"));
-            return false;
-        }
+        // Фикс отображения локального и глобального чата в CMI.
+        if (!e.isCancelled()) {
+            String local  = HCore.lang.getString("cmi.chat.local.replace");
+            String global = HCore.lang.getString("cmi.chat.global.replace");
 
-        // Проверка на спам.
-        if (HCore.config.getBoolean("other-params.block-actions.spam")) {
-            if (!Methods.isPerm(player, "hcore.bypass.spam")) {
-                if (ChatFilter.isSpam(player, message, false)) {
-                    Informer.titles(player, null, HCore.lang.getString("errors.spam"));
-                    e.setCancelled(true);
-                    return false;
-                }
-            }
-        }
-
-        // КД на чатикс.
-        if (HCore.config.getBoolean("send-message.cooldown.enabled")) {
-            if (!Methods.isPerm(player, "hcore.bypass.cooldown.message")) {
-                if (Cooldowner.isInCooldown(player, "messages")) {
-                    e.setCancelled(true);
-                    Informer.send(player, HCore.lang.getString("errors.message-cooldown")
-                            .replace("{time}", "" + Cooldowner.getTimeLeft(player, "messages"))
-                    );
-                    return false;
-                } else {
-                    Cooldowner c = new Cooldowner(player, "messages", HCore.config.getInt("send-message.cooldown.time"));
-                    c.start();
-                }
-            }
-        }
-
-        // Если в сообщении пользователя обнаружена реклама.
-        if (HCore.config.getBoolean("fix-advertisement.checks.messages")) {
-            if (!Methods.isPerm(player, "hcore.bypass.advertisement")) {
-                if (Methods.isAdv(message)) {
-                    e.setCancelled(true);
-                    Informer.send(player, HCore.lang.getString("errors.advertisement.messages"));
-                    return false;
-                }
-            }
-        }
-
-        // Проверяем надо-ли модифицировать сообщение.
-        if (HCore.config.getBoolean("send-message.modify.enabled")) {
-            String format      = HCore.config.getString("send-message.modify.format");
-            String playername  = player.getName();
-
-            if (HCore.config.getBoolean("join-server.custom-nickname.enabled")) {
-                if (Methods.isPerm(player, null)) {
-                    playername = HCore.config.getString("join-server.custom-nickname.color.admins") + playername;
-                }
-            }
-
-            ConfigurationSection placeholders = HCore.lang.getConfigurationSection("placeholders");
-            if (placeholders != null) {
-                for (String placeholder : placeholders.getKeys(false)) {
-                    format = format.replace("{" + placeholder + "}", HCore.lang.getString("placeholders." + placeholder));
-                }
-            }
-
-            format = format.replace("{player}", playername);
-            format = format.replace("{message}", message);
-            format = Methods.colorSet(format);
+            format = format.replaceFirst(local, HCore.lang.getString("cmi.chat.local.1"))
+                    .replaceFirst(local, HCore.lang.getString("cmi.chat.local.2"));
+            format = format.replaceFirst(global, HCore.lang.getString("cmi.chat.global.1"))
+                    .replaceFirst(global, HCore.lang.getString("cmi.chat.global.2"));
 
             e.setFormat(format);
-            e.setMessage(message);
+        }
+
+        // Проверяем включен ли чат в настройках.
+        if (HCore.config.getBoolean("send-message.disable-messages.enabled")) {
+            e.setCancelled(true);
+            Informer.send(player, HCore.config.getString("send-message.disable-messages.message"));
+            return false;
         }
 
         return true;

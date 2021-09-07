@@ -31,8 +31,8 @@ public class prefix {
         }
 
         if (length > 2) {
-            String type    = message[1].toLowerCase();
-            Player target  = HCore.getPlugin().getServer().getPlayer(message[2]);
+            String type   = message[1].toLowerCase();
+            Player target = HCore.getPlugin().getServer().getPlayer(message[2]);
 
             if (target == null || !target.isOnline()) {
                 Informer.send(player, HCore.lang.getString("errors.player-not-found"));

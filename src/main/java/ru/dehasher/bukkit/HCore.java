@@ -28,6 +28,10 @@ import ru.dehasher.bukkit.managers.Plugins;
 
 public class HCore extends JavaPlugin {
 
+    public void todo() {
+        // OnPlayerJoinToPvpArena не работает офф гмки в CMI.
+    }
+
     // Мур.
     private static HCore plugin;
     public static String version;
@@ -39,8 +43,8 @@ public class HCore extends JavaPlugin {
     public static final String spawn_file     = "spawn.yml";
     public static final String lang_file      = "lang.yml";
     public static final Double main_version   = 0.2;
-    public static final Double lang_version   = 1.51;
-    public static final Double config_version = 2.05;
+    public static final Double lang_version   = 1.6;
+    public static final Double config_version = 2.1;
 
     // Конфигурации файлов.
     public static ConfigurationSection main;
