@@ -15,15 +15,15 @@ messages:
         this: "&9HCore &7> &f"
         prefix3: "&f[&cЗащита&f] &a» &f"
 
-    # Фикс отображения локального и глобального чата в CMI.
     cmi:
+        # Фикс отображения локального и глобального чата в CMI.
         chat:
             local:
-                replace: "*_LOCAL_*"
+                replace: "№_LOCAL_№"
                 1: "&eЛ"
                 2: "&f"
             global:
-                replace: "*_GLOBAL_*"
+                replace: "№_GLOBAL_№"
                 1: "&aГ"
                 2: "&a"
 

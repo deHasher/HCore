@@ -37,7 +37,7 @@ public class OnPlayerSendMessage implements Listener {
         }
 
         // Фикс отображения локального и глобального чата в CMI.
-        if (!e.isCancelled()) {
+        if (!e.isCancelled() && HCore.config.getBoolean("send-message.fix-cmi-shouts.enabled")) {
             String local  = HCore.lang.getString("cmi.chat.local.replace");
             String global = HCore.lang.getString("cmi.chat.global.replace");
 
