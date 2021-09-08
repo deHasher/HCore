@@ -400,9 +400,6 @@ settings:
             # Необходим ProtocolLib.
             end-portal-sound: true
 
-            # Блокировать использование спавнеров. Можно только админам.
-            use-spawners: true
-
             # Запрещать игроку находиться выше 1000 и ниже -1000 координаты по Y.
             invalid-location: true
 
