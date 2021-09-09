@@ -39,6 +39,9 @@ settings:
                     data:
                         # Максимальный лимит символов в строке.
                         max-limit: 16
+
+                        # Добавлять-ли после tagsuffix плейсхолдер %cmi_user_glow_code%?
+                        fix-cmi-glow: true
                     aliases: []
                 free:
                     data:
