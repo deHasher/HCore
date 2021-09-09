@@ -9,14 +9,14 @@ public class TAPI {
 
     public static void setPrefix(Player player, String string) {
         TABAPI.getPlayer(player.getUniqueId()).setValuePermanently(EnumProperty.TABPREFIX, string);
+        if (HCore.config.getBoolean("send-command.plugin.commands.prefix.data.fix-cmi-glow")) {
+            string = string + "%cmi_user_glow_code%";
+        }
         TABAPI.getPlayer(player.getUniqueId()).setValuePermanently(EnumProperty.TAGPREFIX, string);
     }
 
     public static void setSuffix(Player player, String string) {
         TABAPI.getPlayer(player.getUniqueId()).setValuePermanently(EnumProperty.TABSUFFIX, string);
-        if (HCore.config.getBoolean("send-command.plugin.commands.prefix.data.fix-cmi-glow")) {
-            string = string + "%cmi_user_glow_code%";
-        }
         TABAPI.getPlayer(player.getUniqueId()).setValuePermanently(EnumProperty.TAGSUFFIX, string);
     }
 }
